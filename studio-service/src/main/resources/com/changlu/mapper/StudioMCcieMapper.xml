@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.changlu.mapper.ZfMCcieMapper">
+<mapper namespace="com.changlu.mapper.StudioMCcieMapper">
 
-    <resultMap type="MCcieVo" id="MCcieVoResult">
+    <resultMap type="com.changlu.vo.manage.MCcieVo" id="MCcieVoResult">
         <result property="ccieId"    column="ccie_id"    />
         <result property="ccieName"    column="ccie_name"    />
         <result property="ccieImg"    column="ccie_img"    />
@@ -28,7 +28,7 @@
             LEFT JOIN zf_major t3 ON t3.major_id = t1.major_id
     </sql>
 
-    <select id="selectZfCcieModelList" parameterType="MCcieVo" resultMap="MCcieVoResult">
+    <select id="selectZfCcieModelList" parameterType="com.changlu.vo.manage.MCcieVo" resultMap="MCcieVoResult">
         <include refid="selectZfCcieModelVo"/>
         <where>
             <if test="ccieName != null  and ccieName != ''"> and t.ccie_name like concat('%', #{ccieName}, '%')</if>

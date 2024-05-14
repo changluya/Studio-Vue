@@ -1,6 +1,6 @@
 package com.changlu.service.impl;
 
-import com.changlu.mapper.ZfMCcieMapper;
+import com.changlu.mapper.StudioMCcieMapper;
 import com.changlu.service.ZfManageCcieService;
 import com.changlu.vo.manage.MCcieVo;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ import java.util.List;
 public class ZfManageCcieServiceImpl implements ZfManageCcieService {
 
     @Resource
-    private ZfMCcieMapper zfMCcieMapper;
+    private StudioMCcieMapper studioMCcieMapper;
 
     @Override
     public List<MCcieVo> selectZfCcieList(MCcieVo ccieVo) {
-        return zfMCcieMapper.selectZfCcieModelList(ccieVo);
+        return studioMCcieMapper.selectZfCcieModelList(ccieVo);
     }
 }

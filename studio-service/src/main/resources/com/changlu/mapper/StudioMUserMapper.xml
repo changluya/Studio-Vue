@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.changlu.mapper.ZfMUserMapper">
+<mapper namespace="com.changlu.mapper.StudioMUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap type="MUserVo" id="SysUserResult">
+    <resultMap type="com.changlu.vo.manage.MUserVo" id="SysUserResult">
         <id property="userId"    column="user_id"    />
         <result property="email"    column="email"    />
         <result property="phonenumber"    column="phonenumber"    />
@@ -73,7 +73,7 @@
                  left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
     </sql>
 
-    <select id="selectSysUserList" parameterType="MUserVo" resultMap="SysUserResult">
+    <select id="selectSysUserList" parameterType="com.changlu.vo.manage.MUserVo" resultMap="SysUserResult">
         <include refid="selectSysUserVo"/>
         <where>
             -- 忽略管理员账户

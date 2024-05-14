@@ -1,13 +1,12 @@
 package com.changlu.service.impl;
 
-import com.changlu.common.config.ZfConfig;
-import com.changlu.common.domain.ResponseResult;
+import com.changlu.common.config.StudioConfig;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.RedisCache;
 import com.changlu.config.ZfConstant;
-import com.changlu.mapper.ZfCcieMapper;
-import com.changlu.mapper.ZfMUserMapper;
-import com.changlu.mapper.ZfThinkMapper;
+import com.changlu.mapper.StudioCcieMapper;
+import com.changlu.mapper.StudioMUserMapper;
+import com.changlu.mapper.StudioThinkMapper;
 import com.changlu.security.service.TokenService;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ISysUserService;
@@ -41,7 +40,7 @@ import java.util.List;
 public class ZfManageUserServiceImpl implements ZfManageUserService {
 
     @Resource
-    private ZfMUserMapper userMapper;
+    private StudioMUserMapper userMapper;
 
     @Resource
     private SysUserMapper sysUserMapper;
@@ -56,7 +55,7 @@ public class ZfManageUserServiceImpl implements ZfManageUserService {
     private SysUserRoleMapper sysUserRoleMapper;
 
     @Autowired
-    private ZfConfig zfConfig;
+    private StudioConfig studioConfig;
 
     @Autowired
     private RedisCache redisCache;
@@ -197,16 +196,16 @@ public class ZfManageUserServiceImpl implements ZfManageUserService {
     @Override
     public boolean resetPwd(Long[] targetUserIds) {
         //重置指定用户的账号为
-        String password = "{bcrypt}" + SecurityUtils.bCryptPasswordEncoder.encode(zfConfig.getResetPassword());
+        String password = "{bcrypt}" + SecurityUtils.bCryptPasswordEncoder.encode(studioConfig.getResetPassword());
         return userMapper.resetPwdByUserId(targetUserIds,password) > 0;
     }
 
 
     @Resource
-    private ZfCcieMapper zfCcieMapper;
+    private StudioCcieMapper studioCcieMapper;
 
     @Resource
-    private ZfThinkMapper zfThinkMapper;
+    private StudioThinkMapper studioThinkMapper;
 
     @Autowired
     private ZfRaceService zfRaceService;
@@ -218,9 +217,9 @@ public class ZfManageUserServiceImpl implements ZfManageUserService {
         if (sysUserMapper.deleteSysUserByUserId(targetUserId) > 0 &&
             sysUserRoleMapper.deleteUserRoleByUserId(targetUserId) > 0){
             //2、删除其他关联表记录（ccie证书、race竞赛及resources资源表、think心得）
-            zfCcieMapper.deleteZfCcieByUserId(targetUserId);
+            studioCcieMapper.deleteZfCcieByUserId(targetUserId);
             zfRaceService.deleteZfRaceModelByUserId(targetUserId);
-            zfThinkMapper.deleteZfThinkModelByUserId(targetUserId);
+            studioThinkMapper.deleteZfThinkModelByUserId(targetUserId);
             return true;
         }
         return false;

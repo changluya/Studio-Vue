@@ -2,7 +2,7 @@ package com.changlu.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.changlu.system.pojo.ZfCcieModel;
+import com.changlu.system.pojo.StudioCcieModel;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfCcieMapper extends BaseMapper<ZfCcieModel> {
+public interface StudioCcieMapper extends BaseMapper<StudioCcieModel> {
 
     /**
      * 查询ZfCcie列表
@@ -22,7 +22,7 @@ public interface ZfCcieMapper extends BaseMapper<ZfCcieModel> {
      * @param zfCcie ZfCcie
      * @return ZfCcie集合
      */
-    public List<ZfCcieModel> selectZfCcieList(ZfCcieModel zfCcie);
+    public List<StudioCcieModel> selectZfCcieList(StudioCcieModel zfCcie);
 
     /**
      * 根据用户id查询ZfCcie列表
@@ -30,7 +30,7 @@ public interface ZfCcieMapper extends BaseMapper<ZfCcieModel> {
      * @param zfCcie ZfCcie
      * @return ZfCcie集合
      */
-    public List<ZfCcieModel> selectZfCcieListByUserId(ZfCcieModel zfCcie);
+    public List<StudioCcieModel> selectZfCcieListByUserId(StudioCcieModel zfCcie);
 
     /**
      * 查询ZfCcie
@@ -38,7 +38,7 @@ public interface ZfCcieMapper extends BaseMapper<ZfCcieModel> {
      * @param ccieId ZfCcie主键
      * @return ZfCcie
      */
-    public ZfCcieModel selectZfCcieByCcieId(Long ccieId);
+    public StudioCcieModel selectZfCcieByCcieId(Long ccieId);
 
     /**
      * 新增ZfCcie
@@ -46,7 +46,7 @@ public interface ZfCcieMapper extends BaseMapper<ZfCcieModel> {
      * @param zfCcie ZfCcie
      * @return 结果
      */
-    public int insertZfCcie(ZfCcieModel zfCcie);
+    public int insertZfCcie(StudioCcieModel zfCcie);
 
     /**
      * 修改ZfCcie
@@ -54,7 +54,7 @@ public interface ZfCcieMapper extends BaseMapper<ZfCcieModel> {
      * @param zfCcie ZfCcie
      * @return 结果
      */
-    public int updateZfCcie(ZfCcieModel zfCcie);
+    public int updateZfCcie(StudioCcieModel zfCcie);
 
     /**
      * 删除ZfCcie

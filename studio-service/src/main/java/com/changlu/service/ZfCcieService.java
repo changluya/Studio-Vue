@@ -2,7 +2,7 @@ package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.system.pojo.ZfCcieModel;
+import com.changlu.system.pojo.StudioCcieModel;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfCcieService extends IService<ZfCcieModel> {
+public interface ZfCcieService extends IService<StudioCcieModel> {
 
     /**
      * 查询ZfCcie列表
@@ -22,7 +22,7 @@ public interface ZfCcieService extends IService<ZfCcieModel> {
      * @param ccieModel
      * @return ZfCcie集合
      */
-    List<ZfCcieModel> selectZfCcieList(ZfCcieModel ccieModel);
+    List<StudioCcieModel> selectZfCcieList(StudioCcieModel ccieModel);
 
     /**
      * 查询ZfCcie列表根据用户id
@@ -30,7 +30,7 @@ public interface ZfCcieService extends IService<ZfCcieModel> {
      * @param ccieModel
      * @return ZfCcie集合
      */
-    List<ZfCcieModel> selectZfCcieListByUserId(ZfCcieModel ccieModel);
+    List<StudioCcieModel> selectZfCcieListByUserId(StudioCcieModel ccieModel);
 
     /**
      * 查询ZfCcie
@@ -38,7 +38,7 @@ public interface ZfCcieService extends IService<ZfCcieModel> {
      * @param ccieId ZfCcie主键
      * @return ZfCcie
      */
-    ZfCcieModel selectZfCcieByCcieId(Long ccieId);
+    StudioCcieModel selectZfCcieByCcieId(Long ccieId);
 
     /**
      * 新增ZfCcie
@@ -46,7 +46,7 @@ public interface ZfCcieService extends IService<ZfCcieModel> {
      * @param zfCcie ZfCcie
      * @return 结果
      */
-     int insertZfCcie(ZfCcieModel zfCcie);
+     int insertZfCcie(StudioCcieModel zfCcie);
 
     /**
      * 修改ZfCcie
@@ -54,7 +54,7 @@ public interface ZfCcieService extends IService<ZfCcieModel> {
      * @param zfCcie ZfCcie
      * @return 结果
      */
-    int updateZfCcie(ZfCcieModel zfCcie);
+    int updateZfCcie(StudioCcieModel zfCcie);
 
     /**
      * 批量删除ZfCcie

@@ -3,7 +3,7 @@ package com.changlu.web.controller.own;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.ZfThinkService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.ZfThinkModel;
+import com.changlu.system.pojo.StudioThinkModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +29,10 @@ public class ThinkController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('own:think:list')")
-    public TableDataInfo list(ZfThinkModel zfThinkModel)
+    public TableDataInfo list(StudioThinkModel studioThinkModel)
     {
         startPage();
-        List<ZfThinkModel> list = zfThinkService.selectZfThinkModelListByUserId(zfThinkModel);
+        List<StudioThinkModel> list = zfThinkService.selectZfThinkModelListByUserId(studioThinkModel);
         return getDataTable(list);
     }
 
@@ -51,9 +51,9 @@ public class ThinkController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('own:think:add')")
-    public ResponseResult add(@RequestBody ZfThinkModel zfThinkModel)
+    public ResponseResult add(@RequestBody StudioThinkModel studioThinkModel)
     {
-        return ResponseResult.toResponse(zfThinkService.insertZfThinkModel(zfThinkModel));
+        return ResponseResult.toResponse(zfThinkService.insertZfThinkModel(studioThinkModel));
     }
 
     /**
@@ -61,9 +61,9 @@ public class ThinkController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('own:think:edit')")
-    public ResponseResult edit(@RequestBody ZfThinkModel zfThinkModel)
+    public ResponseResult edit(@RequestBody StudioThinkModel studioThinkModel)
     {
-        return ResponseResult.toResponse(zfThinkService.updateZfThinkModel(zfThinkModel));
+        return ResponseResult.toResponse(zfThinkService.updateZfThinkModel(studioThinkModel));
     }
 
     /**

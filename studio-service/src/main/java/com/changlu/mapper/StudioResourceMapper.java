@@ -1,7 +1,7 @@
 package com.changlu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.changlu.system.pojo.ZfResourceModel;
+import com.changlu.system.pojo.StudioResourceModel;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfResourceMapper extends BaseMapper<ZfResourceModel> {
+public interface StudioResourceMapper extends BaseMapper<StudioResourceModel> {
 
 
     int deleteResources(@Param("resFlag")String resFlag,@Param("tableIds") Long[] tableIds);

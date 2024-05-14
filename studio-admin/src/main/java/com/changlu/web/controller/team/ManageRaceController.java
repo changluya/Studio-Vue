@@ -2,7 +2,7 @@ package com.changlu.web.controller.team;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.ExcelUtil;
-import com.changlu.mapper.ZfMUserMapper;
+import com.changlu.mapper.StudioMUserMapper;
 import com.changlu.service.ZfManageRaceService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.race.RaceVo;
@@ -32,7 +32,7 @@ public class ManageRaceController extends BaseController {
     private ZfManageRaceService zfManageRaceService;
 
     @Resource
-    private ZfMUserMapper zfMUserMapper;
+    private StudioMUserMapper studioMUserMapper;
 
     /**
      * 查询ZfRace列表
@@ -52,7 +52,7 @@ public class ManageRaceController extends BaseController {
     @GetMapping("/memberoptions")
     @PreAuthorize("@ss.hasPerm('team:race:memberoptions')")
     public ResponseResult getUserIdAndRealName(){
-        return ResponseResult.success(zfMUserMapper.selectSysUserIdAndRealName());
+        return ResponseResult.success(studioMUserMapper.selectSysUserIdAndRealName());
     }
 
 //    /**

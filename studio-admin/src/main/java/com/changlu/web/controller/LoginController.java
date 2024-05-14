@@ -42,7 +42,7 @@ public class LoginController {
     private EasyCaptchaService easyCaptchaService;
 
     //注册邀请码
-    @Value("${zf.register.invitationCode}")
+    @Value("${studio.register.invitationCode}")
     public String invitationCode;
 
     @Autowired

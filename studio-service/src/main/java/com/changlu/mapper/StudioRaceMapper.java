@@ -1,7 +1,7 @@
 package com.changlu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import com.changlu.vo.race.RaceVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,15 +15,15 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfRaceMapper extends BaseMapper<ZfRaceModel> {
+public interface StudioRaceMapper extends BaseMapper<StudioRaceModel> {
 
     /**
      * 查询ZfRace列表
      *
-     * @param zfRaceModel ZfRace
+     * @param studioRaceModel ZfRace
      * @return ZfRace集合
      */
-    public List<RaceVo> selectZfRaceModelList(ZfRaceModel zfRaceModel);
+    public List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel);
 
     /**
      * 查询ZfRace
@@ -45,7 +45,7 @@ public interface ZfRaceMapper extends BaseMapper<ZfRaceModel> {
      * @param raceIds ZfRace主键 Map<String,Object> map
      * @return ZfRace
      */
-    List<RaceVo> selectZfRaceModelListByRaceIds(@Param("raceModel") ZfRaceModel zfRaceModel, @Param("raceIds") Long[] raceIds);
+    List<RaceVo> selectZfRaceModelListByRaceIds(@Param("raceModel") StudioRaceModel studioRaceModel, @Param("raceIds") Long[] raceIds);
 
     /**
      * 查询指定用户的所有竞赛记录id
@@ -57,10 +57,10 @@ public interface ZfRaceMapper extends BaseMapper<ZfRaceModel> {
     /**
      * 根据用户id查询ZfRace列表
      *
-     * @param zfRaceModel ZfRace
+     * @param studioRaceModel ZfRace
      * @return ZfRace集合
      */
-    public List<RaceVo> selectZfRaceModelListByUserId(ZfRaceModel zfRaceModel);
+    public List<RaceVo> selectZfRaceModelListByUserId(StudioRaceModel studioRaceModel);
 
     /**
      * 获取刚刚创建用户自增的id

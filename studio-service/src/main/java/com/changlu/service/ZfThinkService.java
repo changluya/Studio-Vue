@@ -1,8 +1,7 @@
 package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.changlu.common.domain.ResponseResult;
-import com.changlu.system.pojo.ZfThinkModel;
+import com.changlu.system.pojo.StudioThinkModel;
 
 import java.util.List;
 
@@ -14,23 +13,23 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfThinkService extends IService<ZfThinkModel> {
+public interface ZfThinkService extends IService<StudioThinkModel> {
 
     /**
      * 查询ZfThink列表
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return ZfThink集合
      */
-     List<ZfThinkModel> selectZfThinkModelList(ZfThinkModel zfThinkModel);
+     List<StudioThinkModel> selectZfThinkModelList(StudioThinkModel studioThinkModel);
 
     /**
      * 根据用户id查询ZfThink列表
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return ZfThink集合
      */
-    List<ZfThinkModel> selectZfThinkModelListByUserId(ZfThinkModel zfThinkModel);
+    List<StudioThinkModel> selectZfThinkModelListByUserId(StudioThinkModel studioThinkModel);
 
     /**
      * 查询ZfThink
@@ -38,23 +37,23 @@ public interface ZfThinkService extends IService<ZfThinkModel> {
      * @param thinkId ZfThink主键
      * @return ZfThink
      */
-    ZfThinkModel selectZfThinkModelByThinkId(Long thinkId);
+    StudioThinkModel selectZfThinkModelByThinkId(Long thinkId);
 
     /**
      * 新增ZfThink
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return 结果
      */
-    int insertZfThinkModel(ZfThinkModel zfThinkModel);
+    int insertZfThinkModel(StudioThinkModel studioThinkModel);
 
     /**
      * 修改ZfThink
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return 结果
      */
-    int updateZfThinkModel(ZfThinkModel zfThinkModel);
+    int updateZfThinkModel(StudioThinkModel studioThinkModel);
 
     /**
      * 批量删除ZfThink

@@ -21,9 +21,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("zf_think")
-@ApiModel(value="ZfThinkModel对象", description="")
-public class ZfThinkModel extends BaseEntity {
+@TableName("Studio_think")
+@ApiModel(value="StudioThinkModel对象", description="")
+public class StudioThinkModel extends BaseEntity {
 
     @ApiModelProperty(value = "个人心得主键id")
     @TableId(value = "think_id", type = IdType.AUTO)

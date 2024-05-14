@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.changlu.mapper.ZfCcieMapper">
+<mapper namespace="com.changlu.mapper.StudioCcieMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="ZfCcieResult" type="com.changlu.system.pojo.ZfCcieModel">
+    <resultMap id="StudioCcieResult" type="com.changlu.system.pojo.StudioCcieModel">
         <result property="ccieId"    column="ccie_id"    />
         <result property="ccieName"    column="ccie_name"    />
         <result property="ccieImg"    column="ccie_img"    />
@@ -18,7 +18,7 @@
     </sql>
 
     <!--  列表查询  -->
-    <select id="selectZfCcieList" parameterType="ZfCcieModel" resultMap="ZfCcieResult">
+    <select id="selectZfCcieList" parameterType="com.changlu.system.pojo.StudioCcieModel" resultMap="StudioCcieResult">
         <include refid="selectZfCcieVo"/>
         <where>
             <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
@@ -27,7 +27,7 @@
     </select>
 
     <!--  根据用户id进行列表查询  -->
-    <select id="selectZfCcieListByUserId" parameterType="ZfCcieModel" resultMap="ZfCcieResult">
+    <select id="selectZfCcieListByUserId" parameterType="com.changlu.system.pojo.StudioCcieModel" resultMap="StudioCcieResult">
         <include refid="selectZfCcieVo"/>
         <where>
             user_id = #{userId}
@@ -38,13 +38,13 @@
     </select>
 
     <!--  详细查询  -->
-    <select id="selectZfCcieByCcieId" parameterType="Long" resultMap="ZfCcieResult">
+    <select id="selectZfCcieByCcieId" parameterType="Long" resultMap="StudioCcieResult">
         <include refid="selectZfCcieVo"/>
         where ccie_id = #{ccieId}
     </select>
 
     <!--  新增证书  -->
-    <insert id="insertZfCcie" parameterType="ZfCcieModel">
+    <insert id="insertZfCcie" parameterType="com.changlu.system.pojo.StudioCcieModel">
         insert into zf_ccie
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="ccieId != null">ccie_id,</if>
@@ -65,7 +65,7 @@
     </insert>
 
     <!--  修改证书  -->
-    <update id="updateZfCcie" parameterType="ZfCcieModel">
+    <update id="updateZfCcie" parameterType="com.changlu.system.pojo.StudioCcieModel">
         update zf_ccie
         <trim prefix="SET" suffixOverrides=",">
             <if test="ccieName != null and ccieName != ''">ccie_name = #{ccieName},</if>

@@ -1,8 +1,7 @@
 package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.changlu.common.domain.ResponseResult;
-import com.changlu.system.pojo.ZfMajorModel;
+import com.changlu.system.pojo.StudioMajorModel;
 
 import java.util.List;
 
@@ -14,15 +13,15 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfMajorService extends IService<ZfMajorModel> {
+public interface ZfMajorService extends IService<StudioMajorModel> {
 
     /**
      * 查询ZfMajor列表
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return ZfMajor集合
      */
-    List<ZfMajorModel> selectZfMajorModelList(ZfMajorModel zfMajorModel);
+    List<StudioMajorModel> selectZfMajorModelList(StudioMajorModel studioMajorModel);
 
     /**
      * 查询ZfMajor
@@ -30,23 +29,23 @@ public interface ZfMajorService extends IService<ZfMajorModel> {
      * @param majorId ZfMajor主键
      * @return ZfMajor
      */
-    ZfMajorModel selectZfMajorModelByMajorId(Long majorId);
+    StudioMajorModel selectZfMajorModelByMajorId(Long majorId);
 
     /**
      * 新增ZfMajor
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return 结果
      */
-    int insertZfMajorModel(ZfMajorModel zfMajorModel);
+    int insertZfMajorModel(StudioMajorModel studioMajorModel);
 
     /**
      * 修改ZfMajor
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return 结果
      */
-    int updateZfMajorModel(ZfMajorModel zfMajorModel);
+    int updateZfMajorModel(StudioMajorModel studioMajorModel);
 
     /**
      * 批量删除ZfMajor

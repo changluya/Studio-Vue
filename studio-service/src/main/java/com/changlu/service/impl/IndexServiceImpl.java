@@ -5,14 +5,14 @@ import com.changlu.common.utils.DateUtils;
 import com.changlu.enums.UserStatusEnum;
 import com.changlu.enums.ZfRaceTypeEnum;
 import com.changlu.mapper.IndexCountMapper;
-import com.changlu.mapper.ZfCcieMapper;
-import com.changlu.mapper.ZfMajorMapper;
-import com.changlu.mapper.ZfRaceMapper;
+import com.changlu.mapper.StudioCcieMapper;
+import com.changlu.mapper.StudioMajorMapper;
+import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.service.IndexService;
 import com.changlu.system.mapper.SysUserMapper;
 import com.changlu.system.pojo.SysUser;
-import com.changlu.system.pojo.ZfMajorModel;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioMajorModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,13 +33,13 @@ public class IndexServiceImpl implements IndexService {
     private SysUserMapper userMapper;
 
     @Resource
-    private ZfRaceMapper zfRaceMapper;
+    private StudioRaceMapper studioRaceMapper;
 
     @Resource
-    private ZfCcieMapper zfCcieMapper;
+    private StudioCcieMapper studioCcieMapper;
 
     @Resource
-    private ZfMajorMapper zfMajorMapper;
+    private StudioMajorMapper studioMajorMapper;
 
     @Resource
     private IndexCountMapper indexCountMapper;
@@ -56,15 +56,15 @@ public class IndexServiceImpl implements IndexService {
                 .ne(SysUser::getUserId, 1L);//系统管理员不计入总数
         Integer userCount = this.userMapper.selectCount(userWrapper);
         //2、获取项目总数(团队竞赛)
-        LambdaQueryWrapper<ZfRaceModel> teamRaceWrapper = new LambdaQueryWrapper<ZfRaceModel>()
-                .eq(ZfRaceModel::getRaceFlag, ZfRaceTypeEnum.RACE_TYPE_TEAM.value());
-        Integer projectCount = zfRaceMapper.selectCount(teamRaceWrapper);
+        LambdaQueryWrapper<StudioRaceModel> teamRaceWrapper = new LambdaQueryWrapper<StudioRaceModel>()
+                .eq(StudioRaceModel::getRaceFlag, ZfRaceTypeEnum.RACE_TYPE_TEAM.value());
+        Integer projectCount = studioRaceMapper.selectCount(teamRaceWrapper);
         //3、获取竞赛总数(个人竞赛)
-        LambdaQueryWrapper<ZfRaceModel> ownRaceWrapper = new LambdaQueryWrapper<ZfRaceModel>()
-                .eq(ZfRaceModel::getRaceFlag, ZfRaceTypeEnum.RACE_TYPE_OWN.value());
-        Integer raceCount = zfRaceMapper.selectCount(ownRaceWrapper);
+        LambdaQueryWrapper<StudioRaceModel> ownRaceWrapper = new LambdaQueryWrapper<StudioRaceModel>()
+                .eq(StudioRaceModel::getRaceFlag, ZfRaceTypeEnum.RACE_TYPE_OWN.value());
+        Integer raceCount = studioRaceMapper.selectCount(ownRaceWrapper);
         //4、获取获奖总数
-        Integer ccieCount = zfCcieMapper.selectCount(null);
+        Integer ccieCount = studioCcieMapper.selectCount(null);
         List<Integer> counts = Arrays.asList(userCount, projectCount, raceCount, ccieCount);
         return counts;
     }
@@ -112,10 +112,10 @@ public class IndexServiceImpl implements IndexService {
 
         //2、统计专业
         //2.1、names
-        LambdaQueryWrapper<ZfMajorModel> majorWrapper = new LambdaQueryWrapper<>(ZfMajorModel.class)
-                .select(ZfMajorModel::getMajorName)
-                .orderByAsc(ZfMajorModel::getMajorId);//根据专业id来进行排序
-        List<ZfMajorModel> majorModels = zfMajorMapper.selectList(majorWrapper);
+        LambdaQueryWrapper<StudioMajorModel> majorWrapper = new LambdaQueryWrapper<>(StudioMajorModel.class)
+                .select(StudioMajorModel::getMajorName)
+                .orderByAsc(StudioMajorModel::getMajorId);//根据专业id来进行排序
+        List<StudioMajorModel> majorModels = studioMajorMapper.selectList(majorWrapper);
         List<String> majorNames = majorModels.stream().map((major) -> major.getMajorName()).collect(Collectors.toList());
         Map<String,Object> majors = new HashMap<>(2);
         optionsResult.put("majors", majors);

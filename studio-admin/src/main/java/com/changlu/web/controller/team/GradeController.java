@@ -3,7 +3,7 @@ package com.changlu.web.controller.team;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.ZfGradeService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.ZfGradeModel;
+import com.changlu.system.pojo.StudioGradeModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +29,10 @@ public class GradeController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('team:grade:list')")
-    public TableDataInfo list(ZfGradeModel zfGradeModel)
+    public TableDataInfo list(StudioGradeModel studioGradeModel)
     {
         startPage();
-        List<ZfGradeModel> list = gradeService.selectZfGradeModelList(zfGradeModel);
+        List<StudioGradeModel> list = gradeService.selectZfGradeModelList(studioGradeModel);
         return getDataTable(list);
     }
 
@@ -51,9 +51,9 @@ public class GradeController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('team:grade:add')")
-    public ResponseResult add(@RequestBody ZfGradeModel zfGradeModel)
+    public ResponseResult add(@RequestBody StudioGradeModel studioGradeModel)
     {
-        return ResponseResult.toResponse(gradeService.insertZfGradeModel(zfGradeModel));
+        return ResponseResult.toResponse(gradeService.insertZfGradeModel(studioGradeModel));
     }
 
     /**
@@ -61,9 +61,9 @@ public class GradeController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('team:grade:edit')")
-    public ResponseResult edit(@RequestBody ZfGradeModel zfGradeModel)
+    public ResponseResult edit(@RequestBody StudioGradeModel studioGradeModel)
     {
-        return ResponseResult.toResponse(gradeService.updateZfGradeModel(zfGradeModel));
+        return ResponseResult.toResponse(gradeService.updateZfGradeModel(studioGradeModel));
     }
 
     /**

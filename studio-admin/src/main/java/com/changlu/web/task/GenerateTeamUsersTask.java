@@ -2,7 +2,7 @@ package com.changlu.web.task;
 
 import com.changlu.common.utils.RedisCache;
 import com.changlu.config.ZfConstant;
-import com.changlu.mapper.ZfMUserMapper;
+import com.changlu.mapper.StudioMUserMapper;
 import com.changlu.vo.ShowUserVo;
 import com.changlu.enums.ZfRoleEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class GenerateTeamUsersTask {
 
     @Resource
-    private ZfMUserMapper zfMUserMapper;
+    private StudioMUserMapper studioMUserMapper;
 
     @Autowired
     private RedisCache redisCache;
@@ -55,7 +55,7 @@ public class GenerateTeamUsersTask {
             if (result != null) {
                 return result;
             }
-            List<ShowUserVo> showUserVos = zfMUserMapper.selectShowUserVoList();
+            List<ShowUserVo> showUserVos = studioMUserMapper.selectShowUserVoList();
             //3、构造响应对象
             result = new ArrayList<>(showUserVos.size());
             //构建老师

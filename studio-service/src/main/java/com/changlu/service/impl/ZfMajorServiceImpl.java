@@ -1,10 +1,9 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.common.domain.ResponseResult;
-import com.changlu.mapper.ZfMajorMapper;
+import com.changlu.mapper.StudioMajorMapper;
 import com.changlu.service.ZfMajorService;
-import com.changlu.system.pojo.ZfMajorModel;
+import com.changlu.system.pojo.StudioMajorModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +18,22 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfMajorServiceImpl extends ServiceImpl<ZfMajorMapper, ZfMajorModel> implements ZfMajorService {
+public class ZfMajorServiceImpl extends ServiceImpl<StudioMajorMapper, StudioMajorModel> implements ZfMajorService {
 
 
     @Autowired
-    private ZfMajorMapper majorMapper;
+    private StudioMajorMapper majorMapper;
 
     /**
      * 查询ZfMajor列表
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return ZfMajor
      */
     @Override
-    public List<ZfMajorModel> selectZfMajorModelList(ZfMajorModel zfMajorModel)
+    public List<StudioMajorModel> selectZfMajorModelList(StudioMajorModel studioMajorModel)
     {
-        return majorMapper.selectZfMajorModelList(zfMajorModel);
+        return majorMapper.selectZfMajorModelList(studioMajorModel);
     }
 
     /**
@@ -44,7 +43,7 @@ public class ZfMajorServiceImpl extends ServiceImpl<ZfMajorMapper, ZfMajorModel>
      * @return ZfMajor
      */
     @Override
-    public ZfMajorModel selectZfMajorModelByMajorId(Long majorId)
+    public StudioMajorModel selectZfMajorModelByMajorId(Long majorId)
     {
         return majorMapper.selectZfMajorModelByMajorId(majorId);
     }
@@ -52,25 +51,25 @@ public class ZfMajorServiceImpl extends ServiceImpl<ZfMajorMapper, ZfMajorModel>
     /**
      * 新增ZfMajor
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return 结果
      */
     @Override
-    public int insertZfMajorModel(ZfMajorModel zfMajorModel)
+    public int insertZfMajorModel(StudioMajorModel studioMajorModel)
     {
-        return majorMapper.insertZfMajorModel(zfMajorModel);
+        return majorMapper.insertZfMajorModel(studioMajorModel);
     }
 
     /**
      * 修改ZfMajor
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return 结果
      */
     @Override
-    public int updateZfMajorModel(ZfMajorModel zfMajorModel)
+    public int updateZfMajorModel(StudioMajorModel studioMajorModel)
     {
-        return majorMapper.updateZfMajorModel(zfMajorModel);
+        return majorMapper.updateZfMajorModel(studioMajorModel);
     }
 
     /**

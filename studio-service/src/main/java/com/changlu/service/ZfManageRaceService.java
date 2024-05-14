@@ -1,7 +1,7 @@
 package com.changlu.service;
 
 import com.changlu.vo.race.RaceVo;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface ZfManageRaceService {
 
-    List<RaceVo> selectZfRaceModelList(ZfRaceModel raceModel);
+    List<RaceVo> selectZfRaceModelList(StudioRaceModel raceModel);
 }

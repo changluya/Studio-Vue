@@ -1,9 +1,8 @@
 package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.changlu.common.domain.ResponseResult;
 import com.changlu.vo.race.RaceVo;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 
 import java.util.List;
 
@@ -15,23 +14,23 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfRaceService extends IService<ZfRaceModel> {
+public interface ZfRaceService extends IService<StudioRaceModel> {
 
     /**
      * 查询ZfRace
      *
-     * @param zfRaceModel ZfRace主键
+     * @param studioRaceModel ZfRace主键
      * @return ZfRace
      */
-    List<RaceVo> selectZfRaceModelList(ZfRaceModel zfRaceModel);
+    List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel);
 
     /**
      * 根据用户id查询ZfRace列表
      *
-     * @param zfRaceModel ZfRace
+     * @param studioRaceModel ZfRace
      * @return ZfRace集合
      */
-    List<RaceVo> selectZfRaceModelListByUserId(ZfRaceModel zfRaceModel);
+    List<RaceVo> selectZfRaceModelListByUserId(StudioRaceModel studioRaceModel);
 
     /**
      * 查询ZfRace

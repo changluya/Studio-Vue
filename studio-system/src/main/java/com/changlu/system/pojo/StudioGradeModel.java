@@ -21,9 +21,9 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("zf_grade")
-@ApiModel(value="ZfGradeModel对象", description="")
-public class ZfGradeModel implements Serializable {
+@TableName("studio_grade")
+@ApiModel(value="StudioGradeModel对象", description="")
+public class StudioGradeModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

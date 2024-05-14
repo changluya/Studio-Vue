@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 4/5/2022 6:00 PM
  * @Description 用户管理接口
  */
-public interface ZfMCcieMapper {
+public interface StudioMCcieMapper {
 
     /**
      * 查询所有证书列表

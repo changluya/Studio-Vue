@@ -24,9 +24,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("zf_ccie")
-@ApiModel(value="ZfCcieModel对象", description="")
-public class ZfCcieModel extends BaseEntity {
+@TableName("studio_ccie")
+@ApiModel(value="StudioCcieModel对象", description="")
+public class StudioCcieModel extends BaseEntity {
 
     @ApiModelProperty(value = "获奖证书主键id")
     @TableId(value = "ccie_id",type = IdType.AUTO)

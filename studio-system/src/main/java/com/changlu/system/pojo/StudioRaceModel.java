@@ -22,9 +22,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("zf_race")
-@ApiModel(value="ZfRaceModel对象", description="")
-public class ZfRaceModel extends BaseEntity {
+@TableName("studio_race")
+@ApiModel(value="StudioRaceModel对象", description="")
+public class StudioRaceModel extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

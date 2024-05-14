@@ -2,10 +2,10 @@ package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.mapper.ZfCcieMapper;
+import com.changlu.mapper.StudioCcieMapper;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ZfCcieService;
-import com.changlu.system.pojo.ZfCcieModel;
+import com.changlu.system.pojo.StudioCcieModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,33 +20,33 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfCcieServiceImpl extends ServiceImpl<ZfCcieMapper, ZfCcieModel> implements ZfCcieService {
+public class ZfCcieServiceImpl extends ServiceImpl<StudioCcieMapper, StudioCcieModel> implements ZfCcieService {
 
     @Resource
-    private ZfCcieMapper zfCcieMapper;
+    private StudioCcieMapper studioCcieMapper;
 
     @Override
-    public List<ZfCcieModel> selectZfCcieList(ZfCcieModel ccieModel) {
-        return zfCcieMapper.selectZfCcieList(ccieModel);
+    public List<StudioCcieModel> selectZfCcieList(StudioCcieModel ccieModel) {
+        return studioCcieMapper.selectZfCcieList(ccieModel);
     }
 
     @Override
-    public List<ZfCcieModel> selectZfCcieListByUserId(ZfCcieModel ccieModel) {
+    public List<StudioCcieModel> selectZfCcieListByUserId(StudioCcieModel ccieModel) {
         //设置用户id
         ccieModel.setUserId(SecurityUtils.getUserId());
-        return zfCcieMapper.selectZfCcieListByUserId(ccieModel);
+        return studioCcieMapper.selectZfCcieListByUserId(ccieModel);
     }
 
     @Override
-    public ZfCcieModel selectZfCcieByCcieId(Long ccieId){
-        return zfCcieMapper.selectZfCcieByCcieId(ccieId);
+    public StudioCcieModel selectZfCcieByCcieId(Long ccieId){
+        return studioCcieMapper.selectZfCcieByCcieId(ccieId);
     }
 
     @Override
-    public int insertZfCcie(ZfCcieModel zfCcie)
+    public int insertZfCcie(StudioCcieModel zfCcie)
     {
         zfCcie.setUserId(SecurityUtils.getUserId());
-        return zfCcieMapper.insertZfCcie(zfCcie);
+        return studioCcieMapper.insertZfCcie(zfCcie);
     }
 
     /**
@@ -56,9 +56,9 @@ public class ZfCcieServiceImpl extends ServiceImpl<ZfCcieMapper, ZfCcieModel> im
      * @return 结果
      */
     @Override
-    public int updateZfCcie(ZfCcieModel zfCcie)
+    public int updateZfCcie(StudioCcieModel zfCcie)
     {
-        return zfCcieMapper.updateZfCcie(zfCcie);
+        return studioCcieMapper.updateZfCcie(zfCcie);
     }
 
     /**
@@ -70,12 +70,12 @@ public class ZfCcieServiceImpl extends ServiceImpl<ZfCcieMapper, ZfCcieModel> im
     @Override
     public int deleteZfCcieByCcieIds(Long[] ccieIds)
     {
-        return zfCcieMapper.deleteZfCcieByCcieIds(ccieIds);
+        return studioCcieMapper.deleteZfCcieByCcieIds(ccieIds);
     }
 
     @Override
     public ResponseResult deleteZfCcieByCcieId(Long ccieId) {
-        int result = zfCcieMapper.deleteZfCcieByCcieId(ccieId);
+        int result = studioCcieMapper.deleteZfCcieByCcieId(ccieId);
         if (result > 0) {
             return ResponseResult.success("删除成功！");
         }

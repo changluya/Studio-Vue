@@ -1,12 +1,11 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.DateUtils;
-import com.changlu.mapper.ZfThinkMapper;
+import com.changlu.mapper.StudioThinkMapper;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ZfThinkService;
-import com.changlu.system.pojo.ZfThinkModel;
+import com.changlu.system.pojo.StudioThinkModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,33 +20,33 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfThinkServiceImpl extends ServiceImpl<ZfThinkMapper, ZfThinkModel> implements ZfThinkService {
+public class ZfThinkServiceImpl extends ServiceImpl<StudioThinkMapper, StudioThinkModel> implements ZfThinkService {
 
     @Resource
-    private ZfThinkMapper zfThinkModelMapper;
+    private StudioThinkMapper zfThinkModelMapper;
 
     /**
      * 查询ZfThink列表
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return ZfThink
      */
     @Override
-    public List<ZfThinkModel> selectZfThinkModelList(ZfThinkModel zfThinkModel)
+    public List<StudioThinkModel> selectZfThinkModelList(StudioThinkModel studioThinkModel)
     {
-        return zfThinkModelMapper.selectZfThinkModelList(zfThinkModel);
+        return zfThinkModelMapper.selectZfThinkModelList(studioThinkModel);
     }
 
     /**
      * 根据用户id来查询ZfThink列表
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return ZfThink
      */
     @Override
-    public List<ZfThinkModel> selectZfThinkModelListByUserId(ZfThinkModel zfThinkModel) {
-        zfThinkModel.setUserId(SecurityUtils.getUserId());
-        return zfThinkModelMapper.selectZfThinkModelListByUserId(zfThinkModel);
+    public List<StudioThinkModel> selectZfThinkModelListByUserId(StudioThinkModel studioThinkModel) {
+        studioThinkModel.setUserId(SecurityUtils.getUserId());
+        return zfThinkModelMapper.selectZfThinkModelListByUserId(studioThinkModel);
     }
 
     /**
@@ -57,7 +56,7 @@ public class ZfThinkServiceImpl extends ServiceImpl<ZfThinkMapper, ZfThinkModel>
      * @return ZfThink
      */
     @Override
-    public ZfThinkModel selectZfThinkModelByThinkId(Long thinkId)
+    public StudioThinkModel selectZfThinkModelByThinkId(Long thinkId)
     {
         return zfThinkModelMapper.selectZfThinkModelByThinkId(thinkId);
     }
@@ -65,29 +64,29 @@ public class ZfThinkServiceImpl extends ServiceImpl<ZfThinkMapper, ZfThinkModel>
     /**
      * 新增ZfThink
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return 结果
      */
     @Override
-    public int insertZfThinkModel(ZfThinkModel zfThinkModel)
+    public int insertZfThinkModel(StudioThinkModel studioThinkModel)
     {
-        zfThinkModel.setCreateTime(DateUtils.getNowDate());
+        studioThinkModel.setCreateTime(DateUtils.getNowDate());
         //设置用户id
-        zfThinkModel.setUserId(SecurityUtils.getUserId());
-        return zfThinkModelMapper.insertZfThinkModel(zfThinkModel);
+        studioThinkModel.setUserId(SecurityUtils.getUserId());
+        return zfThinkModelMapper.insertZfThinkModel(studioThinkModel);
     }
 
     /**
      * 修改ZfThink
      *
-     * @param zfThinkModel ZfThink
+     * @param studioThinkModel ZfThink
      * @return 结果
      */
     @Override
-    public int updateZfThinkModel(ZfThinkModel zfThinkModel)
+    public int updateZfThinkModel(StudioThinkModel studioThinkModel)
     {
-        zfThinkModel.setUpdateTime(DateUtils.getNowDate());
-        return zfThinkModelMapper.updateZfThinkModel(zfThinkModel);
+        studioThinkModel.setUpdateTime(DateUtils.getNowDate());
+        return zfThinkModelMapper.updateZfThinkModel(studioThinkModel);
     }
 
     /**

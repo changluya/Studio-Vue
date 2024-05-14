@@ -3,7 +3,7 @@ package com.changlu.web.controller.team;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.ZfMajorService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.ZfMajorModel;
+import com.changlu.system.pojo.StudioMajorModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +29,10 @@ public class MajorController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('team:major:list')")
-    public TableDataInfo list(ZfMajorModel zfMajor)
+    public TableDataInfo list(StudioMajorModel zfMajor)
     {
         startPage();
-        List<ZfMajorModel> list = majorService.selectZfMajorModelList(zfMajor);
+        List<StudioMajorModel> list = majorService.selectZfMajorModelList(zfMajor);
         return getDataTable(list);
     }
 
@@ -51,9 +51,9 @@ public class MajorController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('team:major:add')")
-    public ResponseResult add(@RequestBody ZfMajorModel zfMajorModel)
+    public ResponseResult add(@RequestBody StudioMajorModel studioMajorModel)
     {
-        return ResponseResult.toResponse(majorService.insertZfMajorModel(zfMajorModel));
+        return ResponseResult.toResponse(majorService.insertZfMajorModel(studioMajorModel));
     }
 
     /**
@@ -61,9 +61,9 @@ public class MajorController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('team:major:edit')")
-    public ResponseResult edit(@RequestBody ZfMajorModel zfMajorModel)
+    public ResponseResult edit(@RequestBody StudioMajorModel studioMajorModel)
     {
-        return ResponseResult.toResponse(majorService.updateZfMajorModel(zfMajorModel));
+        return ResponseResult.toResponse(majorService.updateZfMajorModel(studioMajorModel));
     }
 
     /**

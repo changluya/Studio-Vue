@@ -22,9 +22,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("zf_resource")
-@ApiModel(value="ZfResourceModel对象", description="")
-public class ZfResourceModel implements Serializable {
+@TableName("studio_resource")
+@ApiModel(value="StudioResourceModel对象", description="")
+public class StudioResourceModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

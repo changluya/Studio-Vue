@@ -3,7 +3,7 @@ package com.changlu.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.ZfResourceEnum;
-import com.changlu.system.pojo.ZfResourceModel;
+import com.changlu.system.pojo.StudioResourceModel;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfResourceService extends IService<ZfResourceModel> {
+public interface ZfResourceService extends IService<StudioResourceModel> {
 
     /**
      * 插入多条资源记录

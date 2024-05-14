@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.changlu.mapper.ZfGradeMapper">
+<mapper namespace="com.changlu.mapper.StudioGradeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="ZfGradeModelResult" type="com.changlu.system.pojo.ZfGradeModel">
+    <resultMap id="StudioGradeModelResult" type="com.changlu.system.pojo.StudioGradeModel">
         <id column="grade_id" property="gradeId" />
         <result column="grade_num" property="gradeNum" />
     </resultMap>
@@ -12,7 +12,7 @@
         select grade_id, grade_num from zf_grade
     </sql>
 
-    <select id="selectZfGradeModelList" parameterType="ZfGradeModel" resultMap="ZfGradeModelResult">
+    <select id="selectZfGradeModelList" parameterType="com.changlu.system.pojo.StudioGradeModel" resultMap="StudioGradeModelResult">
         <include refid="selectZfGradeModelVo"/>
         <where>
             <if test="gradeNum != null "> and grade_num like concat('%', #{gradeNum}, '%')</if>
@@ -20,12 +20,12 @@
         order by grade_num desc
     </select>
 
-    <select id="selectZfGradeModelByGradeId" parameterType="Long" resultMap="ZfGradeModelResult">
+    <select id="selectZfGradeModelByGradeId" parameterType="Long" resultMap="StudioGradeModelResult">
         <include refid="selectZfGradeModelVo"/>
         where grade_id = #{gradeId}
     </select>
 
-    <insert id="insertZfGradeModel" parameterType="ZfGradeModel" useGeneratedKeys="true" keyProperty="gradeId">
+    <insert id="insertZfGradeModel" parameterType="com.changlu.system.pojo.StudioGradeModel" useGeneratedKeys="true" keyProperty="gradeId">
         insert into zf_grade
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="gradeNum != null">grade_num,</if>
@@ -35,7 +35,7 @@
         </trim>
     </insert>
 
-    <update id="updateZfGradeModel" parameterType="ZfGradeModel">
+    <update id="updateZfGradeModel" parameterType="com.changlu.system.pojo.StudioGradeModel">
         update zf_grade
         <trim prefix="SET" suffixOverrides=",">
             <if test="gradeNum != null">grade_num = #{gradeNum},</if>

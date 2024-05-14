@@ -1,12 +1,12 @@
 package com.changlu.service.impl;
 
-import com.changlu.mapper.ZfMUserMapper;
-import com.changlu.mapper.ZfRaceMapper;
+import com.changlu.mapper.StudioMUserMapper;
+import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.service.ZfManageRaceService;
 import com.changlu.service.ZfRaceService;
 import com.changlu.vo.manage.MUserVo;
 import com.changlu.vo.race.RaceVo;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -30,21 +30,21 @@ public class ZfManageRaceServiceImpl implements ZfManageRaceService {
     private ZfRaceService zfRaceService;
 
     @Resource
-    private ZfRaceMapper zfRaceMapper;
+    private StudioRaceMapper studioRaceMapper;
 
     @Resource
-    private ZfMUserMapper zfMUserMapper;
+    private StudioMUserMapper studioMUserMapper;
 
     @Override
-    public List<RaceVo> selectZfRaceModelList(ZfRaceModel raceModel) {
+    public List<RaceVo> selectZfRaceModelList(StudioRaceModel raceModel) {
         //1、查询到所有竞赛集合
-        Long[] raceIds = zfRaceMapper.selectZfRaceIds(); //  解决分页插件给我们查询记录总数问题，所以这里走一遍去查询对应页数的竞赛id
+        Long[] raceIds = studioRaceMapper.selectZfRaceIds(); //  解决分页插件给我们查询记录总数问题，所以这里走一遍去查询对应页数的竞赛id
         List<RaceVo> raceVos = new ArrayList<>(raceIds.length);
         if (!ObjectUtils.isEmpty(raceIds)) {
-            raceVos = zfRaceMapper.selectZfRaceModelListByRaceIds(raceModel, raceIds);
+            raceVos = studioRaceMapper.selectZfRaceModelListByRaceIds(raceModel, raceIds);
         }
         //2、查询出所有的用户记录（id、真实姓名）
-        List<MUserVo> mUserVos = zfMUserMapper.selectSysUserIdAndRealName();
+        List<MUserVo> mUserVos = studioMUserMapper.selectSysUserIdAndRealName();
         Map<Long, String> userMap = mUserVos.stream().collect(Collectors.toMap(MUserVo::getUserId, MUserVo::getRealName));
         //3、遍历所有竞赛，根据对应member_ids来进行合成对应的姓名
         raceVos.stream().forEach(raceVo -> {

@@ -2,10 +2,9 @@ package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.DateUtils;
-import com.changlu.mapper.ZfRaceMapper;
+import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ZfRaceService;
 import com.changlu.service.ZfResourceService;
@@ -13,7 +12,7 @@ import com.changlu.vo.race.RaceVo;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.ZfRaceTypeEnum;
 import com.changlu.enums.ZfResourceEnum;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -30,26 +29,26 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfRaceServiceImpl extends ServiceImpl<ZfRaceMapper, ZfRaceModel> implements ZfRaceService {
+public class ZfRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioRaceModel> implements ZfRaceService {
 
     @Resource
-    private ZfRaceMapper zfRaceMapper;
+    private StudioRaceMapper studioRaceMapper;
 
     @Resource
     private ZfResourceService zfResourceService;
 
     @Override
-    public List<RaceVo> selectZfRaceModelList(ZfRaceModel zfRaceModel) {
-        return zfRaceMapper.selectZfRaceModelList(zfRaceModel);
+    public List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel) {
+        return studioRaceMapper.selectZfRaceModelList(studioRaceModel);
     }
 
     @Override
-    public List<RaceVo> selectZfRaceModelListByUserId(ZfRaceModel zfRaceModel) {
+    public List<RaceVo> selectZfRaceModelListByUserId(StudioRaceModel studioRaceModel) {
         //设置用户id
-        zfRaceModel.setRaceMembers(String.valueOf(SecurityUtils.getUserId()));
+        studioRaceModel.setRaceMembers(String.valueOf(SecurityUtils.getUserId()));
         //由于使用mybatis的分页，所以这里要自己手动去查一遍（让自动的分页查询生效）
-        zfRaceMapper.selectCount(new LambdaQueryWrapper<ZfRaceModel>().eq(ZfRaceModel::getRaceMembers, zfRaceModel.getRaceMembers()));
-        return zfRaceMapper.selectZfRaceModelListByUserId(zfRaceModel);
+        studioRaceMapper.selectCount(new LambdaQueryWrapper<StudioRaceModel>().eq(StudioRaceModel::getRaceMembers, studioRaceModel.getRaceMembers()));
+        return studioRaceMapper.selectZfRaceModelListByUserId(studioRaceModel);
     }
 
     /**
@@ -60,7 +59,7 @@ public class ZfRaceServiceImpl extends ServiceImpl<ZfRaceMapper, ZfRaceModel> im
      */
     @Override
     public RaceVo selectZfRaceModelByRaceId(Long raceId) {
-        return zfRaceMapper.selectZfRaceModelByRaceId(raceId);
+        return studioRaceMapper.selectZfRaceModelByRaceId(raceId);
     }
 
     /**
@@ -82,8 +81,8 @@ public class ZfRaceServiceImpl extends ServiceImpl<ZfRaceMapper, ZfRaceModel> im
         }else {
             raceVo.setRaceFlag(ZfRaceTypeEnum.RACE_TYPE_TEAM.value());  // 团队
         }
-        if (zfRaceMapper.insertZfRaceModel(raceVo) > 0) {
-            Long raceId = zfRaceMapper.getLastInsertId();//获取新插入比赛记录的id
+        if (studioRaceMapper.insertZfRaceModel(raceVo) > 0) {
+            Long raceId = studioRaceMapper.getLastInsertId();//获取新插入比赛记录的id
             List<ResourceVo> pics = raceVo.getPics();
             if (pics.size() == 0) {
                 return true;
@@ -109,7 +108,7 @@ public class ZfRaceServiceImpl extends ServiceImpl<ZfRaceMapper, ZfRaceModel> im
     public boolean updateZfRaceModel(RaceVo raceVo) {
         raceVo.setUpdateTime(DateUtils.getNowDate());
         //1、更新竞赛表
-        if (zfRaceMapper.updateZfRaceModel(raceVo) > 0){
+        if (studioRaceMapper.updateZfRaceModel(raceVo) > 0){
             //2、删除相关竞赛的资源记录
             Long[] raceIds = {raceVo.getRaceId()};//将其设置为竞赛id数组传入（目的是直接复用接口）
             zfResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
@@ -152,7 +151,7 @@ public class ZfRaceServiceImpl extends ServiceImpl<ZfRaceMapper, ZfRaceModel> im
             return true;
         }
         //1、删除竞赛表记录
-        if (zfRaceMapper.deleteZfRaceModelByRaceIds(raceIds) > 0){
+        if (studioRaceMapper.deleteZfRaceModelByRaceIds(raceIds) > 0){
             //2、删除多条竞赛记录关联的资源表（直接批量删除）
 //            for (int i = 0; i < raceIds.length; i++) {
 //                zfResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds[i]);
@@ -166,7 +165,7 @@ public class ZfRaceServiceImpl extends ServiceImpl<ZfRaceMapper, ZfRaceModel> im
     @Override
     public boolean deleteZfRaceModelByUserId(Long userId) {
         //1、查询出所有用户的所有竞赛记录id
-        List<Long> tempRaceIds = zfRaceMapper.selectRaceIdsByUserId(userId);
+        List<Long> tempRaceIds = studioRaceMapper.selectRaceIdsByUserId(userId);
         Long[] raceIds = tempRaceIds.toArray(new Long[tempRaceIds.size()]);
         //2、删除个人竞赛记录中的所有参赛记录
         if (doDeleteZfRaceModelByRaceIds(raceIds)) {

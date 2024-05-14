@@ -1,11 +1,11 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.mapper.ZfResourceMapper;
+import com.changlu.mapper.StudioResourceMapper;
 import com.changlu.service.ZfResourceService;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.ZfResourceEnum;
-import com.changlu.system.pojo.ZfResourceModel;
+import com.changlu.system.pojo.StudioResourceModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +23,10 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfResourceServiceImpl extends ServiceImpl<ZfResourceMapper, ZfResourceModel> implements ZfResourceService {
+public class ZfResourceServiceImpl extends ServiceImpl<StudioResourceMapper, StudioResourceModel> implements ZfResourceService {
 
     @Resource
-    private ZfResourceMapper zfResourceMapper;
+    private StudioResourceMapper studioResourceMapper;
 
     /**
      * 插入多条资源
@@ -38,14 +38,14 @@ public class ZfResourceServiceImpl extends ServiceImpl<ZfResourceMapper, ZfResou
     @Override
     public boolean insertResources(ZfResourceEnum resFlag, Long tableId, List<ResourceVo> pics) {
         //1、批量进行创建对象
-        List<ZfResourceModel> resourceModels = new ArrayList<>(pics.size());
+        List<StudioResourceModel> resourceModels = new ArrayList<>(pics.size());
         pics.stream().forEach((pic)->{
-            ZfResourceModel zfResourceModel = new ZfResourceModel();
-            BeanUtils.copyProperties(pic, zfResourceModel);//拷贝资源原名、URL
-            zfResourceModel.setResFlag(String.valueOf(resFlag.value()));//设置资源标识
-            zfResourceModel.setTableId(tableId);//设置关联表的id（这里是竞赛记录id）
-            zfResourceModel.setCreateTime(new Date());//设置创建时间
-            resourceModels.add(zfResourceModel);
+            StudioResourceModel studioResourceModel = new StudioResourceModel();
+            BeanUtils.copyProperties(pic, studioResourceModel);//拷贝资源原名、URL
+            studioResourceModel.setResFlag(String.valueOf(resFlag.value()));//设置资源标识
+            studioResourceModel.setTableId(tableId);//设置关联表的id（这里是竞赛记录id）
+            studioResourceModel.setCreateTime(new Date());//设置创建时间
+            resourceModels.add(studioResourceModel);
         });
         //2、批量更新
         return this.saveBatch(resourceModels);
@@ -53,6 +53,6 @@ public class ZfResourceServiceImpl extends ServiceImpl<ZfResourceMapper, ZfResou
 
     @Override
     public int deleteResources(ZfResourceEnum resFlag, Long[] tableIds) {
-        return zfResourceMapper.deleteResources(String.valueOf(resFlag.value()),tableIds);
+        return studioResourceMapper.deleteResources(String.valueOf(resFlag.value()),tableIds);
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.changlu.mapper.ZfThinkMapper">
+<mapper namespace="com.changlu.mapper.StudioThinkMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="ZfThinkModelResult" type="com.changlu.system.pojo.ZfThinkModel">
+    <resultMap id="ZfThinkModelResult" type="com.changlu.system.pojo.StudioThinkModel">
         <id column="think_id" property="thinkId" />
         <result column="think_title" property="thinkTitle" />
         <result column="content" property="content" />

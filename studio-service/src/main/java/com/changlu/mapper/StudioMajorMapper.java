@@ -2,7 +2,7 @@ package com.changlu.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.changlu.system.pojo.ZfMajorModel;
+import com.changlu.system.pojo.StudioMajorModel;
 
 import java.util.List;
 
@@ -14,15 +14,15 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfMajorMapper extends BaseMapper<ZfMajorModel> {
+public interface StudioMajorMapper extends BaseMapper<StudioMajorModel> {
 
     /**
      * 查询ZfMajor列表
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return ZfMajor集合
      */
-    List<ZfMajorModel> selectZfMajorModelList(ZfMajorModel zfMajorModel);;
+    List<StudioMajorModel> selectZfMajorModelList(StudioMajorModel studioMajorModel);;
 
     /**
      * 查询ZfMajor
@@ -30,23 +30,23 @@ public interface ZfMajorMapper extends BaseMapper<ZfMajorModel> {
      * @param majorId ZfMajor主键
      * @return ZfMajor
      */
-    public ZfMajorModel selectZfMajorModelByMajorId(Long majorId);
+    public StudioMajorModel selectZfMajorModelByMajorId(Long majorId);
 
     /**
      * 新增ZfMajor
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return 结果
      */
-    public int insertZfMajorModel(ZfMajorModel zfMajorModel);
+    public int insertZfMajorModel(StudioMajorModel studioMajorModel);
 
     /**
      * 修改ZfMajor
      *
-     * @param zfMajorModel ZfMajor
+     * @param studioMajorModel ZfMajor
      * @return 结果
      */
-    public int updateZfMajorModel(ZfMajorModel zfMajorModel);
+    public int updateZfMajorModel(StudioMajorModel studioMajorModel);
 
     /**
      * 批量删除ZfMajor

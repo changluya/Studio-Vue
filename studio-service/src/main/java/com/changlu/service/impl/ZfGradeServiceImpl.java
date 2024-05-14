@@ -1,10 +1,9 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.common.domain.ResponseResult;
-import com.changlu.mapper.ZfGradeMapper;
+import com.changlu.mapper.StudioGradeMapper;
 import com.changlu.service.ZfGradeService;
-import com.changlu.system.pojo.ZfGradeModel;
+import com.changlu.system.pojo.StudioGradeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +18,22 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfGradeServiceImpl extends ServiceImpl<ZfGradeMapper, ZfGradeModel> implements ZfGradeService {
+public class ZfGradeServiceImpl extends ServiceImpl<StudioGradeMapper, StudioGradeModel> implements ZfGradeService {
 
     @Autowired
-    private ZfGradeMapper gradeMapper;
+    private StudioGradeMapper gradeMapper;
 
 
     /**
      * 查询ZfGrade列表
      *
-     * @param zfGradeModel ZfGrade
+     * @param studioGradeModel ZfGrade
      * @return ZfGrade
      */
     @Override
-    public List<ZfGradeModel> selectZfGradeModelList(ZfGradeModel zfGradeModel)
+    public List<StudioGradeModel> selectZfGradeModelList(StudioGradeModel studioGradeModel)
     {
-        return gradeMapper.selectZfGradeModelList(zfGradeModel);
+        return gradeMapper.selectZfGradeModelList(studioGradeModel);
     }
 
     /**
@@ -44,7 +43,7 @@ public class ZfGradeServiceImpl extends ServiceImpl<ZfGradeMapper, ZfGradeModel>
      * @return ZfGrade
      */
     @Override
-    public ZfGradeModel selectZfGradeModelByGradeId(Long gradeId)
+    public StudioGradeModel selectZfGradeModelByGradeId(Long gradeId)
     {
         return gradeMapper.selectZfGradeModelByGradeId(gradeId);
     }
@@ -52,25 +51,25 @@ public class ZfGradeServiceImpl extends ServiceImpl<ZfGradeMapper, ZfGradeModel>
     /**
      * 新增ZfGrade
      *
-     * @param zfGradeModel ZfGrade
+     * @param studioGradeModel ZfGrade
      * @return 结果
      */
     @Override
-    public int insertZfGradeModel(ZfGradeModel zfGradeModel)
+    public int insertZfGradeModel(StudioGradeModel studioGradeModel)
     {
-        return gradeMapper.insertZfGradeModel(zfGradeModel);
+        return gradeMapper.insertZfGradeModel(studioGradeModel);
     }
 
     /**
      * 修改ZfGrade
      *
-     * @param zfGradeModel ZfGrade
+     * @param studioGradeModel ZfGrade
      * @return 结果
      */
     @Override
-    public int updateZfGradeModel(ZfGradeModel zfGradeModel)
+    public int updateZfGradeModel(StudioGradeModel studioGradeModel)
     {
-        return gradeMapper.updateZfGradeModel(zfGradeModel);
+        return gradeMapper.updateZfGradeModel(studioGradeModel);
     }
 
     /**

@@ -3,7 +3,7 @@ package com.changlu.web.controller.own;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.ZfCcieService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.ZfCcieModel;
+import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,9 +29,9 @@ public class CcieController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('own:ccie:list')")
-    public TableDataInfo list(ZfCcieModel ccieModel){
+    public TableDataInfo list(StudioCcieModel ccieModel){
         startPage();//开启分页
-        List<ZfCcieModel> list = ccieService.selectZfCcieListByUserId(ccieModel);
+        List<StudioCcieModel> list = ccieService.selectZfCcieListByUserId(ccieModel);
         return getDataTable(list);
     }
 
@@ -49,7 +49,7 @@ public class CcieController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('own:ccie:add')")
-    public ResponseResult add(@RequestBody ZfCcieModel ccieModel) {
+    public ResponseResult add(@RequestBody StudioCcieModel ccieModel) {
         return ResponseResult.toResponse(ccieService.insertZfCcie(ccieModel));
     }
 
@@ -58,7 +58,7 @@ public class CcieController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('own:ccie:edit')")
-    public ResponseResult edit(@RequestBody ZfCcieModel ccieModel){
+    public ResponseResult edit(@RequestBody StudioCcieModel ccieModel){
         return ResponseResult.toResponse(ccieService.updateZfCcie(ccieModel));
     }
 

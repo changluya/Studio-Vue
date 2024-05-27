@@ -3,7 +3,7 @@ package com.changlu.web.controller.team;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.ZfGradeService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.StudioGradeModel;
+import com.changlu.system.pojo.SchoolGradeModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +29,10 @@ public class GradeController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('team:grade:list')")
-    public TableDataInfo list(StudioGradeModel studioGradeModel)
+    public TableDataInfo list(SchoolGradeModel schoolGradeModel)
     {
         startPage();
-        List<StudioGradeModel> list = gradeService.selectZfGradeModelList(studioGradeModel);
+        List<SchoolGradeModel> list = gradeService.selectZfGradeModelList(schoolGradeModel);
         return getDataTable(list);
     }
 
@@ -51,9 +51,9 @@ public class GradeController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('team:grade:add')")
-    public ResponseResult add(@RequestBody StudioGradeModel studioGradeModel)
+    public ResponseResult add(@RequestBody SchoolGradeModel schoolGradeModel)
     {
-        return ResponseResult.toResponse(gradeService.insertZfGradeModel(studioGradeModel));
+        return ResponseResult.toResponse(gradeService.insertZfGradeModel(schoolGradeModel));
     }
 
     /**
@@ -61,9 +61,9 @@ public class GradeController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('team:grade:edit')")
-    public ResponseResult edit(@RequestBody StudioGradeModel studioGradeModel)
+    public ResponseResult edit(@RequestBody SchoolGradeModel schoolGradeModel)
     {
-        return ResponseResult.toResponse(gradeService.updateZfGradeModel(studioGradeModel));
+        return ResponseResult.toResponse(gradeService.updateZfGradeModel(schoolGradeModel));
     }
 
     /**

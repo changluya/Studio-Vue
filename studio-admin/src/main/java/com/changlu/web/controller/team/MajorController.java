@@ -3,7 +3,7 @@ package com.changlu.web.controller.team;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.ZfMajorService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.StudioMajorModel;
+import com.changlu.system.pojo.SchoolMajorModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +29,10 @@ public class MajorController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('team:major:list')")
-    public TableDataInfo list(StudioMajorModel zfMajor)
+    public TableDataInfo list(SchoolMajorModel zfMajor)
     {
         startPage();
-        List<StudioMajorModel> list = majorService.selectZfMajorModelList(zfMajor);
+        List<SchoolMajorModel> list = majorService.selectZfMajorModelList(zfMajor);
         return getDataTable(list);
     }
 
@@ -51,9 +51,9 @@ public class MajorController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('team:major:add')")
-    public ResponseResult add(@RequestBody StudioMajorModel studioMajorModel)
+    public ResponseResult add(@RequestBody SchoolMajorModel schoolMajorModel)
     {
-        return ResponseResult.toResponse(majorService.insertZfMajorModel(studioMajorModel));
+        return ResponseResult.toResponse(majorService.insertZfMajorModel(schoolMajorModel));
     }
 
     /**
@@ -61,9 +61,9 @@ public class MajorController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('team:major:edit')")
-    public ResponseResult edit(@RequestBody StudioMajorModel studioMajorModel)
+    public ResponseResult edit(@RequestBody SchoolMajorModel schoolMajorModel)
     {
-        return ResponseResult.toResponse(majorService.updateZfMajorModel(studioMajorModel));
+        return ResponseResult.toResponse(majorService.updateZfMajorModel(schoolMajorModel));
     }
 
     /**

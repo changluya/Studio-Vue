@@ -19,10 +19,10 @@ spring:
 # 上传路径
 file:
   upload:
-    dir: E:\自学历程\Java项目\个人项目\工作室前后台系统\开源项目\studio-vue\upload\  # 文件上传磁盘路径
+    dir: D:\StudioVue\upload\  # 文件上传磁盘路径
   visit:
     ip: 127.0.0.1:8999   # 访问服务器ip地址。本地测试需要加上项目端口号
-    path: /profile/   # 访问路径
+    path: /studio/static/   # 访问路径
     protocol: http   # 请求协议
 
 # 第三方服配置

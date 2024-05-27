@@ -2,7 +2,7 @@
 <Configuration status="fatal">
   <Properties>
     <!--  指定生成日志文件的项目名称  -->
-    <Property name="name" value="zhifeng-admin"/>
+    <Property name="name" value="studio-admin"/>
     <!--  日志文件根目录 -->
 <!--    <Property name="baseDir" value="C:\Users\93997\Desktop\logs"/>-->
     <Property name="baseDir" value="/tmp/logs"/>
@@ -19,6 +19,7 @@
         onMismatch="DENY"/>
       <PatternLayout
               pattern="${log_pattern}"/>
+      <param name="Encoding" value="UTF-8"/>
     </Console>
 
     <!-- info级别日志文件输出 -->

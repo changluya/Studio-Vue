@@ -1,7 +1,7 @@
 package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.changlu.system.pojo.StudioGradeModel;
+import com.changlu.system.pojo.SchoolGradeModel;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfGradeService extends IService<StudioGradeModel> {
+public interface ZfGradeService extends IService<SchoolGradeModel> {
 
     /**
      * 查询ZfGrade列表
      *
-     * @param studioGradeModel ZfGrade
+     * @param schoolGradeModel ZfGrade
      * @return ZfGrade集合
      */
-    List<StudioGradeModel> selectZfGradeModelList(StudioGradeModel studioGradeModel);
+    List<SchoolGradeModel> selectZfGradeModelList(SchoolGradeModel schoolGradeModel);
 
     /**
      * 查询ZfGrade
@@ -29,24 +29,24 @@ public interface ZfGradeService extends IService<StudioGradeModel> {
      * @param gradeId ZfGrade主键
      * @return ZfGrade
      */
-    StudioGradeModel selectZfGradeModelByGradeId(Long gradeId);
+    SchoolGradeModel selectZfGradeModelByGradeId(Long gradeId);
 
     /**
      * 新增ZfGrade
      *
-     * @param studioGradeModel ZfGrade
+     * @param schoolGradeModel ZfGrade
      * @return 结果
      */
-    int insertZfGradeModel(StudioGradeModel studioGradeModel);
+    int insertZfGradeModel(SchoolGradeModel schoolGradeModel);
 
 
     /**
      * 修改ZfGrade
      *
-     * @param studioGradeModel ZfGrade
+     * @param schoolGradeModel ZfGrade
      * @return 结果
      */
-    int updateZfGradeModel(StudioGradeModel studioGradeModel);
+    int updateZfGradeModel(SchoolGradeModel schoolGradeModel);
 
     /**
      * 批量删除ZfGrade

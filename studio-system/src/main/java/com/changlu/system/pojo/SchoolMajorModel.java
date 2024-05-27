@@ -21,9 +21,9 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("studio_major")
+@TableName("school_major")
 @ApiModel(value="StudioMajorModel对象", description="")
-public class StudioMajorModel implements Serializable {
+public class SchoolMajorModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

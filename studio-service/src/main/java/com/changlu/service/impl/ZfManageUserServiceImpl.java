@@ -152,6 +152,8 @@ public class ZfManageUserServiceImpl implements ZfManageUserService {
                 //3、更新当前账号的身份信息
                 SysUser sysUser = new SysUser();
                 sysUserService.updateSysUser(sysUser, true);
+                //4、删除实验室的前台用户缓存
+                redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
                 return true;
             }
         }

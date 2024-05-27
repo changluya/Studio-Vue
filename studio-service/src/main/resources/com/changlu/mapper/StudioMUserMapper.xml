@@ -39,8 +39,8 @@
         from sys_user t
                  left join sys_user_role t1 on t1.user_id = t.user_id
                  LEFT JOIN sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表取得角色名称
-                 left join zf_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
-                 left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+                 left join school_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
+                 left join school_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
     </sql>
 
     <select id="selectShowUserVoList" resultMap="ShowUserVoResult">
@@ -53,7 +53,7 @@
 
     <select id="selectRaceUsersByRaceId" resultMap="ShowUserVoResult">
         <include refid="selectShowUserVo"/>
-        WHERE FIND_IN_SET(t.user_id, (SELECT race_members FROM `zf_race` r WHERE r.race_id = #{raceId}))
+        WHERE FIND_IN_SET(t.user_id, (SELECT race_members FROM `studio_race` r WHERE r.race_id = #{raceId}))
         GROUP BY
         t.user_id
         order by t3.grade_num desc
@@ -69,8 +69,8 @@
         from sys_user t
                  left join sys_user_role t1 on t1.user_id = t.user_id
                  LEFT JOIN sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表取得角色名称
-                 left join zf_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
-                 left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+                 left join school_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
+                 left join school_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
     </sql>
 
     <select id="selectSysUserList" parameterType="com.changlu.vo.manage.MUserVo" resultMap="SysUserResult">
@@ -104,8 +104,8 @@
             t2.major_name,t2.major_id
         FROM
             sys_user t
-                LEFT JOIN zf_grade t1 ON t1.grade_id = t.grade_id -- 左联年纪表取得年级
-                LEFT JOIN zf_major t2 ON t2.major_id = t.major_id -- 左联专业表取得专业
+                LEFT JOIN school_grade t1 ON t1.grade_id = t.grade_id -- 左联年纪表取得年级
+                LEFT JOIN school_major t2 ON t2.major_id = t.major_id -- 左联专业表取得专业
         WHERE t.user_id in
             <foreach item="userId" collection="array" open="(" separator="," close=")">
                 #{userId}

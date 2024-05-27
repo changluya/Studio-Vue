@@ -14,10 +14,10 @@
 
 
     <sql id="selectZfThinkModelVo">
-        select think_id, think_title, content, create_time, update_time, user_id from zf_think
+        select think_id, think_title, content, create_time, update_time, user_id from studio_think
     </sql>
 
-    <select id="selectZfThinkModelList" parameterType="ZfThinkModel" resultMap="ZfThinkModelResult">
+    <select id="selectZfThinkModelList" parameterType="com.changlu.system.pojo.StudioThinkModel" resultMap="ZfThinkModelResult">
         <include refid="selectZfThinkModelVo"/>
         <where>
             <if test="thinkTitle != null  and thinkTitle != ''"> and think_title like concat('%', #{thinkTitle}, '%')</if>
@@ -25,7 +25,7 @@
         </where>
     </select>
 
-    <select id="selectZfThinkModelListByUserId" parameterType="ZfThinkModel" resultMap="ZfThinkModelResult">
+    <select id="selectZfThinkModelListByUserId" parameterType="com.changlu.system.pojo.StudioThinkModel" resultMap="ZfThinkModelResult">
         <include refid="selectZfThinkModelVo"/>
         <where>
             user_id = #{userId}
@@ -39,8 +39,8 @@
         where think_id = #{thinkId}
     </select>
 
-    <insert id="insertZfThinkModel" parameterType="ZfThinkModel" useGeneratedKeys="true" keyProperty="thinkId">
-        insert into zf_think
+    <insert id="insertZfThinkModel" parameterType="com.changlu.system.pojo.StudioThinkModel" useGeneratedKeys="true" keyProperty="thinkId">
+        insert into studio_think
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="thinkTitle != null and thinkTitle != ''">think_title,</if>
             <if test="content != null and content != ''">content,</if>
@@ -57,8 +57,8 @@
         </trim>
     </insert>
 
-    <update id="updateZfThinkModel" parameterType="ZfThinkModel">
-        update zf_think
+    <update id="updateZfThinkModel" parameterType="com.changlu.system.pojo.StudioThinkModel">
+        update studio_think
         <trim prefix="SET" suffixOverrides=",">
             <if test="thinkTitle != null and thinkTitle != ''">think_title = #{thinkTitle},</if>
             <if test="content != null and content != ''">content = #{content},</if>
@@ -70,14 +70,14 @@
     </update>
 
     <delete id="deleteZfThinkModelByThinkIds" parameterType="String">
-        delete from zf_think where think_id in
+        delete from studio_think where think_id in
         <foreach item="thinkId" collection="array" open="(" separator="," close=")">
             #{thinkId}
         </foreach>
     </delete>
 
     <delete id="deleteZfThinkModelByUserId" parameterType="Long">
-        delete from zf_think
+        delete from studio_think
         where user_id = #{userId}
     </delete>
 </mapper>

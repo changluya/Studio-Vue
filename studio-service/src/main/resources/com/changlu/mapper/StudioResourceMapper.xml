@@ -15,7 +15,7 @@
     <delete id="deleteResources" >
         DELETE
         FROM
-            zf_resource
+            studio_resource
         WHERE
             res_flag = #{resFlag}
           AND

@@ -61,7 +61,9 @@ public class SysUserServiceImpl implements ISysUserService {
 //                }else{
 //                    perms = sysMenuMapper.selectPermsByUserId(user.getUserId());
 //                }
-                LoginUser newLoginUser = new LoginUser(user, SecurityUtils.getLoginUser().getPermissions());
+                //获取最新的权限信息
+                List<String> permissions = sysMenuMapper.selectPermsByUserId(user.getUserId());
+                LoginUser newLoginUser = new LoginUser(user, permissions);
                 newLoginUser.setToken(SecurityUtils.getLoginUser().getToken());//token(uuid)依旧是当前用户自身的
                 tokenService.refreshToken(newLoginUser);
             }

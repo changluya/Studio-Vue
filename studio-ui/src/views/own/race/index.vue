@@ -32,7 +32,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['own:race:list']">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -45,7 +45,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['own:race:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -56,7 +55,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['own:race:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -67,7 +65,6 @@
           size="mini"
           :disabled="ownMultiple"
           @click="handleDelete"
-          v-hasPermi="['own:race:remove']"
         >删除</el-button>
       </el-col>
 <!--      <el-col :span="1.5">-->
@@ -153,7 +150,6 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['own:race:edit']"
           >修改</el-button>
           <el-button
             size="mini"
@@ -161,7 +157,6 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             :disabled="scope.row.raceFlag == '2'"
-            v-hasPermi="['own:race:remove']"
           >删除</el-button>
         </template>
       </el-table-column>

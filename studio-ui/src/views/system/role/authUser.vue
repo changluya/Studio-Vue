@@ -20,7 +20,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:role:authUser:allocatedList']">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -33,7 +33,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="openSelectUser"
-          v-hasPermi="['system:role:authUser:selectAll']"
         >添加用户</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -44,7 +43,6 @@
           size="mini"
           :disabled="multiple"
           @click="cancelAuthUserAll"
-          v-hasPermi="['system:role:authUser:cancelAll']"
         >批量取消授权</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -95,7 +93,6 @@
             type="text"
             icon="el-icon-circle-close"
             @click="cancelAuthUser(scope.row)"
-            v-hasPermi="['system:role:authUser:cancel']"
           >取消授权</el-button>
         </template>
       </el-table-column>

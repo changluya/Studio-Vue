@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '长路管理系统',
+      title: '仿生实验室系统',
       logo: logoImg
     }
   }

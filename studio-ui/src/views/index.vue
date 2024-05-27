@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <!--  长引用的意思  -->
     <blockquote>
-      欢迎回来{{name}}，长路工作室的小伙伴！
+      欢迎回来{{name}}，仿生实验室的小伙伴！
     </blockquote>
     <el-row :gutter="20">
       <PanelGroup />

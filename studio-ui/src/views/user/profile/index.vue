@@ -82,7 +82,7 @@ export default {
         this.user = response.data.user;
         this.roleGroup = response.data.roleGroup;
         // this.postGroup = response.postGroup;
-        this.roleGroup = "长路工作室" + this.roleGroup
+        this.roleGroup = "仿生实验室" + this.roleGroup
       });
     }
   }

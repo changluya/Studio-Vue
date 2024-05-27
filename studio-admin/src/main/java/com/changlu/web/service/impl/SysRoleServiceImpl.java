@@ -1,8 +1,10 @@
 package com.changlu.web.service.impl;
 
 import com.changlu.common.constant.UserConstants;
+import com.changlu.common.utils.RedisCache;
 import com.changlu.common.utils.StringUtils;
 import com.changlu.common.utils.spring.SpringUtils;
+import com.changlu.config.ZfConstant;
 import com.changlu.system.mapper.SysRoleMapper;
 import com.changlu.system.mapper.SysRoleMenuMapper;
 import com.changlu.system.mapper.SysUserRoleMapper;
@@ -34,6 +36,9 @@ public class SysRoleServiceImpl implements ISysRoleService
 
     @Autowired
     private SysUserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 根据条件分页查询角色数据
@@ -342,7 +347,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     @Override
     public int deleteAuthUser(SysUserRole userRole)
     {
-        return userRoleMapper.deleteUserRoleInfo(userRole);
+        int res = userRoleMapper.deleteUserRoleInfo(userRole);
+        //删前台成员数据缓存
+        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        return res;
     }
 
     /**
@@ -355,7 +363,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds)
     {
-        return userRoleMapper.deleteUserRoleInfos(roleId, userIds);
+        int res = userRoleMapper.deleteUserRoleInfos(roleId, userIds);
+        //删前台成员数据缓存
+        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        return res;
     }
 
     /**
@@ -368,6 +379,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     @Override
     public int insertAuthUsers(Long roleId, Long[] userIds)
     {
+
         // 新增用户与角色管理
         List<SysUserRole> list = new ArrayList<SysUserRole>();
         for (Long userId : userIds)
@@ -377,6 +389,9 @@ public class SysRoleServiceImpl implements ISysRoleService
             ur.setRoleId(roleId);
             list.add(ur);
         }
-        return userRoleMapper.batchUserRole(list);
+        int res = userRoleMapper.batchUserRole(list);
+        //删前台团队成员的缓存
+        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        return res;
     }
 }

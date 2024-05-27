@@ -10,8 +10,8 @@ import com.changlu.service.ZfInfoService;
 import com.changlu.service.ZfMajorService;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.vo.InfoVo;
-import com.changlu.system.pojo.StudioGradeModel;
-import com.changlu.system.pojo.StudioMajorModel;
+import com.changlu.system.pojo.SchoolGradeModel;
+import com.changlu.system.pojo.SchoolMajorModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,10 +64,10 @@ public class ZfInfoServiceImpl implements ZfInfoService {
     public Map<String, List> getMenu() {
         Map<String,List> result = new HashMap<>(2);
         //查询出所有专业、年级（降序排列）
-        LambdaQueryWrapper<StudioGradeModel> gradeQueryWrapper = new LambdaQueryWrapper<>();
-        gradeQueryWrapper.orderByDesc(StudioGradeModel::getGradeNum);//按照年级排序
-        List<StudioGradeModel> grades = gradeService.list(gradeQueryWrapper);
-        List<StudioMajorModel> majors = majorService.list();
+        LambdaQueryWrapper<SchoolGradeModel> gradeQueryWrapper = new LambdaQueryWrapper<>();
+        gradeQueryWrapper.orderByDesc(SchoolGradeModel::getGradeNum);//按照年级排序
+        List<SchoolGradeModel> grades = gradeService.list(gradeQueryWrapper);
+        List<SchoolMajorModel> majors = majorService.list();
         result.put("grades",grades);
         result.put("majors",majors);
         return result;

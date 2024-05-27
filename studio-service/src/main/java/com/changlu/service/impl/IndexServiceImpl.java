@@ -6,12 +6,12 @@ import com.changlu.enums.UserStatusEnum;
 import com.changlu.enums.ZfRaceTypeEnum;
 import com.changlu.mapper.IndexCountMapper;
 import com.changlu.mapper.StudioCcieMapper;
-import com.changlu.mapper.StudioMajorMapper;
+import com.changlu.mapper.SchoolMajorMapper;
 import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.service.IndexService;
 import com.changlu.system.mapper.SysUserMapper;
 import com.changlu.system.pojo.SysUser;
-import com.changlu.system.pojo.StudioMajorModel;
+import com.changlu.system.pojo.SchoolMajorModel;
 import com.changlu.system.pojo.StudioRaceModel;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,7 @@ public class IndexServiceImpl implements IndexService {
     private StudioCcieMapper studioCcieMapper;
 
     @Resource
-    private StudioMajorMapper studioMajorMapper;
+    private SchoolMajorMapper schoolMajorMapper;
 
     @Resource
     private IndexCountMapper indexCountMapper;
@@ -112,10 +112,10 @@ public class IndexServiceImpl implements IndexService {
 
         //2、统计专业
         //2.1、names
-        LambdaQueryWrapper<StudioMajorModel> majorWrapper = new LambdaQueryWrapper<>(StudioMajorModel.class)
-                .select(StudioMajorModel::getMajorName)
-                .orderByAsc(StudioMajorModel::getMajorId);//根据专业id来进行排序
-        List<StudioMajorModel> majorModels = studioMajorMapper.selectList(majorWrapper);
+        LambdaQueryWrapper<SchoolMajorModel> majorWrapper = new LambdaQueryWrapper<>(SchoolMajorModel.class)
+                .select(SchoolMajorModel::getMajorName)
+                .orderByAsc(SchoolMajorModel::getMajorId);//根据专业id来进行排序
+        List<SchoolMajorModel> majorModels = schoolMajorMapper.selectList(majorWrapper);
         List<String> majorNames = majorModels.stream().map((major) -> major.getMajorName()).collect(Collectors.toList());
         Map<String,Object> majors = new HashMap<>(2);
         optionsResult.put("majors", majors);

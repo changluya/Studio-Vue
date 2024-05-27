@@ -14,7 +14,7 @@
 
     <!-- 查询的vo对象   -->
     <sql id="selectZfCcieVo">
-        select ccie_id, ccie_name, ccie_img, ccci_get_time, ccie_think, user_id from zf_ccie
+        select ccie_id, ccie_name, ccie_img, ccci_get_time, ccie_think, user_id from studio_ccie
     </sql>
 
     <!--  列表查询  -->
@@ -45,7 +45,7 @@
 
     <!--  新增证书  -->
     <insert id="insertZfCcie" parameterType="com.changlu.system.pojo.StudioCcieModel">
-        insert into zf_ccie
+        insert into studio_ccie
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="ccieId != null">ccie_id,</if>
             <if test="ccieName != null and ccieName != ''">ccie_name,</if>
@@ -66,7 +66,7 @@
 
     <!--  修改证书  -->
     <update id="updateZfCcie" parameterType="com.changlu.system.pojo.StudioCcieModel">
-        update zf_ccie
+        update studio_ccie
         <trim prefix="SET" suffixOverrides=",">
             <if test="ccieName != null and ccieName != ''">ccie_name = #{ccieName},</if>
             <if test="ccieImg != null">ccie_img = #{ccieImg},</if>
@@ -78,18 +78,18 @@
     </update>
 
     <delete id="deleteZfCcieByCcieId" parameterType="Long">
-        delete from zf_ccie where ccie_id = #{ccieId}
+        delete from studio_ccie where ccie_id = #{ccieId}
     </delete>
 
     <delete id="deleteZfCcieByCcieIds" parameterType="String">
-        delete from zf_ccie where ccie_id in
+        delete from studio_ccie where ccie_id in
         <foreach item="ccieId" collection="array" open="(" separator="," close=")">
             #{ccieId}
         </foreach>
     </delete>
 
     <delete id="deleteZfCcieByUserId" parameterType="Long">
-        delete from zf_ccie where user_id = #{userId}
+        delete from studio_ccie where user_id = #{userId}
     </delete>
 
 </mapper>

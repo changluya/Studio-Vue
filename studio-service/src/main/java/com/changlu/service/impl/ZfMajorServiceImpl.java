@@ -1,9 +1,9 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.mapper.StudioMajorMapper;
+import com.changlu.mapper.SchoolMajorMapper;
 import com.changlu.service.ZfMajorService;
-import com.changlu.system.pojo.StudioMajorModel;
+import com.changlu.system.pojo.SchoolMajorModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +18,22 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfMajorServiceImpl extends ServiceImpl<StudioMajorMapper, StudioMajorModel> implements ZfMajorService {
+public class ZfMajorServiceImpl extends ServiceImpl<SchoolMajorMapper, SchoolMajorModel> implements ZfMajorService {
 
 
     @Autowired
-    private StudioMajorMapper majorMapper;
+    private SchoolMajorMapper majorMapper;
 
     /**
      * 查询ZfMajor列表
      *
-     * @param studioMajorModel ZfMajor
+     * @param schoolMajorModel ZfMajor
      * @return ZfMajor
      */
     @Override
-    public List<StudioMajorModel> selectZfMajorModelList(StudioMajorModel studioMajorModel)
+    public List<SchoolMajorModel> selectZfMajorModelList(SchoolMajorModel schoolMajorModel)
     {
-        return majorMapper.selectZfMajorModelList(studioMajorModel);
+        return majorMapper.selectZfMajorModelList(schoolMajorModel);
     }
 
     /**
@@ -43,7 +43,7 @@ public class ZfMajorServiceImpl extends ServiceImpl<StudioMajorMapper, StudioMaj
      * @return ZfMajor
      */
     @Override
-    public StudioMajorModel selectZfMajorModelByMajorId(Long majorId)
+    public SchoolMajorModel selectZfMajorModelByMajorId(Long majorId)
     {
         return majorMapper.selectZfMajorModelByMajorId(majorId);
     }
@@ -51,25 +51,25 @@ public class ZfMajorServiceImpl extends ServiceImpl<StudioMajorMapper, StudioMaj
     /**
      * 新增ZfMajor
      *
-     * @param studioMajorModel ZfMajor
+     * @param schoolMajorModel ZfMajor
      * @return 结果
      */
     @Override
-    public int insertZfMajorModel(StudioMajorModel studioMajorModel)
+    public int insertZfMajorModel(SchoolMajorModel schoolMajorModel)
     {
-        return majorMapper.insertZfMajorModel(studioMajorModel);
+        return majorMapper.insertZfMajorModel(schoolMajorModel);
     }
 
     /**
      * 修改ZfMajor
      *
-     * @param studioMajorModel ZfMajor
+     * @param schoolMajorModel ZfMajor
      * @return 结果
      */
     @Override
-    public int updateZfMajorModel(StudioMajorModel studioMajorModel)
+    public int updateZfMajorModel(SchoolMajorModel schoolMajorModel)
     {
-        return majorMapper.updateZfMajorModel(studioMajorModel);
+        return majorMapper.updateZfMajorModel(schoolMajorModel);
     }
 
     /**

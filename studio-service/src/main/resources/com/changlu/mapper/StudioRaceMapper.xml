@@ -3,7 +3,7 @@
 <mapper namespace="com.changlu.mapper.StudioRaceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.changlu.vo.race.RaceVo">
+    <resultMap id="StudioRaceModel" type="com.changlu.vo.race.RaceVo">
         <id column="race_id" property="raceId" />
         <result column="race_name" property="raceName" />
         <result column="race_members" property="raceMembers" />
@@ -21,7 +21,7 @@
         </collection>
     </resultMap>
 
-    <resultMap type="SysUser" id="SysUserResult">
+    <resultMap type="com.changlu.system.pojo.SysUser" id="SysUserResult">
         <id property="userId"    column="user_id"    />
         <result property="realName"    column="real_name"    />
         <result property="majorName"    column="major_name"    />
@@ -47,16 +47,16 @@
             rs.res_name,
             rs.res_url
         FROM
-            zf_race r
-         LEFT JOIN zf_resource rs ON rs.table_id = r.race_id
+            studio_race r
+         LEFT JOIN studio_resource rs ON rs.table_id = r.race_id
     </sql>
 
     <select id="selectZfRaceIds" resultType="java.lang.Long">
         SELECT race_id
-        FROM zf_race
+        FROM studio_race
     </select>
 
-    <select id="selectZfRaceModelList" parameterType="ZfRaceModel" resultMap="BaseResultMap">
+    <select id="selectZfRaceModelList" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
         <include refid="selectZfRaceModelVo"/>
         <where>
             <if test="raceMembers != null and raceMembers != ''"> and FIND_IN_SET( #{raceMembers} ,race_members)</if>
@@ -66,7 +66,7 @@
         </where>
     </select>
 
-    <select id="selectZfRaceModelListByRaceIds" resultType="ZfRaceModel" resultMap="BaseResultMap">
+    <select id="selectZfRaceModelListByRaceIds" resultType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
         <include refid="selectZfRaceModelVo"/>
         <where>
             race_id in <foreach item="raceId" collection="raceIds" open="(" separator="," close=")">
@@ -85,12 +85,12 @@
         SELECT
             race_id
         FROM
-            zf_race
+            studio_race
         WHERE
             race_members = #{userId}
     </select>
 
-    <select id="selectZfRaceModelListByUserId" parameterType="ZfRaceModel" resultMap="BaseResultMap">
+    <select id="selectZfRaceModelListByUserId" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
         <include refid="selectZfRaceModelVo"/>
         <where>
             FIND_IN_SET( #{raceMembers} ,race_members)
@@ -101,13 +101,13 @@
     </select>
 
 
-    <select id="selectZfRaceModelByRaceId" parameterType="Long" resultMap="BaseResultMap">
+    <select id="selectZfRaceModelByRaceId" parameterType="Long" resultMap="StudioRaceModel">
         <include refid="selectZfRaceModelVo"/>
         where race_id = #{raceId}
     </select>
 
-    <insert id="insertZfRaceModel" parameterType="ZfRaceModel">
-        insert into zf_race
+    <insert id="insertZfRaceModel" parameterType="com.changlu.system.pojo.StudioRaceModel">
+        insert into studio_race
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="raceId != null">race_id,</if>
             <if test="raceName != null and raceName != ''">race_name,</if>
@@ -134,8 +134,8 @@
         </trim>
     </insert>
 
-    <update id="updateZfRaceModel" parameterType="ZfRaceModel">
-        update zf_race
+    <update id="updateZfRaceModel" parameterType="com.changlu.system.pojo.StudioRaceModel">
+        update studio_race
         <trim prefix="SET" suffixOverrides=",">
             <if test="raceName != null and raceName != ''">race_name = #{raceName},</if>
             <if test="raceMembers != null">race_members = #{raceMembers},</if>
@@ -151,7 +151,7 @@
     </update>
 
     <delete id="deleteZfRaceModelByRaceIds">
-        delete from zf_race where race_id in
+        delete from studio_race where race_id in
         <foreach item="raceId" collection="array" open="(" separator="," close=")">
             #{raceId}
         </foreach>
@@ -160,7 +160,7 @@
     <delete id="deleteZfRaceModelByUserId" parameterType="Long">
         DELETE
         FROM
-            zf_race
+            studio_race
         WHERE
             race_flag = 1
           AND user_id = #{userId}

@@ -22,10 +22,10 @@
             t2.grade_num, t2.grade_id,
             t3.major_name, t3.major_id
         FROM
-            zf_ccie t
+            studio_ccie t
             LEFT JOIN sys_user t1 ON t.user_id = t1.user_id
-            LEFT JOIN zf_grade t2 ON t2.grade_id = t1.grade_id
-            LEFT JOIN zf_major t3 ON t3.major_id = t1.major_id
+            LEFT JOIN school_grade t2 ON t2.grade_id = t1.grade_id
+            LEFT JOIN school_major t3 ON t3.major_id = t1.major_id
     </sql>
 
     <select id="selectZfCcieModelList" parameterType="com.changlu.vo.manage.MCcieVo" resultMap="MCcieVoResult">

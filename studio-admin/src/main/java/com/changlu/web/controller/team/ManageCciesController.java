@@ -1,7 +1,7 @@
 package com.changlu.web.controller.team;
 
 import com.changlu.common.utils.ExcelUtil;
-import com.changlu.service.ZfManageCcieService;
+import com.changlu.service.StudioManageCcieService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.manage.MCcieVo;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ManageCciesController extends BaseController {
 
     @Autowired
-    private ZfManageCcieService zfManageCcieService;
+    private StudioManageCcieService studioManageCcieService;
 
     /**
      * 查询证书列表
@@ -36,14 +36,14 @@ public class ManageCciesController extends BaseController {
     public TableDataInfo list(MCcieVo mCcieVo)
     {
         startPage();
-        List<MCcieVo> list = zfManageCcieService.selectZfCcieList(mCcieVo);
+        List<MCcieVo> list = studioManageCcieService.selectZfCcieList(mCcieVo);
         return getDataTable(list);
     }
 
     @PostMapping("/export")
     @PreAuthorize("@ss.hasPerm('team:ccie:export')")
     public void export(MCcieVo mCcieVo, HttpServletResponse response) {
-        List<MCcieVo> list = zfManageCcieService.selectZfCcieList(mCcieVo);
+        List<MCcieVo> list = studioManageCcieService.selectZfCcieList(mCcieVo);
         ExcelUtil<MCcieVo> util = new ExcelUtil<>(MCcieVo.class);
         util.exportExcel(response, list, "证书列表");
     }

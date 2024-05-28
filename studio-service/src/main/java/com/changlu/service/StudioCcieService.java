@@ -14,7 +14,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfCcieService extends IService<StudioCcieModel> {
+public interface StudioCcieService extends IService<StudioCcieModel> {
 
     /**
      * 查询ZfCcie列表

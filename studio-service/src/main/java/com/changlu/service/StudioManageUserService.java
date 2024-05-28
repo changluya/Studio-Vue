@@ -1,6 +1,5 @@
 package com.changlu.service;
 
-import com.changlu.common.domain.ResponseResult;
 import com.changlu.vo.manage.MUserVo;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * @Date 4/5/2022 5:55 PM
  * @Description 管理员用户业务接口
  */
-public interface ZfManageUserService {
+public interface StudioManageUserService {
 
 
     /**

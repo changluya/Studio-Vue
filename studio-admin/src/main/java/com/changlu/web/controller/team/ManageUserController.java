@@ -5,7 +5,7 @@ import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.ExcelUtil;
 import com.changlu.service.LoginService;
-import com.changlu.service.ZfManageUserService;
+import com.changlu.service.StudioManageUserService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.manage.MUserVo;
 import com.changlu.web.task.GenerateTeamUsersTask;
@@ -34,7 +34,7 @@ import java.util.List;
 public class ManageUserController extends BaseController {
 
     @Autowired
-    private ZfManageUserService manageUserService;
+    private StudioManageUserService manageUserService;
 
     @Autowired
     private LoginService loginService;

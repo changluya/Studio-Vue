@@ -1,7 +1,7 @@
 package com.changlu.service.impl;
 
 import com.changlu.mapper.StudioMCcieMapper;
-import com.changlu.service.ZfManageCcieService;
+import com.changlu.service.StudioManageCcieService;
 import com.changlu.vo.manage.MCcieVo;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @Description 管理证书业务实现类
  */
 @Service
-public class ZfManageCcieServiceImpl implements ZfManageCcieService {
+public class StudioManageCcieServiceImpl implements StudioManageCcieService {
 
     @Resource
     private StudioMCcieMapper studioMCcieMapper;

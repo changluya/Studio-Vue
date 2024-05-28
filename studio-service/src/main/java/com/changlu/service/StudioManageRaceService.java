@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 4/7/2022 6:59 PM
  * @Description 管理竞赛业务层接口
  */
-public interface ZfManageRaceService {
+public interface StudioManageRaceService {
 
     List<RaceVo> selectZfRaceModelList(StudioRaceModel raceModel);
 }

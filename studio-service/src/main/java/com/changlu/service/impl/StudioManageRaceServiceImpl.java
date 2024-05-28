@@ -2,8 +2,8 @@ package com.changlu.service.impl;
 
 import com.changlu.mapper.StudioMUserMapper;
 import com.changlu.mapper.StudioRaceMapper;
-import com.changlu.service.ZfManageRaceService;
-import com.changlu.service.ZfRaceService;
+import com.changlu.service.StudioManageRaceService;
+import com.changlu.service.StudioRaceService;
 import com.changlu.vo.manage.MUserVo;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.system.pojo.StudioRaceModel;
@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
  * @Description 管理竞赛业务实现层
  */
 @Service
-public class ZfManageRaceServiceImpl implements ZfManageRaceService {
+public class StudioManageRaceServiceImpl implements StudioManageRaceService {
 
     @Autowired
-    private ZfRaceService zfRaceService;
+    private StudioRaceService studioRaceService;
 
     @Resource
     private StudioRaceMapper studioRaceMapper;

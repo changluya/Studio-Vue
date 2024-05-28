@@ -1,7 +1,7 @@
 package com.changlu.web.controller.own;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.service.ZfInfoService;
+import com.changlu.service.StudioInfoService;
 import com.changlu.vo.InfoVo;
 import com.changlu.web.task.GenerateTeamUsersTask;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class InfoController {
 
     @Autowired
-    private ZfInfoService infoService;
+    private StudioInfoService infoService;
 
     @Autowired
     private GenerateTeamUsersTask genTeamUsersTask;

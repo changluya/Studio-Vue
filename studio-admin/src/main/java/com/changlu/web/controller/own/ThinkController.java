@@ -1,7 +1,7 @@
 package com.changlu.web.controller.own;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.service.ZfThinkService;
+import com.changlu.service.StudioThinkService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.system.pojo.StudioThinkModel;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ThinkController extends BaseController {
 
     @Autowired
-    private ZfThinkService zfThinkService;
+    private StudioThinkService studioThinkService;
 
     /**
      * 查询ZfThink列表
@@ -32,7 +32,7 @@ public class ThinkController extends BaseController {
     public TableDataInfo list(StudioThinkModel studioThinkModel)
     {
         startPage();
-        List<StudioThinkModel> list = zfThinkService.selectZfThinkModelListByUserId(studioThinkModel);
+        List<StudioThinkModel> list = studioThinkService.selectZfThinkModelListByUserId(studioThinkModel);
         return getDataTable(list);
     }
 
@@ -43,7 +43,7 @@ public class ThinkController extends BaseController {
     @PreAuthorize("@ss.hasPerm('own:think:query')")
     public ResponseResult getInfo(@PathVariable("thinkId") Long thinkId)
     {
-        return ResponseResult.success(zfThinkService.selectZfThinkModelByThinkId(thinkId));
+        return ResponseResult.success(studioThinkService.selectZfThinkModelByThinkId(thinkId));
     }
 
     /**
@@ -53,7 +53,7 @@ public class ThinkController extends BaseController {
     @PreAuthorize("@ss.hasPerm('own:think:add')")
     public ResponseResult add(@RequestBody StudioThinkModel studioThinkModel)
     {
-        return ResponseResult.toResponse(zfThinkService.insertZfThinkModel(studioThinkModel));
+        return ResponseResult.toResponse(studioThinkService.insertZfThinkModel(studioThinkModel));
     }
 
     /**
@@ -63,7 +63,7 @@ public class ThinkController extends BaseController {
     @PreAuthorize("@ss.hasPerm('own:think:edit')")
     public ResponseResult edit(@RequestBody StudioThinkModel studioThinkModel)
     {
-        return ResponseResult.toResponse(zfThinkService.updateZfThinkModel(studioThinkModel));
+        return ResponseResult.toResponse(studioThinkService.updateZfThinkModel(studioThinkModel));
     }
 
     /**
@@ -73,7 +73,7 @@ public class ThinkController extends BaseController {
     @PreAuthorize("@ss.hasPerm('own:think:remove')")
     public ResponseResult remove(@PathVariable Long[] thinkIds)
     {
-        return ResponseResult.toResponse(zfThinkService.deleteZfThinkModelByThinkIds(thinkIds));
+        return ResponseResult.toResponse(studioThinkService.deleteZfThinkModelByThinkIds(thinkIds));
     }
 
 }

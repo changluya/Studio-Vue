@@ -3,7 +3,7 @@ package com.changlu.web.controller.team;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.ExcelUtil;
 import com.changlu.mapper.StudioMUserMapper;
-import com.changlu.service.ZfManageRaceService;
+import com.changlu.service.StudioManageRaceService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -29,7 +29,7 @@ import java.util.List;
 public class ManageRaceController extends BaseController {
 
     @Autowired
-    private ZfManageRaceService zfManageRaceService;
+    private StudioManageRaceService studioManageRaceService;
 
     @Resource
     private StudioMUserMapper studioMUserMapper;
@@ -42,7 +42,7 @@ public class ManageRaceController extends BaseController {
     public TableDataInfo list(RaceVo raceVo)
     {
         startPage();
-        List<RaceVo> list = zfManageRaceService.selectZfRaceModelList(raceVo);
+        List<RaceVo> list = studioManageRaceService.selectZfRaceModelList(raceVo);
         return getDataTable(list);
     }
 
@@ -70,7 +70,7 @@ public class ManageRaceController extends BaseController {
     @PostMapping("/export")
     @PreAuthorize("@ss.hasPerm('team:race:export')")
     public void export(RaceVo raceVo, HttpServletResponse response){
-        List<RaceVo> list = zfManageRaceService.selectZfRaceModelList(raceVo);
+        List<RaceVo> list = studioManageRaceService.selectZfRaceModelList(raceVo);
         ExcelUtil<RaceVo> util = new ExcelUtil<>(RaceVo.class);
         util.exportExcel(response, list, "竞赛记录");
     }

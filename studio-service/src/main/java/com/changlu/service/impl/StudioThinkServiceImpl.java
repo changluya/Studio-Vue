@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.common.utils.DateUtils;
 import com.changlu.mapper.StudioThinkMapper;
 import com.changlu.security.util.SecurityUtils;
-import com.changlu.service.ZfThinkService;
+import com.changlu.service.StudioThinkService;
 import com.changlu.system.pojo.StudioThinkModel;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfThinkServiceImpl extends ServiceImpl<StudioThinkMapper, StudioThinkModel> implements ZfThinkService {
+public class StudioThinkServiceImpl extends ServiceImpl<StudioThinkMapper, StudioThinkModel> implements StudioThinkService {
 
     @Resource
     private StudioThinkMapper zfThinkModelMapper;

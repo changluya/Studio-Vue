@@ -1,7 +1,7 @@
 package com.changlu.web.controller.team;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.service.ZfGradeService;
+import com.changlu.service.SchoolGradeService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.system.pojo.SchoolGradeModel;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -22,7 +22,7 @@ import java.util.List;
 public class GradeController extends BaseController {
 
     @Autowired
-    private ZfGradeService gradeService;
+    private SchoolGradeService gradeService;
 
     /**
      * 查询ZfGrade列表

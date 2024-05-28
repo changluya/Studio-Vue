@@ -13,7 +13,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfThinkService extends IService<StudioThinkModel> {
+public interface StudioThinkService extends IService<StudioThinkModel> {
 
     /**
      * 查询ZfThink列表

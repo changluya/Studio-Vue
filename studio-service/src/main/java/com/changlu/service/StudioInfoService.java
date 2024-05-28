@@ -12,7 +12,7 @@ import java.util.Map;
  * @Description 用户信息提交业务层
  */
 
-public interface ZfInfoService {
+public interface StudioInfoService {
 
     int commitUserInfo(InfoVo infoVo);
 

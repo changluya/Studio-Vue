@@ -4,5 +4,5 @@ module.exports = {
   // 测试环境
   // BASE_URL: '"http://192.168.3.83/api"'
   //生产环境
-  BASE_URL: '"http://43.130.16.188/api"'
+  BASE_URL: '"http://101.43.92.236/api"'
 }

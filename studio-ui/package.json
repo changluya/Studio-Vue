@@ -1,7 +1,7 @@
 {
   "name": "vue2demo",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "实验室系统",
   "author": "changlu <939974883@qq.com>",
   "private": true,
   "scripts": {

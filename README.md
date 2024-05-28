@@ -235,7 +235,7 @@ git clone https://gitee.com/changluJava/studio-vue.git
 
 修改`studio-admin/application-dev`文件中的数据库地址以及连接数据库名称与密码、redis的密码。
 
-②、导入sql/studio.sql
+②、导入sql/studio-init.sql
 
 操作方式：直接导入即可，在sql中已经添加了创建数据库的sql语句了，不用你自己先创建数据库，默认是studio。
 
@@ -379,10 +379,10 @@ grant all privileges on *.* to 'root' @'%' identified by '123456';
 
 ![image-20220925161843160](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925161843160.png)    
 
-+ `studio.sql`：仅仅只有一个用户账号。
++ `studio-init.sql`：仅仅只有一个用户账号。
 + `studio-simple1.sql`：与演示网站的数据一致。
 
-导入`studio.sql`后的效果如下：
+导入`studio-init.sql`后的效果如下：
 
 ![image-20220925151401835](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151401835.png)  
 

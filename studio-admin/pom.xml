@@ -104,6 +104,13 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!--    SpringBoot热更新    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--    工作室—业务模块    -->
         <dependency>
             <groupId>com.changlu</groupId>

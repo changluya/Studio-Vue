@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.SchoolAcademyMapper">
+
+    <resultMap type="com.changlu.system.pojo.SchoolAcademyModel" id="SchoolAcademyResult">
+        <result property="id"    column="id"    />
+        <result property="academyName"    column="academy_name"    />
+    </resultMap>
+
+    <sql id="selectSchoolAcademyVo">
+        select id, academy_name from school_academy
+    </sql>
+
+    <select id="selectSchoolAcademyList" parameterType="com.changlu.system.pojo.SchoolAcademyModel" resultMap="SchoolAcademyResult">
+        <include refid="selectSchoolAcademyVo"/>
+        <where>
+            <if test="academyName != null  and academyName != ''"> and academy_name like concat('%', #{academyName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectSchoolAcademyById" parameterType="Long" resultMap="SchoolAcademyResult">
+        <include refid="selectSchoolAcademyVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSchoolAcademy" parameterType="com.changlu.system.pojo.SchoolAcademyModel" useGeneratedKeys="true" keyProperty="id">
+        insert into school_academy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="academyName != null and academyName != ''">academy_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="academyName != null and academyName != ''">#{academyName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSchoolAcademy" parameterType="com.changlu.system.pojo.SchoolAcademyModel">
+        update school_academy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="academyName != null and academyName != ''">academy_name = #{academyName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolAcademyById" parameterType="Long">
+        delete from school_academy where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolAcademyByIds" parameterType="String">
+        delete from school_academy where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -2,6 +2,10 @@ server:
   port: 8999
 
 spring:
+  # 开启热更新
+  devtools:
+    restart:
+      enabled: true
   # 服务模块
   profiles:
     active: dev

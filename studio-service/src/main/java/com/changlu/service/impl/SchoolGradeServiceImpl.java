@@ -2,7 +2,7 @@ package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.mapper.SchoolGradeMapper;
-import com.changlu.service.ZfGradeService;
+import com.changlu.service.SchoolGradeService;
 import com.changlu.system.pojo.SchoolGradeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfGradeServiceImpl extends ServiceImpl<SchoolGradeMapper, SchoolGradeModel> implements ZfGradeService {
+public class SchoolGradeServiceImpl extends ServiceImpl<SchoolGradeMapper, SchoolGradeModel> implements SchoolGradeService {
 
     @Autowired
     private SchoolGradeMapper gradeMapper;

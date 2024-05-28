@@ -6,8 +6,8 @@ import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.DateUtils;
 import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.security.util.SecurityUtils;
-import com.changlu.service.ZfRaceService;
-import com.changlu.service.ZfResourceService;
+import com.changlu.service.StudioRaceService;
+import com.changlu.service.StudioResourceService;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.ZfRaceTypeEnum;
@@ -29,13 +29,13 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioRaceModel> implements ZfRaceService {
+public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioRaceModel> implements StudioRaceService {
 
     @Resource
     private StudioRaceMapper studioRaceMapper;
 
     @Resource
-    private ZfResourceService zfResourceService;
+    private StudioResourceService studioResourceService;
 
     @Override
     public List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel) {
@@ -88,7 +88,7 @@ public class ZfRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioRaceM
                 return true;
             }
             //2、资源表插入（根据传入的多个资源）
-            boolean result = zfResourceService.insertResources(ZfResourceEnum.RACE_FLAG, raceId, pics);
+            boolean result = studioResourceService.insertResources(ZfResourceEnum.RACE_FLAG, raceId, pics);
             if(result){
                 return true;
             }
@@ -111,14 +111,14 @@ public class ZfRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioRaceM
         if (studioRaceMapper.updateZfRaceModel(raceVo) > 0){
             //2、删除相关竞赛的资源记录
             Long[] raceIds = {raceVo.getRaceId()};//将其设置为竞赛id数组传入（目的是直接复用接口）
-            zfResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
+            studioResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
             //todo 异步去删除远程OSS对象存储的文件
             List<ResourceVo> pics = raceVo.getPics();
             if (pics.size() == 0) {
                 return true;
             }
             //3、重新插入新的竞赛资源记录（注意这里是获取raceVo中的raceId）
-            if (zfResourceService.insertResources(ZfResourceEnum.RACE_FLAG, raceVo.getRaceId(), pics)) {
+            if (studioResourceService.insertResources(ZfResourceEnum.RACE_FLAG, raceVo.getRaceId(), pics)) {
                 return true;
             }
         }
@@ -156,7 +156,7 @@ public class ZfRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioRaceM
 //            for (int i = 0; i < raceIds.length; i++) {
 //                zfResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds[i]);
 //            }
-            zfResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
+            studioResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
             return true;
         }
         return false;

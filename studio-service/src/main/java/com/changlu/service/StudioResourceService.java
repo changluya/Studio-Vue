@@ -15,7 +15,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfResourceService extends IService<StudioResourceModel> {
+public interface StudioResourceService extends IService<StudioResourceModel> {
 
     /**
      * 插入多条资源记录

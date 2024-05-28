@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.mapper.StudioCcieMapper;
 import com.changlu.security.util.SecurityUtils;
-import com.changlu.service.ZfCcieService;
+import com.changlu.service.StudioCcieService;
 import com.changlu.system.pojo.StudioCcieModel;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfCcieServiceImpl extends ServiceImpl<StudioCcieMapper, StudioCcieModel> implements ZfCcieService {
+public class StudioCcieServiceImpl extends ServiceImpl<StudioCcieMapper, StudioCcieModel> implements StudioCcieService {
 
     @Resource
     private StudioCcieMapper studioCcieMapper;

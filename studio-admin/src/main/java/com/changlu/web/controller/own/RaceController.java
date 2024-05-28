@@ -2,7 +2,7 @@ package com.changlu.web.controller.own;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.mapper.StudioMUserMapper;
-import com.changlu.service.ZfRaceService;
+import com.changlu.service.StudioRaceService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.system.pojo.StudioRaceModel;
@@ -25,7 +25,7 @@ import java.util.List;
 public class RaceController extends BaseController {
 
     @Autowired
-    private ZfRaceService raceService;
+    private StudioRaceService raceService;
 
     @Resource
     private StudioMUserMapper studioMUserMapper;

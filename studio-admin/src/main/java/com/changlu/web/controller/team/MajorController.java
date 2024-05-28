@@ -1,7 +1,7 @@
 package com.changlu.web.controller.team;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.service.ZfMajorService;
+import com.changlu.service.SchoolMajorService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.system.pojo.SchoolMajorModel;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -22,7 +22,7 @@ import java.util.List;
 public class MajorController extends BaseController {
 
     @Autowired
-    private ZfMajorService majorService;
+    private SchoolMajorService majorService;
 
     /**
      * 查询ZfMajor列表

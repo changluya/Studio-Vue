@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+        日志输出格式：
+        %-5level：日志等级
+        %d{yyyy-MM-dd HH:mm:ss.SSS}：日期
+        %c：类的完整名称
+        %M：method
+        %L：行号
+        %thread：线程名称
+        %m或者%msg：信息
+        %n：换行
+    -->
+    <!-- 日志文件根目录 -->
+    <!-- 本地服务器配置   -->
+    <property name="log_dir" value="${user.dir}/logs"/>
+    <!-- 服务器配置 -->
+<!--    <property name="log_dir"  value="/tmp/logs"/>-->
+    <!-- 日志打印格式配置   -->
+<!--    <property name="pattern"  value="%-5level %d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n"/>-->
+    <property name="pattern"  value="[%d{'yy-MM-dd HH:mm:ss,SSS',GMT+8:00}] %-5p [%.10t][%X{CU}] %logger{36}[%L] - %m%n"/>
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_COLOR_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %boldYellow([%thread])  %cyan(%logger{15}) %msg%n"/>
+    <property name="LOG_CHARSET" value="UTF-8"/>
+
+    <!--  配置ConsoleAppender  -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--  输出流对象  -->
+        <target>System.err</target>
+        <!--   日志格式配置   -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--   引用上面的键值对及输出的格式   -->
+            <pattern>${CONSOLE_COLOR_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--  日志拆分和归档的appender对象 -->
+    <appender name="StudioFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--  配置文件路径  -->
+        <file>${log_dir}/studio-admin.log</file>
+        <!--  自定义日志格式设置  -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--   指定日志文件拆分与压缩规则     -->
+        <RollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--   通过指定压缩文件名称来确定分割文件方式，这里是设置为年月日
+                   可精确到毫秒：%d{yyyy-MM-dd-hh-mm-ss-SSS}
+            -->
+            <fileNamePattern>${log_dir}/history/studio-admin_%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxHistory>5</maxHistory>
+            <MaxFileSize>128MB</MaxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </RollingPolicy>
+    </appender>
+
+    <!--  定义包层级  -->
+    <logger name="com.changlu" level="all" additivity="false">
+        <appender-ref ref="Console" />
+        <appender-ref ref="StudioFile" />
+    </logger>
+
+    <!--  设置root的日志等级为ALL，以及引用上面的name为console的appender  -->
+    <root level="info">
+        <!--  可设置多个appender  -->
+        <appender-ref ref="Console"/>
+        <appender-ref ref="StudioFile" />
+    </root>
+
+</configuration>

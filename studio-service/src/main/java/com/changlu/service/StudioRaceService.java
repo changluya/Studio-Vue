@@ -14,7 +14,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfRaceService extends IService<StudioRaceModel> {
+public interface StudioRaceService extends IService<StudioRaceModel> {
 
     /**
      * 查询ZfRace

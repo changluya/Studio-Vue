@@ -1,7 +1,7 @@
 package com.changlu.web.controller.own;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.service.ZfCcieService;
+import com.changlu.service.StudioCcieService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -22,7 +22,7 @@ import java.util.List;
 public class CcieController extends BaseController {
 
     @Autowired
-    private ZfCcieService ccieService;
+    private StudioCcieService ccieService;
 
     /**
      * 列表、分页、关键字段搜索

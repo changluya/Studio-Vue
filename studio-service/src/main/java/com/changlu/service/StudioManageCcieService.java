@@ -10,7 +10,7 @@ import java.util.List;
  * @Date 4/7/2022 2:38 PM
  * @Description 管理证书业务接口
  */
-public interface ZfManageCcieService {
+public interface StudioManageCcieService {
 
 
     /**

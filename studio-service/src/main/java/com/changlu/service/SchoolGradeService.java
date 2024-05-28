@@ -13,7 +13,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfGradeService extends IService<SchoolGradeModel> {
+public interface SchoolGradeService extends IService<SchoolGradeModel> {
 
     /**
      * 查询ZfGrade列表

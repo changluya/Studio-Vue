@@ -13,7 +13,7 @@ import java.util.List;
  * @author ChangLu
  * @since 2022-03-30
  */
-public interface ZfMajorService extends IService<SchoolMajorModel> {
+public interface SchoolMajorService extends IService<SchoolMajorModel> {
 
     /**
      * 查询ZfMajor列表

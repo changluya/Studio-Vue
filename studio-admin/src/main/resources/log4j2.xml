@@ -10,6 +10,7 @@
     <!--日志格式: %d: 日期, %thread: 线程名, %level: 日志级别, %logid: 日志id, %point: 日志切点  =>([logid: %X{logid}] [pointcut: %X{pointcut}])
     %class: 日志输出类, %msg: 日志消息, %n: 换行符 -->
     <Property name="log_pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [level: %-5level] [thread: %thread] [class: %class{35} line: %line] - %msg%n"/>
+    <Property name="log_color_pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %boldYellow([%thread])  %cyan(%logger{15}) %msg%n"/>
   </Properties>
 
   <Appenders>
@@ -18,7 +19,7 @@
       <ThresholdFilter level="info" onMatch="ACCEPT"
         onMismatch="DENY"/>
       <PatternLayout
-              pattern="${log_pattern}"/>
+              pattern="${log_color_pattern}"/>
       <param name="Encoding" value="UTF-8"/>
     </Console>
 

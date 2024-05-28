@@ -2,7 +2,7 @@ package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.mapper.StudioResourceMapper;
-import com.changlu.service.ZfResourceService;
+import com.changlu.service.StudioResourceService;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.ZfResourceEnum;
 import com.changlu.system.pojo.StudioResourceModel;
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2022-03-30
  */
 @Service
-public class ZfResourceServiceImpl extends ServiceImpl<StudioResourceMapper, StudioResourceModel> implements ZfResourceService {
+public class StudioResourceServiceImpl extends ServiceImpl<StudioResourceMapper, StudioResourceModel> implements StudioResourceService {
 
     @Resource
     private StudioResourceMapper studioResourceMapper;

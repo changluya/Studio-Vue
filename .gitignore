@@ -11,12 +11,16 @@ out/
 *.ipr
 *.iws
 
+logs/
+
 # 本地测试的yml文件
 application-localdev.yml
 # 本地虚拟机centos测试的yml文件
 application-localdev-centos.yml
 # 测试服务器的yml文件
 application-localpro.yml
+# 仿生实验室的yml配置文件
+application-fsstudio.yml
 
 # 官网的index主页面（部署测试服务器）
 index(pro).html

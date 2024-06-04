@@ -2,11 +2,16 @@ package com.changlu.service.impl;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.changlu.mapper.SchoolGradeMapper;
 import com.changlu.system.pojo.SchoolAcademyModel;
+import com.changlu.system.pojo.SchoolGradeModel;
+import com.changlu.system.pojo.SchoolMajorModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.changlu.mapper.SchoolAcademyMapper;
-import com.changlu.service.ISchoolAcademyService;
+import com.changlu.service.SchoolAcademyService;
 
 /**
  * 学院Service业务层处理
@@ -15,7 +20,7 @@ import com.changlu.service.ISchoolAcademyService;
  * @date 2024-05-28
  */
 @Service
-public class SchoolAcademyServiceImpl implements ISchoolAcademyService {
+public class SchoolAcademyServiceImpl extends ServiceImpl<SchoolAcademyMapper, SchoolAcademyModel> implements SchoolAcademyService {
     @Autowired
     private SchoolAcademyMapper schoolAcademyMapper;
 

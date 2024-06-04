@@ -3,15 +3,13 @@ package com.changlu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.config.Constants;
 import com.changlu.common.domain.LoginBody;
-import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.JwtUtil;
-import com.changlu.common.utils.MapUtil;
 import com.changlu.common.utils.RedisCache;
 import com.changlu.common.utils.RsaUtil;
 import com.changlu.common.utils.uuid.IdUtils;
 import com.changlu.domain.LoginUser;
-import com.changlu.enums.ZfRoleEnum;
+import com.changlu.enums.StudioRoleEnum;
 import com.changlu.security.service.TokenService;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.LoginService;
@@ -140,7 +138,7 @@ public class LoginServiceImpl implements LoginService {
             Long userId = sysUserMapper.getLastInsertId();
             //4、分配用户角色（默认注册时是普通成员）
             List<SysUserRole> userRoles = new ArrayList<>(1);
-            userRoles.add(new SysUserRole(userId, ZfRoleEnum.ROLE_MEMBER.value()));
+            userRoles.add(new SysUserRole(userId, StudioRoleEnum.ROLE_MEMBER.value()));
             return sysUserRoleMapper.batchUserRole(userRoles) > 0;
         }
         throw new ServiceException("注册失败！");

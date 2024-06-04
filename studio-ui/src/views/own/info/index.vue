@@ -14,6 +14,19 @@
           <el-col :span="24">
             <el-row :gutter="15">
               <el-col :span="9">
+                <el-form-item label="学院" prop="majorId">
+                  <el-select v-model="formData.academyId" placeholder="请选择学院" filterable clearable
+                             :style="{width: '100%'}">
+                    <el-option v-for="(item, index) in academyIdOptions" :key="index" :label="item.academyName"
+                               :value="item.id" :disabled="item.disabled"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="24">
+            <el-row :gutter="15">
+              <el-col :span="9">
                 <el-form-item label="专业" prop="majorId">
                   <el-select v-model="formData.majorId" placeholder="请选择专业" filterable clearable
                              :style="{width: '100%'}">
@@ -40,7 +53,7 @@
           <el-col :span="14">
             <el-form-item label="个人介绍" prop="description">
               <el-input v-model="formData.description" type="textarea"
-                        placeholder="简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于工作室官网展示" :maxlength="60" show-word-limit
+                        placeholder="简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于实验室官网-团队页展示" :maxlength="60" show-word-limit
                         :autosize="{minRows: 4, maxRows: 4}" :style="{width: '65%'}"></el-input>
             </el-form-item>
           </el-col>
@@ -95,6 +108,7 @@ export default {
     return {
       formData: {
         realName: undefined,
+        academyId: undefined,
         majorId: undefined,
         gradeId: undefined,
         description: undefined,
@@ -118,7 +132,7 @@ export default {
         }],
         // description: [{
         //   required: true,
-        //   message: '简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于工作室官网展示',
+        //   message: '简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于实验室官网-团队页展示',
         //   trigger: 'blur'
         // }],
         perImg: [{
@@ -129,6 +143,7 @@ export default {
       },
       perImgfileList: [],
       //[{},{}]格式
+      academyIdOptions: [],
       majorIdOptions: [],
       gradeIdOptions: [],
       //上传配置
@@ -192,6 +207,7 @@ export default {
         this.majorIdOptions = results.majors
         this.gradeIdOptions = results.grades
         this.gradeIdOptions.forEach((grade)=>grade.gradeNum = grade.gradeNum + "级")
+        this.academyIdOptions = results.academies
       }).catch(err=>console.log(err))
     },
     getUserInfo(){

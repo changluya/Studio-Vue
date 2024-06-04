@@ -29,15 +29,16 @@ function generateDom(json){
                               </div>
                               <div class="infobox">
                                    <p>${member.realName}</p>
+                                   <p>学院：${member.academyName}</p>
                                    <p>身份：${member.roleName}</p>
                                    <p>专业：${member.majorName}</p>
                               </div>
                          </div>
                          <div class="descbox">
                               <div class="spanbox">
-                                   ${member.description}
+                                   座右铭：${member.description}
                               </div>
-                         </div>
+                         </div> 
                     </div>
                </div>
                `;
@@ -88,13 +89,14 @@ function generateDom2(json){
                               </div>
                               <div class="infobox">
                                    <p>${member.realName}</p>
+                                   <p>学院：${member.academyName}</p>
                                    <p>身份：${member.roleName}</p>
                                    <p>专业：${member.majorName}</p>
                               </div>
                          </div>
                          <div class="descbox">
                               <div class="spanbox">
-                                   ${member.description}
+                                   <b>座右铭：</b> ${member.description}
                               </div>
                          </div>
                     </div>
@@ -110,9 +112,9 @@ function generateDom2(json){
 //本机地址
 // const url = "http://127.0.0.1:8999/api/common/members"
 //仿生实验室
-const url = "http://101.43.92.236/api/common/members"
+// const url = "http://101.43.92.236/api/common/members"
 //本地虚拟机centos地址：
-// const url = "http://localhost:8999/api/common/members"
+const url = "http://localhost:8999/api/common/members"
 //个人开源服务器地址
 //const url = "http://xxx.cn/api/common/members"
 

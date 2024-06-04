@@ -43,6 +43,11 @@ public class ShowUserVo implements Serializable {
     private String majorName;
 
     /**
+     * 学院名
+     */
+    private String academyName;
+
+    /**
      * 描述
      */
     private String description;

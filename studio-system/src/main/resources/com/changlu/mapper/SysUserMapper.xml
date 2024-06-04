@@ -30,10 +30,12 @@
         <result property="majorName"    column="major_name"    />
         <result property="gradeId"    column="grade_id"    />
         <result property="gradeNum"    column="grade_num"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="academyName"    column="academy_name"    />
         <collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
     </resultMap>
 
-    <resultMap id="RoleResult" type="SysRole">
+    <resultMap id="RoleResult" type="com.changlu.system.pojo.SysRole">
         <id     property="roleId"       column="role_id"        />
         <result property="roleName"     column="role_name"      />
         <result property="roleKey"      column="role_key"       />
@@ -187,6 +189,7 @@
             <if test="realName != null">real_name = #{realName},</if>
             <if test="description != null">description = #{description},</if>
             <if test="perImg != null">per_img = #{perImg},</if>
+            <if test="academyId != null">academy_id = #{academyId},</if>
             <if test="majorId != null">major_id = #{majorId},</if>
             <if test="gradeId != null">grade_id = #{gradeId},</if>
         </trim>

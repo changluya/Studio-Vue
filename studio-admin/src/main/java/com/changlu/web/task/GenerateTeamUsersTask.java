@@ -1,10 +1,10 @@
 package com.changlu.web.task;
 
 import com.changlu.common.utils.RedisCache;
-import com.changlu.config.ZfConstant;
+import com.changlu.config.StudioConstant;
 import com.changlu.mapper.StudioMUserMapper;
 import com.changlu.vo.ShowUserVo;
-import com.changlu.enums.ZfRoleEnum;
+import com.changlu.enums.StudioRoleEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class GenerateTeamUsersTask {
     public void doGenerateTask(){
         log.info(Thread.currentThread().getName()+ "commitUserInfo");
         List<Map> result = doGenerateTeamUsers();
-        redisCache.setCacheObject(ZfConstant.REDIS_MEMBERS_DATA, result, 3, TimeUnit.MINUTES);
+        redisCache.setCacheObject(StudioConstant.REDIS_MEMBERS_DATA, result, 3, TimeUnit.MINUTES);
         log.info("已生成用户信息");
     }
 
@@ -50,12 +50,13 @@ public class GenerateTeamUsersTask {
     public List<Map> doGenerateTeamUsers() {
         synchronized (this) {
             //得到锁之后需要去缓存中再去尝试查询一次
-            List<Map> result = redisCache.getCacheObject(ZfConstant.REDIS_MEMBERS_DATA);
+            List<Map> result = redisCache.getCacheObject(StudioConstant.REDIS_MEMBERS_DATA);
             //若是能够从缓存中查询到直接返回
             if (result != null) {
                 return result;
             }
             List<ShowUserVo> showUserVos = studioMUserMapper.selectShowUserVoList();
+            //将集合中的null
             //3、构造响应对象
             result = new ArrayList<>(showUserVos.size());
             //构建老师
@@ -70,24 +71,28 @@ public class GenerateTeamUsersTask {
     public void buildTeacherMembers(List<Map> result, List<ShowUserVo> showUserVos){
         //获取到指导老师列表
         List<ShowUserVo> teachers = showUserVos.stream()
-                .filter(user -> user.getRoleName() != null &&user.getRoleName().contains(ZfRoleEnum.ROLE_TEACHER.getName())) //只拿到指导老师
+                .filter(user -> user.getRoleName() != null &&user.getRoleName().contains(StudioRoleEnum.ROLE_TEACHER.getName())) //只拿到指导老师
                 .collect(Collectors.toList());
         if (teachers == null || teachers.size() == 0) {
             return;
         }
         for (ShowUserVo teacher : teachers) {
             if (ObjectUtils.isEmpty(teacher.getRoleName()) || //为空
-                    teacher.getRoleName().contains(String.valueOf(ZfRoleEnum.ROLE_TEACHER.getName())) //包含"指导老师"
+                    teacher.getRoleName().contains(String.valueOf(StudioRoleEnum.ROLE_TEACHER.getName())) //包含"指导老师"
             ) {
-                teacher.setRoleName(ZfRoleEnum.ROLE_TEACHER.getName());
+                teacher.setRoleName(StudioRoleEnum.ROLE_TEACHER.getName());
             }
             //填充null为""
             if (teacher.getMajorName() == null){
                 teacher.setMajorName("");
             }
+            //填充null为""
+            if (teacher.getAcademyName() == null){
+                teacher.setAcademyName("");
+            }
         }
         Map<String, Object> teacherGroup = new HashMap<>(1);
-        teacherGroup.put("grade", ZfRoleEnum.ROLE_TEACHER.getName());
+        teacherGroup.put("grade", StudioRoleEnum.ROLE_TEACHER.getName());
         teacherGroup.put("members", teachers);
         result.add(teacherGroup);
     }
@@ -96,19 +101,23 @@ public class GenerateTeamUsersTask {
     public void buildStudentMembers(List<Map> result, List<ShowUserVo> showUserVos){
         //1、对user字段进行替换（学生）
         List<ShowUserVo> studentUserVo = showUserVos.stream()
-                .filter(user -> user.getRoleName() != null && !user.getRoleName().contains(ZfRoleEnum.ROLE_TEACHER.getName())) //去除指导老师
+                .filter(user -> user.getRoleName() != null && !user.getRoleName().contains(StudioRoleEnum.ROLE_TEACHER.getName())) //去除指导老师
                 .collect(Collectors.toList());
         for (ShowUserVo user: studentUserVo) {
             if (ObjectUtils.isEmpty(user.getRoleName())) {
                 user.setRoleName("成员");
                 continue;
             }
-            if (user.getRoleName().contains(String.valueOf(ZfRoleEnum.ROLE_MANAGE.getName()))) {
-                user.setRoleName(ZfRoleEnum.ROLE_MANAGE.getName());
+            if (user.getRoleName().contains(String.valueOf(StudioRoleEnum.ROLE_MANAGE.getName()))) {
+                user.setRoleName(StudioRoleEnum.ROLE_MANAGE.getName());
             }
             //填充null为""
             if (user.getMajorName() == null){
                 user.setMajorName("");
+            }
+            //填充null为""
+            if (user.getAcademyName() == null){
+                user.setAcademyName("");
             }
         }
         //2、根据年级进行分组以及降序处理
@@ -136,7 +145,7 @@ public class GenerateTeamUsersTask {
     public static List<ShowUserVo> sortedByRole(List<ShowUserVo> members) {
         for (int i = 0; i < members.size(); i++) {
             ShowUserVo showUserVo = members.get(i);
-            if (showUserVo.getRoleName().contains(ZfRoleEnum.ROLE_MANAGE.getName())) {
+            if (showUserVo.getRoleName().contains(StudioRoleEnum.ROLE_MANAGE.getName())) {
                 ShowUserVo temp = showUserVo;
                 members.set(i, members.get(0));
                 members.set(0, temp);

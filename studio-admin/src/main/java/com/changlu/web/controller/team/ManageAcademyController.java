@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.ExcelUtil;
 import com.changlu.common.utils.page.TableDataInfo;
-import com.changlu.service.ISchoolAcademyService;
+import com.changlu.service.SchoolAcademyService;
 import com.changlu.system.pojo.SchoolAcademyModel;
 import com.changlu.web.controller.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,12 +30,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/team/academy")
 public class ManageAcademyController extends BaseController {
     @Autowired
-    private ISchoolAcademyService schoolAcademyService;
+    private SchoolAcademyService schoolAcademyService;
 
     /**
      * 查询学院列表
      */
-    @PreAuthorize("@ss.hasPermi('team:academy:list')")
+    @PreAuthorize("@ss.hasPerm('team:academy:list')")
     @GetMapping("/list")
     public TableDataInfo list(SchoolAcademyModel schoolAcademy)
     {
@@ -47,7 +47,7 @@ public class ManageAcademyController extends BaseController {
     /**
      * 导出学院列表
      */
-    @PreAuthorize("@ss.hasPermi('team:academy:export')")
+    @PreAuthorize("@ss.hasPerm('team:academy:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SchoolAcademyModel schoolAcademy)
     {
@@ -59,7 +59,7 @@ public class ManageAcademyController extends BaseController {
     /**
      * 获取学院详细信息
      */
-    @PreAuthorize("@ss.hasPermi('team:academy:query')")
+    @PreAuthorize("@ss.hasPerm('team:academy:query')")
     @GetMapping(value = "/{id}")
     public ResponseResult getInfo(@PathVariable("id") Long id)
     {
@@ -69,7 +69,7 @@ public class ManageAcademyController extends BaseController {
     /**
      * 新增学院
      */
-    @PreAuthorize("@ss.hasPermi('team:academy:add')")
+    @PreAuthorize("@ss.hasPerm('team:academy:add')")
     @PostMapping
     public ResponseResult add(@RequestBody SchoolAcademyModel schoolAcademy)
     {
@@ -79,7 +79,7 @@ public class ManageAcademyController extends BaseController {
     /**
      * 修改学院
      */
-    @PreAuthorize("@ss.hasPermi('team:academy:edit')")
+    @PreAuthorize("@ss.hasPerm('team:academy:edit')")
     @PutMapping
     public ResponseResult edit(@RequestBody SchoolAcademyModel schoolAcademy)
     {
@@ -89,7 +89,7 @@ public class ManageAcademyController extends BaseController {
     /**
      * 删除学院
      */
-    @PreAuthorize("@ss.hasPermi('team:academy:remove')")
+    @PreAuthorize("@ss.hasPerm('team:academy:remove')")
 	@DeleteMapping("/{ids}")
     public ResponseResult remove(@PathVariable Long[] ids)
     {

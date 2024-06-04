@@ -3,7 +3,7 @@ package com.changlu.service.impl;
 import com.changlu.common.config.StudioConfig;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.RedisCache;
-import com.changlu.config.ZfConstant;
+import com.changlu.config.StudioConstant;
 import com.changlu.mapper.StudioCcieMapper;
 import com.changlu.mapper.StudioMUserMapper;
 import com.changlu.mapper.StudioThinkMapper;
@@ -19,7 +19,7 @@ import com.changlu.system.pojo.SysUser;
 import com.changlu.system.pojo.SysUserRole;
 import com.changlu.vo.manage.MUserVo;
 import com.changlu.enums.UserStatusEnum;
-import com.changlu.enums.ZfRoleEnum;
+import com.changlu.enums.StudioRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +70,7 @@ public class StudioManageUserServiceImpl implements StudioManageUserService {
         ArrayList<MUserVo> userList = (ArrayList<MUserVo>)list;
         for (int i = 0; i < userList.size(); i++) {
             MUserVo curUserVo = userList.get(i);
-            if (curUserVo.getRoleName().contains(ZfRoleEnum.ROLE_MANAGE.getName())) {
+            if (curUserVo.getRoleName().contains(StudioRoleEnum.ROLE_MANAGE.getName())) {
                 MUserVo temp = curUserVo;
                 list.set(i, list.get(0));
                 list.set(0, temp);
@@ -106,7 +106,7 @@ public class StudioManageUserServiceImpl implements StudioManageUserService {
         sysUser.setMajorId(userVo.getMajorId());
         int res = sysUserService.updateSysUser(sysUser, false);
         //删缓存
-        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);
         return res;
     }
 
@@ -142,18 +142,18 @@ public class StudioManageUserServiceImpl implements StudioManageUserService {
         }
         //1、修改目标对象的角色身份为负责人（新增一条用户_角色记录、新增一条当前负责人身份信息也就是历届负责人）
         List<SysUserRole> userRoles = Arrays.asList(
-                new SysUserRole(targetUserId, ZfRoleEnum.ROLE_MANAGE.value()),   //目标方
-                new SysUserRole(SecurityUtils.getUserId(), ZfRoleEnum.ROLE_PAST_MANAGE.value())  //账号自己
+                new SysUserRole(targetUserId, StudioRoleEnum.ROLE_MANAGE.value()),   //目标方
+                new SysUserRole(SecurityUtils.getUserId(), StudioRoleEnum.ROLE_PAST_MANAGE.value())  //账号自己
         );
         if (sysUserRoleMapper.batchUserRole(userRoles) > 0) {
             //2、删除当前负责人的角色身份（删除用户_角色记录）
-            SysUserRole curUserRole = new SysUserRole(SecurityUtils.getUserId(), ZfRoleEnum.ROLE_MANAGE.value());
+            SysUserRole curUserRole = new SysUserRole(SecurityUtils.getUserId(), StudioRoleEnum.ROLE_MANAGE.value());
             if (sysUserRoleMapper.deleteUserRoleInfo(curUserRole) > 0) {
                 //3、更新当前账号的身份信息
                 SysUser sysUser = new SysUser();
                 sysUserService.updateSysUser(sysUser, true);
                 //4、删除实验室的前台用户缓存
-                redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+                redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);
                 return true;
             }
         }
@@ -183,7 +183,7 @@ public class StudioManageUserServiceImpl implements StudioManageUserService {
      */
     public boolean checkUserIsManage() {
         for (SysRole role : SecurityUtils.getUser().getRoles()) {
-            if (role.getRoleId() != null && role.getRoleId().equals(ZfRoleEnum.ROLE_MANAGE.value())) {
+            if (role.getRoleId() != null && role.getRoleId().equals(StudioRoleEnum.ROLE_MANAGE.value())) {
                 return true;
             }
         }

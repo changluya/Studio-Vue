@@ -1,6 +1,8 @@
 package com.changlu.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.system.pojo.SchoolAcademyModel;
+import com.changlu.system.pojo.SchoolMajorModel;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * @author 长路
  * @date 2024-05-28
  */
-public interface ISchoolAcademyService {
+public interface SchoolAcademyService extends IService<SchoolAcademyModel> {
     /**
      * 查询学院
      *

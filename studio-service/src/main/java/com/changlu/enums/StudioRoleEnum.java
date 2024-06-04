@@ -1,12 +1,12 @@
 package com.changlu.enums;
 
 /**
- * @ClassName ZfRoleEnum
+ * @ClassName StudioRoleEnum
  * @Author ChangLu
  * @Date 4/6/2022 8:44 AM
  * @Description 工作室身份角色枚举
  */
-public enum ZfRoleEnum {
+public enum StudioRoleEnum {
 
     /**
      * ROLE_ADMIN:系统管理员，角色id为1
@@ -24,7 +24,7 @@ public enum ZfRoleEnum {
     private String name;
     private Long roleId;
 
-    ZfRoleEnum(String name, Long roleId){
+    StudioRoleEnum(String name, Long roleId){
         this.name = name;
         this.roleId = roleId;
     }

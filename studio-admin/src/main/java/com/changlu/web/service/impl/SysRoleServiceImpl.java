@@ -4,7 +4,7 @@ import com.changlu.common.constant.UserConstants;
 import com.changlu.common.utils.RedisCache;
 import com.changlu.common.utils.StringUtils;
 import com.changlu.common.utils.spring.SpringUtils;
-import com.changlu.config.ZfConstant;
+import com.changlu.config.StudioConstant;
 import com.changlu.system.mapper.SysRoleMapper;
 import com.changlu.system.mapper.SysRoleMenuMapper;
 import com.changlu.system.mapper.SysUserRoleMapper;
@@ -349,7 +349,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     {
         int res = userRoleMapper.deleteUserRoleInfo(userRole);
         //删前台成员数据缓存
-        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);
         return res;
     }
 
@@ -365,7 +365,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     {
         int res = userRoleMapper.deleteUserRoleInfos(roleId, userIds);
         //删前台成员数据缓存
-        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);
         return res;
     }
 
@@ -391,7 +391,7 @@ public class SysRoleServiceImpl implements ISysRoleService
         }
         int res = userRoleMapper.batchUserRole(list);
         //删前台团队成员的缓存
-        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);
         return res;
     }
 }

@@ -26,6 +26,9 @@ public class InfoVo implements Serializable {
     /** 个人照片 */
     private String perImg;
 
+    /** 学院id */
+    private Long academyId;
+
     /** 专业id */
     private Long majorId;
 

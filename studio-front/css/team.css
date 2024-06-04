@@ -18,11 +18,12 @@
 
 .grade .memberbox{
   border: 2px solid rgb(204, 216, 224);
-  height: 200px;
+  height: 220px;
   border-radius: 5%;
   transition: box-shadow .8 linear 0s;
   margin-bottom: 20px;
   box-shadow: 0px 0px 5px #18d26e;
+  width: 105%;
 }
 
 .grade .memberbox:hover {
@@ -51,7 +52,7 @@
 
 .grade .memberbox .imginfobox .imgbox{
   float: left;
-  width: 47%;
+  width: 51%;
   height: 100%;
   /* border: 1px solid #000; */
   padding: 5% ;
@@ -115,7 +116,7 @@
 
 .grade .memberbox .imginfobox .infobox{
   float: left;
-  width: 53%;
+  width: 49%;
   height: 100%;
   padding: 3% 0 5% 0;
   font-size: 12px;
@@ -144,6 +145,7 @@
   /* 利用放大缩小属性 */
   transform: scale(0.83);
   /* padding: 0 1%; */
+  overflow: hidden;
 }
 
 

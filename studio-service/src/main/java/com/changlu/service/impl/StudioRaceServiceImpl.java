@@ -10,8 +10,8 @@ import com.changlu.service.StudioRaceService;
 import com.changlu.service.StudioResourceService;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.vo.race.ResourceVo;
-import com.changlu.enums.ZfRaceTypeEnum;
-import com.changlu.enums.ZfResourceEnum;
+import com.changlu.enums.StudioRaceTypeEnum;
+import com.changlu.enums.StudioResourceEnum;
 import com.changlu.system.pojo.StudioRaceModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,9 +77,9 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
         // 根据是否设置了UserId来判断个人or团队
         if (raceVo.getRaceMembers() == null){
             raceVo.setRaceMembers(String.valueOf(SecurityUtils.getUserId()));  // 设置用户id
-            raceVo.setRaceFlag(ZfRaceTypeEnum.RACE_TYPE_OWN.value());  // 个人
+            raceVo.setRaceFlag(StudioRaceTypeEnum.RACE_TYPE_OWN.value());  // 个人
         }else {
-            raceVo.setRaceFlag(ZfRaceTypeEnum.RACE_TYPE_TEAM.value());  // 团队
+            raceVo.setRaceFlag(StudioRaceTypeEnum.RACE_TYPE_TEAM.value());  // 团队
         }
         if (studioRaceMapper.insertZfRaceModel(raceVo) > 0) {
             Long raceId = studioRaceMapper.getLastInsertId();//获取新插入比赛记录的id
@@ -88,7 +88,7 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
                 return true;
             }
             //2、资源表插入（根据传入的多个资源）
-            boolean result = studioResourceService.insertResources(ZfResourceEnum.RACE_FLAG, raceId, pics);
+            boolean result = studioResourceService.insertResources(StudioResourceEnum.RACE_FLAG, raceId, pics);
             if(result){
                 return true;
             }
@@ -111,14 +111,14 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
         if (studioRaceMapper.updateZfRaceModel(raceVo) > 0){
             //2、删除相关竞赛的资源记录
             Long[] raceIds = {raceVo.getRaceId()};//将其设置为竞赛id数组传入（目的是直接复用接口）
-            studioResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
+            studioResourceService.deleteResources(StudioResourceEnum.RACE_FLAG, raceIds);
             //todo 异步去删除远程OSS对象存储的文件
             List<ResourceVo> pics = raceVo.getPics();
             if (pics.size() == 0) {
                 return true;
             }
             //3、重新插入新的竞赛资源记录（注意这里是获取raceVo中的raceId）
-            if (studioResourceService.insertResources(ZfResourceEnum.RACE_FLAG, raceVo.getRaceId(), pics)) {
+            if (studioResourceService.insertResources(StudioResourceEnum.RACE_FLAG, raceVo.getRaceId(), pics)) {
                 return true;
             }
         }
@@ -156,7 +156,7 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
 //            for (int i = 0; i < raceIds.length; i++) {
 //                zfResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds[i]);
 //            }
-            studioResourceService.deleteResources(ZfResourceEnum.RACE_FLAG, raceIds);
+            studioResourceService.deleteResources(StudioResourceEnum.RACE_FLAG, raceIds);
             return true;
         }
         return false;

@@ -1,7 +1,10 @@
 package com.changlu.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.changlu.system.pojo.SchoolAcademyModel;
+import com.changlu.system.pojo.StudioCcieModel;
 
 /**
  * 学院Mapper接口
@@ -9,8 +12,7 @@ import com.changlu.system.pojo.SchoolAcademyModel;
  * @author ruoyi
  * @date 2024-05-28
  */
-public interface SchoolAcademyMapper
-{
+public interface SchoolAcademyMapper extends BaseMapper<SchoolAcademyModel> {
     /**
      * 查询学院
      *

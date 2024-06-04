@@ -2,12 +2,10 @@ package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.utils.RedisCache;
-import com.changlu.config.ZfConstant;
+import com.changlu.config.StudioConstant;
 import com.changlu.security.util.SecurityUtils;
-import com.changlu.service.ISysUserService;
-import com.changlu.service.SchoolGradeService;
-import com.changlu.service.StudioInfoService;
-import com.changlu.service.SchoolMajorService;
+import com.changlu.service.*;
+import com.changlu.system.pojo.SchoolAcademyModel;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.vo.InfoVo;
 import com.changlu.system.pojo.SchoolGradeModel;
@@ -37,6 +35,9 @@ public class StudioInfoServiceImpl implements StudioInfoService {
     private SchoolMajorService majorService;
 
     @Autowired
+    private SchoolAcademyService schoolAcademyService;
+
+    @Autowired
     private ISysUserService syUserService;
 
     @Autowired
@@ -48,7 +49,7 @@ public class StudioInfoServiceImpl implements StudioInfoService {
         BeanUtils.copyProperties(infoVo, sysUser);
         int res = syUserService.updateSysUser(sysUser, true);
         //删缓存
-        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);
         return res;
     }
 
@@ -68,8 +69,10 @@ public class StudioInfoServiceImpl implements StudioInfoService {
         gradeQueryWrapper.orderByDesc(SchoolGradeModel::getGradeNum);//按照年级排序
         List<SchoolGradeModel> grades = gradeService.list(gradeQueryWrapper);
         List<SchoolMajorModel> majors = majorService.list();
+        List<SchoolAcademyModel> academies = schoolAcademyService.list();
         result.put("grades",grades);
         result.put("majors",majors);
+        result.put("academies",academies);
         return result;
     }
 }

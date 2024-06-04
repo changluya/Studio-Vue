@@ -3,7 +3,7 @@ package com.changlu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.utils.DateUtils;
 import com.changlu.enums.UserStatusEnum;
-import com.changlu.enums.ZfRaceTypeEnum;
+import com.changlu.enums.StudioRaceTypeEnum;
 import com.changlu.mapper.IndexCountMapper;
 import com.changlu.mapper.StudioCcieMapper;
 import com.changlu.mapper.SchoolMajorMapper;
@@ -57,11 +57,11 @@ public class IndexServiceImpl implements IndexService {
         Integer userCount = this.userMapper.selectCount(userWrapper);
         //2、获取项目总数(团队竞赛)
         LambdaQueryWrapper<StudioRaceModel> teamRaceWrapper = new LambdaQueryWrapper<StudioRaceModel>()
-                .eq(StudioRaceModel::getRaceFlag, ZfRaceTypeEnum.RACE_TYPE_TEAM.value());
+                .eq(StudioRaceModel::getRaceFlag, StudioRaceTypeEnum.RACE_TYPE_TEAM.value());
         Integer projectCount = studioRaceMapper.selectCount(teamRaceWrapper);
         //3、获取竞赛总数(个人竞赛)
         LambdaQueryWrapper<StudioRaceModel> ownRaceWrapper = new LambdaQueryWrapper<StudioRaceModel>()
-                .eq(StudioRaceModel::getRaceFlag, ZfRaceTypeEnum.RACE_TYPE_OWN.value());
+                .eq(StudioRaceModel::getRaceFlag, StudioRaceTypeEnum.RACE_TYPE_OWN.value());
         Integer raceCount = studioRaceMapper.selectCount(ownRaceWrapper);
         //4、获取获奖总数
         Integer ccieCount = studioCcieMapper.selectCount(null);

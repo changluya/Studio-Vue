@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.mapper.StudioResourceMapper;
 import com.changlu.service.StudioResourceService;
 import com.changlu.vo.race.ResourceVo;
-import com.changlu.enums.ZfResourceEnum;
+import com.changlu.enums.StudioResourceEnum;
 import com.changlu.system.pojo.StudioResourceModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class StudioResourceServiceImpl extends ServiceImpl<StudioResourceMapper,
      * @return
      */
     @Override
-    public boolean insertResources(ZfResourceEnum resFlag, Long tableId, List<ResourceVo> pics) {
+    public boolean insertResources(StudioResourceEnum resFlag, Long tableId, List<ResourceVo> pics) {
         //1、批量进行创建对象
         List<StudioResourceModel> resourceModels = new ArrayList<>(pics.size());
         pics.stream().forEach((pic)->{
@@ -52,7 +52,7 @@ public class StudioResourceServiceImpl extends ServiceImpl<StudioResourceMapper,
     }
 
     @Override
-    public int deleteResources(ZfResourceEnum resFlag, Long[] tableIds) {
+    public int deleteResources(StudioResourceEnum resFlag, Long[] tableIds) {
         return studioResourceMapper.deleteResources(String.valueOf(resFlag.value()),tableIds);
     }
 }

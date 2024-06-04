@@ -2,7 +2,7 @@ package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.vo.race.ResourceVo;
-import com.changlu.enums.ZfResourceEnum;
+import com.changlu.enums.StudioResourceEnum;
 import com.changlu.system.pojo.StudioResourceModel;
 
 import java.util.List;
@@ -20,11 +20,11 @@ public interface StudioResourceService extends IService<StudioResourceModel> {
     /**
      * 插入多条资源记录
      */
-    boolean insertResources(ZfResourceEnum resFlag, Long tableId, List<ResourceVo> pics);
+    boolean insertResources(StudioResourceEnum resFlag, Long tableId, List<ResourceVo> pics);
 
     /**
      * 删除指定关联表id的资源记录
      */
-    int deleteResources(ZfResourceEnum resFlag, Long[] tableIds);
+    int deleteResources(StudioResourceEnum resFlag, Long[] tableIds);
 
 }

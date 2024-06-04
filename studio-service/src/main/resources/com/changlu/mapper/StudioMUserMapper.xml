@@ -13,6 +13,7 @@
         <result property="realName"    column="real_name"    />
         <result property="majorId"    column="major_id"    />
         <result property="gradeId"    column="grade_id"    />
+        <result property="academyId"    column="academy_id"    />
         <result property="gradeNum"    column="grade_num"    />
         <result property="roleName"    column="role_name"    />
         <result property="majorName"    column="major_name"    />
@@ -24,6 +25,7 @@
         <result property="realName"    column="real_name"    />
         <result property="gradeNum"    column="grade_num"    />
         <result property="majorName"    column="major_name"    />
+        <result property="academyName"    column="academy_name"    />
         <result property="roleName"    column="role_name"    />
         <result property="perImg"    column="per_img"    />
         <result property="description"    column="description"    />
@@ -35,12 +37,14 @@
             t.real_name, t.description, t.per_img,
             GROUP_CONCAT( t2.role_name ) AS role_name,
             t3.grade_num,
-            t4.major_name
+            t4.major_name,
+            t5.academy_name
         from sys_user t
                  left join sys_user_role t1 on t1.user_id = t.user_id
-                 LEFT JOIN sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表取得角色名称
+                 left join sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表取得角色名称
                  left join school_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
                  left join school_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+                 left join school_academy t5 on t5.id = t.academy_id  -- 左联专业表取得学院
     </sql>
 
     <select id="selectShowUserVoList" resultMap="ShowUserVoResult">

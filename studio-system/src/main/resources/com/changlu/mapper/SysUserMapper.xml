@@ -57,12 +57,14 @@
                t.real_name, t.description, t.per_img,
                t1.role_id, t2.role_name, t2.role_key, t2.role_sort, t2.data_scope, t2.status as role_status,
                t3.grade_id, t3.grade_num,
-               t4.major_id, t4.major_name
+               t4.major_id, t4.major_name,
+               t5.id, t5.academy_name
         from sys_user t
                  left join sys_user_role t1 on t.user_id = t1.user_id
                  left join sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表
                  left join school_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
                  left join school_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+                 left join school_academy t5 on t5.id = t.academy_id  -- 左联专业表取得学院
         where user_name = #{username} and t.status = 0
     </select>
 
@@ -105,6 +107,7 @@
             <if test="perImg != null">per_img,</if>
             <if test="majorId != null">major_id,</if>
             <if test="gradeId != null">grade_id,</if>
+            <if test="academyId != null">academy_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">#{userName},</if>
@@ -129,6 +132,7 @@
             <if test="perImg != null">#{perImg},</if>
             <if test="majorId != null">#{majorId},</if>
             <if test="gradeId != null">#{gradeId},</if>
+            <if test="academyId != null">#{academyId},</if>
         </trim>
     </insert>
 
@@ -192,6 +196,7 @@
             <if test="academyId != null">academy_id = #{academyId},</if>
             <if test="majorId != null">major_id = #{majorId},</if>
             <if test="gradeId != null">grade_id = #{gradeId},</if>
+            <if test="academyId != null">academy_id = #{academyId},</if>
         </trim>
         where user_id = #{userId}
     </update>

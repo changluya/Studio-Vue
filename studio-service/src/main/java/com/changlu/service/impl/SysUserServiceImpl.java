@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,15 +56,15 @@ public class SysUserServiceImpl implements ISysUserService {
             if (updateOwn) {
                 //走数据库，查询一遍最新的用户信息、权限不做查询依旧使用原来的（因为管理员再进行对账号授权时，不会修改对应的缓存）
                 SysUser user = sysUserMapper.loadUserByUsername(SecurityUtils.getUser().getUserName());
-//                List<String> perms = new ArrayList<>();;
-//                if (user.isAdmin()){
-//                    perms.add("*:*:*");
-//                }else{
-//                    perms = sysMenuMapper.selectPermsByUserId(user.getUserId());
-//                }
+                List<String> perms = new ArrayList<>();;
+                if (user.isAdmin()){
+                    perms.add("*:*:*");
+                }else{
+                    perms = sysMenuMapper.selectPermsByUserId(user.getUserId());
+                }
                 //获取最新的权限信息
-                List<String> permissions = sysMenuMapper.selectPermsByUserId(user.getUserId());
-                LoginUser newLoginUser = new LoginUser(user, permissions);
+//                List<String> permissions = sysMenuMapper.selectPermsByUserId(user.getUserId());
+                LoginUser newLoginUser = new LoginUser(user, perms);
                 newLoginUser.setToken(SecurityUtils.getLoginUser().getToken());//token(uuid)依旧是当前用户自身的
                 tokenService.refreshToken(newLoginUser);
             }

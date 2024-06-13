@@ -110,13 +110,13 @@ function generateDom2(json){
 //服务器地址
 //const url = "http://studio.nbdetect.cn/api/common/members"
 //本机地址
-// const url = "http://127.0.0.1:8999/api/common/members"
+const url = "http://127.0.0.1:8999/api/common/members"
 //仿生实验室
 // const url = "http://101.43.92.236/api/common/members"
 //本地虚拟机centos地址：
-const url = "http://localhost:8999/api/common/members"
+// const url = "http://150.158.142.63:8999/api/common/members"
 //个人开源服务器地址
-//const url = "http://xxx.cn/api/common/members"
+// const url = "http://studio.codercl.cn/api/common/members"
 
 window.onload = function () {
      // var url = "./data/data2.json"/*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/

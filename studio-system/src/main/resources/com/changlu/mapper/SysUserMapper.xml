@@ -58,7 +58,7 @@
                t1.role_id, t2.role_name, t2.role_key, t2.role_sort, t2.data_scope, t2.status as role_status,
                t3.grade_id, t3.grade_num,
                t4.major_id, t4.major_name,
-               t5.id, t5.academy_name
+               t.academy_id, t5.academy_name
         from sys_user t
                  left join sys_user_role t1 on t.user_id = t1.user_id
                  left join sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表

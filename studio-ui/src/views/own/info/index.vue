@@ -218,10 +218,12 @@ export default {
         //''是防止用户初始登录时单选框为NaN情况
         const majorId = parseInt(results.majorId) ? parseInt(results.majorId): ''
         const gradeId = parseInt(results.gradeId) ? parseInt(results.gradeId): ''
+        const academyId = parseInt(results.academyId) ? parseInt(results.academyId): ''
         this.formData = {
             realName: results.realName,
             majorId: majorId,
             gradeId: gradeId,
+            academyId: academyId,
             description: results.description,
             perImg: results.perImg
         }

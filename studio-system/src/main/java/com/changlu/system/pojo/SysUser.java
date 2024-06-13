@@ -107,7 +107,7 @@ public class SysUser extends BaseEntity
     private String gradeNum;
 
     /** 学院名称 */
-    private Long academyName;
+    private String academyName;
 
     public SysUser(String username,String nickName, String password){
         this.userName = username;

@@ -34,6 +34,12 @@ export default {
   name: "OSSResourceConfig",
   data() {
     return {
+      //oss服务配置
+      //endpoint：示例：oss-cn-beijing.aliyuncs.com
+      //accessKeyId：OSS申请服务的key
+      //accessKeySecret：OSS申请服务的secret
+      //bucketName：OSS申请服务的secret
+      //key：存储根路径，示例：test/studio
       OSSUploadFormData: {
         endpoint: 'oss-cn-beijing.aliyuncs.com',
         accessKeyId: 'xxxxkey',

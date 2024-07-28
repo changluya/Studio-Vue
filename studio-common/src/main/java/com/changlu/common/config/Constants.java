@@ -39,4 +39,9 @@ public class Constants {
      */
     public static final String ADMIN_PERMISSION = "*:*:*";
 
+    /**
+     * 参数管理 cache key
+     */
+    public static final String SYS_CONFIG_KEY = "sys_config:";
+
 }

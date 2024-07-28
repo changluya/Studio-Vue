@@ -109,6 +109,9 @@ public class SysUser extends BaseEntity
     /** 学院名称 */
     private String academyName;
 
+    /** 额外字段名称，Json字符串 */
+    private String extra;
+
     public SysUser(String username,String nickName, String password){
         this.userName = username;
         this.nickName = nickName;

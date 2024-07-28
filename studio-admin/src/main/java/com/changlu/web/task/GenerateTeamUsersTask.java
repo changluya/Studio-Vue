@@ -7,6 +7,7 @@ import com.changlu.vo.ShowUserVo;
 import com.changlu.enums.StudioRoleEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -72,24 +73,24 @@ public class GenerateTeamUsersTask {
         //获取到指导老师列表
         List<ShowUserVo> teachers = showUserVos.stream()
                 .filter(user -> user.getRoleName() != null &&user.getRoleName().contains(StudioRoleEnum.ROLE_TEACHER.getName())) //只拿到指导老师
+                .map((user)->{
+                    ShowUserVo.ShowTeacherUserVo showTeacherUserVo = new ShowUserVo.ShowTeacherUserVo();
+                    BeanUtils.copyProperties(user, showTeacherUserVo);
+                    return showTeacherUserVo;
+                })
                 .collect(Collectors.toList());
         if (teachers == null || teachers.size() == 0) {
             return;
         }
         for (ShowUserVo teacher : teachers) {
+            //将其转为学生对象
             if (ObjectUtils.isEmpty(teacher.getRoleName()) || //为空
                     teacher.getRoleName().contains(String.valueOf(StudioRoleEnum.ROLE_TEACHER.getName())) //包含"指导老师"
             ) {
                 teacher.setRoleName(StudioRoleEnum.ROLE_TEACHER.getName());
             }
-            //填充null为""
-            if (teacher.getMajorName() == null){
-                teacher.setMajorName("");
-            }
-            //填充null为""
-            if (teacher.getAcademyName() == null){
-                teacher.setAcademyName("");
-            }
+            //统一处理额外属性
+            teacher.buildUserVo();
         }
         Map<String, Object> teacherGroup = new HashMap<>(1);
         teacherGroup.put("grade", StudioRoleEnum.ROLE_TEACHER.getName());
@@ -102,6 +103,11 @@ public class GenerateTeamUsersTask {
         //1、对user字段进行替换（学生）
         List<ShowUserVo> studentUserVo = showUserVos.stream()
                 .filter(user -> user.getRoleName() != null && !user.getRoleName().contains(StudioRoleEnum.ROLE_TEACHER.getName())) //去除指导老师
+                .map((user)->{
+                    ShowUserVo.ShowStudentUserVo showStudentUserVo = new ShowUserVo.ShowStudentUserVo();
+                    BeanUtils.copyProperties(user, showStudentUserVo);
+                    return showStudentUserVo;
+                })
                 .collect(Collectors.toList());
         for (ShowUserVo user: studentUserVo) {
             if (ObjectUtils.isEmpty(user.getRoleName())) {
@@ -111,14 +117,7 @@ public class GenerateTeamUsersTask {
             if (user.getRoleName().contains(String.valueOf(StudioRoleEnum.ROLE_MANAGE.getName()))) {
                 user.setRoleName(StudioRoleEnum.ROLE_MANAGE.getName());
             }
-            //填充null为""
-            if (user.getMajorName() == null){
-                user.setMajorName("");
-            }
-            //填充null为""
-            if (user.getAcademyName() == null){
-                user.setAcademyName("");
-            }
+            user.buildUserVo();
         }
         //2、根据年级进行分组以及降序处理
         //key是年级，根据年级来进行降序排序

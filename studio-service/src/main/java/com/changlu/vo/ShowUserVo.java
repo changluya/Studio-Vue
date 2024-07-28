@@ -83,7 +83,7 @@ public class ShowUserVo implements Serializable {
 
         @Override
         protected void executeBuildUserVo(JSONObject extraJSONObject) {
-            InfoVo.StudentExtra studentExtra = JsonObjectUtil.getUserExtraObjectByKey(extraJSONObject, SysUserExtraConstant.STUDENT_EXTRA, InfoVo.StudentExtra.class);
+            InfoVo.StudentExtra studentExtra = JsonObjectUtil.getJSONObjectByKey(extraJSONObject, SysUserExtraConstant.STUDENT_EXTRA, InfoVo.StudentExtra.class);
             if (studentExtra != null){
                 this.setDirectionType(studentExtra.getDirectionType());
                 this.setDirectionName(studentExtra.getDirectionName());
@@ -100,7 +100,7 @@ public class ShowUserVo implements Serializable {
 
         @Override
         protected void executeBuildUserVo(JSONObject extraJSONObject) {
-            InfoVo.TeacherExtra teacherExtra = JsonObjectUtil.getUserExtraObjectByKey(extraJSONObject, SysUserExtraConstant.TEACHER_EXTRA, InfoVo.TeacherExtra.class);
+            InfoVo.TeacherExtra teacherExtra = JsonObjectUtil.getJSONObjectByKey(extraJSONObject, SysUserExtraConstant.TEACHER_EXTRA, InfoVo.TeacherExtra.class);
             if (teacherExtra != null){
                 this.setTeacherMainHref(teacherExtra.getTeacherMainHref());
             }

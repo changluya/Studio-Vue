@@ -103,12 +103,12 @@ public class StudioInfoServiceImpl implements StudioInfoService {
         JSONObject extraJSONObject = getUserExtraBySerial(SecurityUtils.getUserId());
         //若是角色是老师
         if (infoVo.getRoleNames().contains(StudioRoleEnum.ROLE_TEACHER.getRoleKey())) {
-            InfoVo.TeacherExtra teacherExtra = JsonObjectUtil.getUserExtraObjectByKey(extraJSONObject, SysUserExtraConstant.TEACHER_EXTRA, InfoVo.TeacherExtra.class);
+            InfoVo.TeacherExtra teacherExtra = JsonObjectUtil.getJSONObjectByKey(extraJSONObject, SysUserExtraConstant.TEACHER_EXTRA, InfoVo.TeacherExtra.class);
             teacherExtra = teacherExtra == null ? new InfoVo.TeacherExtra() : teacherExtra;
             ReflectUtils.nullToEmpty(teacherExtra, 1);
             infoVo.setTeacherExtra(teacherExtra);
         }else if (infoVo.getRoleNames().contains(StudioRoleEnum.ROLE_MEMBER.getRoleKey())){
-            InfoVo.StudentExtra studentExtra = JsonObjectUtil.getUserExtraObjectByKey(extraJSONObject, SysUserExtraConstant.STUDENT_EXTRA, InfoVo.StudentExtra.class);
+            InfoVo.StudentExtra studentExtra = JsonObjectUtil.getJSONObjectByKey(extraJSONObject, SysUserExtraConstant.STUDENT_EXTRA, InfoVo.StudentExtra.class);
             studentExtra = studentExtra == null ? new InfoVo.StudentExtra() : studentExtra;
             ReflectUtils.nullToEmpty(studentExtra, 1);
             infoVo.setStudentExtra(studentExtra);

@@ -48,17 +48,17 @@ export default {
     return {
       //simple1:
       // basicFormData: {
-      //   siteTitle: '仿生实验室',
-      //   teamTitle: '仿生实验室',
-      //   teamLogo: 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/8c44b79e-cd18-40ae-8d5a-5e2a0df303b7.png',
+      //   siteTitle: '仿生实验室',  //官网标题
+      //   teamTitle: '仿生实验室',  //团队名称
+      //   teamLogo: 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/8c44b79e-cd18-40ae-8d5a-5e2a0df303b7.png', //团队logo
       //   ISPN: '京公网安备11000002000001号',  // Internet Standard Publish Number：互联网出版备案号
-      //   siteCreateTime: '2016'
+      //   siteCreateTime: '2016'  //网站创建时间
       // },
       basicFormData: {
         siteTitle: '',
         teamTitle: '',
         teamLogo: '',
-        ISPN: '',  // Internet Standard Publish Number：互联网出版备案号
+        ISPN: '',
         siteCreateTime: ''
       },
     }

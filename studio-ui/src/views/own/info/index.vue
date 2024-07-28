@@ -50,10 +50,61 @@
               </el-col>
             </el-row>
           </el-col>
+          <!-- 学生额外字段显示 -->
+          <div v-if="!isTeacher">
+            <el-col :span="24">
+              <el-row :gutter="15">
+                <el-col :span="9">
+                  <el-form-item label="毕业去向" prop="directionType">
+                    <el-select v-model="formData.studentExtra.directionType" placeholder="请选择毕业去向" filterable clearable
+                              :style="{width: '100%'}">
+                      <el-option v-for="(item, index) in directionsIdOptions" :key="index" :label="item.directionType"
+                                :value="item.id" :disabled="item.disabled"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="20">
+              <el-row :gutter="20">
+                <el-col :span="10">
+                  <el-form-item label="去向详情" prop="directionName">
+                    <el-input v-model="formData.studentExtra.directionName" placeholder="输入就业或升学单位，右侧单位logo" clearable :style="{width: '100%'}">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10" class="logoBox">
+                  <el-upload
+                    ref="logoImg"
+                    :file-list="logoImgFileList"
+                    :action="uploadConfig.perImgAction"
+                    :headers="uploadConfig.headers"
+                    :before-upload="perImgBeforeUpload"
+                    :on-success="handleLogoSuccess"
+                    :on-remove="handleRemove"
+                    list-type="picture-card"
+                    accept="image/*"
+                    :limit="1"
+                  >
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                </el-col>
+              </el-row>
+            </el-col>
+          </div>
+          <!-- 老师额外字段展示 -->
+          <div v-else>
+            <el-col :span="14">
+              <el-form-item label="导师主页链接" prop="teacherMainHref">
+                <el-input v-model="formData.teacherExtra.teacherMainHref" placeholder="请填写导师学校个人主页链接" clearable :style="{width: '55%'}">
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </div>
           <el-col :span="14">
             <el-form-item label="个人介绍" prop="description">
               <el-input v-model="formData.description" type="textarea"
-                        placeholder="简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于实验室官网-团队页展示" :maxlength="60" show-word-limit
+                        placeholder="简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于官网-团队页展示" :maxlength="60" show-word-limit
                         :autosize="{minRows: 4, maxRows: 4}" :style="{width: '65%'}"></el-input>
             </el-form-item>
           </el-col>
@@ -71,13 +122,14 @@
                 accept="image/*"
                 :limit="1"
               >
-                <el-image v-if="formData.perImg"
-                  style="width: 150px; height: 150px"
-                  :src="formData.perImg"
-                 >
-                </el-image>
-<!--                <img v-if="formData.perImg" :src="formData.perImg" class="avatar uploadImg" >-->
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+<!--                <el-image v-if="formData.perImg"-->
+<!--                  style="width: 150px; height: 150px"-->
+<!--                  :src="formData.perImg"-->
+<!--                 >-->
+<!--                </el-image>-->
+<!--&lt;!&ndash;                <img v-if="formData.perImg" :src="formData.perImg" class="avatar uploadImg" >&ndash;&gt;-->
+<!--                <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+                <i class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
           </el-col>
@@ -113,6 +165,17 @@ export default {
         gradeId: undefined,
         description: undefined,
         perImg: null,
+        directionName: null,
+        // 学生额外字段：毕业去向、毕业去向详情、入职单位logo
+        studentExtra: {
+          directionType: '',
+          directionName: '',
+          logoImg: null
+        },
+        // 老师额外字段：导师主页链接
+        teacherExtra: {
+          teacherMainHref: ''
+        }
       },
       rules: {
         realName: [{
@@ -142,15 +205,33 @@ export default {
         }],
       },
       perImgfileList: [],
-      //[{},{}]格式
+      logoImgFileList: [],
+      // [{},{}]格式
       academyIdOptions: [],
       majorIdOptions: [],
       gradeIdOptions: [],
-      //上传配置
+      directionsIdOptions: [
+        {
+          id: 1,
+          directionType: '在校'
+        },
+        {
+          id: 2,
+          directionType: '升学'
+        },
+        {
+          id: 2,
+          directionType: '就业'
+        }
+      ],
+      // 校验当前是老师还是学生
+      isTeacher: true,
+      // 上传配置
       uploadConfig: {
-        "perImgAction": '',
-        "headers": ''
+        'perImgAction': '',
+        'headers': ''
       },
+
     }
   },
   computed: {},
@@ -160,7 +241,7 @@ export default {
     this.getMenu()
     //获取用户信息
     this.getUserInfo()
-    console.log("commonConfig=>", commonConfig)
+    // console.log("commonConfig=>", commonConfig)
     //上传配置
     this.uploadConfig = {
       "perImgAction": commonConfig.uploadAction,
@@ -225,8 +306,28 @@ export default {
             gradeId: gradeId,
             academyId: academyId,
             description: results.description,
-            perImg: results.perImg
+            perImg: results.perImg,
+            // 学生额外字段：毕业去向、毕业去向详情、入职单位logo
+            studentExtra: results.studentExtra == null ? {} : results.studentExtra,
+            // 老师额外字段：导师主页链接
+            teacherExtra: results.teacherExtra == null ? {} : results.teacherExtra
         }
+        //校验是否为老师
+        const roleNames = results.roleNames;
+        if (roleNames && roleNames.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)) {
+          this.isTeacher = true;
+        }else {
+          this.isTeacher = false;
+          //去向logo图片处理
+          let logoImg = results.studentExtra.logoImg;
+          if (!isEmpty(logoImg)){
+            this.logoImgFileList.push({
+              name: logoImg.substring(logoImg.lastIndexOf('/') + 1),
+              url: logoImg
+            })
+          }
+        }
+        //个人照片处理
         if (!isEmpty(results.perImg)){
           this.perImgfileList.push({
             name: results.perImg.substring(results.perImg.lastIndexOf('/') + 1),
@@ -242,6 +343,25 @@ export default {
       if (response.code === 200) {
         // console.log('上传成功图片地址：' + response.result)
         this.formData.perImg = response.data.visitUrl
+        this.$message({
+          showClose: true,
+          message: '上传成功',
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: '上传失败',
+          type: 'error'
+        })
+      }
+    },
+    handleLogoSuccess (response, file) {
+      console.log(response)  //响应的结果
+      console.log(file)  //上传的文件信息
+      if (response.code === 200) {
+        // console.log('上传成功图片地址：' + response.result)
+        this.formData.studentExtra.logoImg = response.data.visitUrl
         this.$message({
           showClose: true,
           message: '上传成功',
@@ -285,6 +405,25 @@ export default {
   margin: 16px;
   width: 79%;
   padding: 45px 10px 10px 10px;
+}
+/*logo图片控制ui大小*/
+.logoBox >>> .el-upload--picture-card {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+.logoBox >>> .el-image {
+  width: 100px;
+  height: 100px;
+}
+.logoBox >>> .el-upload-list--picture-card .el-upload-list__item {
+  width: 100px;
+  height: 100px;
+}
+
+.logoBox >>> .el-upload--picture-card i{
+  position: relative;
+  top: -21%;
 }
 .uploadImg{
   max-width: 200px

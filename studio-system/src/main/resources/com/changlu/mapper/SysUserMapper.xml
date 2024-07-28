@@ -82,7 +82,7 @@
             ur.user_id = #{userId}
     </select>
 
-    <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="insertUser" parameterType="com.changlu.system.pojo.SysUser" useGeneratedKeys="true" keyProperty="userId">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name,</if>
@@ -140,7 +140,7 @@
         SELECT LAST_INSERT_ID();
     </select>
 
-    <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
+    <select id="selectAllocatedList" parameterType="com.changlu.system.pojo.SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.user_name, u.real_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -154,7 +154,7 @@
         </if>
     </select>
 
-    <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
+    <select id="selectUnallocatedList" parameterType="com.changlu.system.pojo.SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.user_name,u.real_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -170,7 +170,7 @@
         and (r.role_id != 1 or r.role_id is null) -- 排除掉管理员情况
     </select>
 
-    <update id="updateSysUser" parameterType="SysUser">
+    <update id="updateSysUser" parameterType="com.changlu.system.pojo.SysUser">
         update sys_user
         <trim prefix="SET" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
@@ -197,6 +197,7 @@
             <if test="majorId != null">major_id = #{majorId},</if>
             <if test="gradeId != null">grade_id = #{gradeId},</if>
             <if test="academyId != null">academy_id = #{academyId},</if>
+            <if test="extra != null">extra = #{extra},</if>
         </trim>
         where user_id = #{userId}
     </update>

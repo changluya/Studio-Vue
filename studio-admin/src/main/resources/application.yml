@@ -8,7 +8,7 @@ spring:
       enabled: true
   # 服务模块
   profiles:
-    active: dev
+    active: localdev
   # 文件上传
   servlet:
     multipart:

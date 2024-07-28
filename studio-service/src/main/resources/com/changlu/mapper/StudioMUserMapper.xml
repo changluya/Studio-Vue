@@ -34,7 +34,7 @@
     <!--  查询用户的基本信息：真实姓名、图片、角色名、年级、专业名  -->
     <sql id="selectShowUserVo">
         SELECT
-            t.real_name, t.description, t.per_img,
+            t.real_name, t.description, t.per_img, t.extra,
             GROUP_CONCAT( t2.role_name ) AS role_name,
             t3.grade_num,
             t4.major_name,

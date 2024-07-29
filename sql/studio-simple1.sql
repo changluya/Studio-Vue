@@ -11,7 +11,7 @@
  Target Server Version : 50734
  File Encoding         : 65001
 
- Date: 05/06/2024 07:51:57
+ Date: 29/07/2024 22:25:08
 */
 
 SET NAMES utf8mb4;
@@ -62,19 +62,18 @@ DROP TABLE IF EXISTS `school_major`;
 CREATE TABLE `school_major`  (
   `major_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '专业主键id',
   `major_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '专业名称',
-  `academy_id` bigint(20) NULL DEFAULT NULL COMMENT '学院id',
   PRIMARY KEY (`major_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of school_major
 -- ----------------------------
-INSERT INTO `school_major` VALUES (1, '计算机科学', NULL);
-INSERT INTO `school_major` VALUES (2, '软件工程', NULL);
-INSERT INTO `school_major` VALUES (3, '计算机应用技术', NULL);
-INSERT INTO `school_major` VALUES (4, '物联网技术', NULL);
-INSERT INTO `school_major` VALUES (5, '虚拟现实', NULL);
-INSERT INTO `school_major` VALUES (6, '人工智能', NULL);
+INSERT INTO `school_major` VALUES (1, '计算机科学');
+INSERT INTO `school_major` VALUES (2, '软件工程');
+INSERT INTO `school_major` VALUES (3, '计算机应用技术');
+INSERT INTO `school_major` VALUES (4, '物联网技术');
+INSERT INTO `school_major` VALUES (5, '虚拟现实');
+INSERT INTO `school_major` VALUES (6, '人工智能');
 
 -- ----------------------------
 -- Table structure for studio_ccie
@@ -198,6 +197,79 @@ INSERT INTO `studio_think` VALUES (1, '大学历程', '<p>思考总结...</p>', 
 INSERT INTO `studio_think` VALUES (2, '思考', '<p>所思所想</p>', '2024-05-14 17:05:20', NULL, 1);
 
 -- ----------------------------
+-- Table structure for sys_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_config`;
+CREATE TABLE `sys_config`  (
+  `config_id` int(5) NOT NULL AUTO_INCREMENT COMMENT '参数主键',
+  `config_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数名称',
+  `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数键名',
+  `config_value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数键值',
+  `config_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`config_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_config
+-- ----------------------------
+INSERT INTO `sys_config` VALUES (1, '网站基础配置', 'site.basicConfig', 'ewogICAgICAgIHNpdGVUaXRsZTogJ+S7v+eUn+WunumqjOWupDEnLCAgCiAgICAgICAgdGVhbVRpdGxlOiAn5Lu/55Sf5a6e6aqM5a6kMScsICAKICAgICAgICB0ZWFtTG9nbzogJ2h0dHA6Ly9waWN0dXJlZC1iZWR0ZXN0Lm9zcy1jbi1iZWlqaW5nLmFsaXl1bmNzLmNvbS90ZXN0L3N0dWRpby84YzQ0Yjc5ZS1jZDE4LTQwYWUtOGQ1YS01ZTJhMGRmMzAzYjcucG5nJywKICAgICAgICBJU1BOOiAn5Lqs5YWs572R5a6J5aSHMTEwMDAwMDIwMDAwMDHlj7cnLCAKICAgICAgICBzaXRlQ3JlYXRlVGltZTogJzIwMTcnCiAgICAgIH0=', 'N', 'admin', '2024-07-28 20:01:49', '', '2024-07-28 20:07:18', NULL);
+
+-- ----------------------------
+-- Table structure for sys_dict_data
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_data`;
+CREATE TABLE `sys_dict_data`  (
+  `dict_code` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典编码',
+  `dict_sort` int(4) NULL DEFAULT 0 COMMENT '字典排序',
+  `dict_label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典标签',
+  `dict_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典键值',
+  `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典类型',
+  `css_class` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '样式属性（其他样式扩展）',
+  `list_class` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表格回显样式',
+  `is_default` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'N' COMMENT '是否默认（Y是 N否）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`dict_code`) USING BTREE,
+  INDEX `fk_sys_dict_data_sys_dict_data_1`(`dict_type`) USING BTREE,
+  CONSTRAINT `fk_sys_dict_data_sys_dict_data_1` FOREIGN KEY (`dict_type`) REFERENCES `sys_dict_type` (`dict_type`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_dict_type
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_type`;
+CREATE TABLE `sys_dict_type`  (
+  `dict_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典主键',
+  `dict_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典名称',
+  `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典类型',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`dict_id`) USING BTREE,
+  UNIQUE INDEX `dict_type`(`dict_type`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_type
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -222,7 +294,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -233,11 +305,11 @@ INSERT INTO `sys_menu` VALUES (3, '信息录入', 1, 1, 'info', 'own/info/index'
 INSERT INTO `sys_menu` VALUES (4, '获奖证书', 1, 2, 'ccie', 'own/ccie/index', NULL, 1, 0, 'C', '0', '0', '', 'system', 'admin', '2022-03-28 20:45:09', 'admin', '2022-04-12 11:04:11', '获奖证书菜单');
 INSERT INTO `sys_menu` VALUES (5, '个人竞赛', 1, 3, 'race', 'own/race/index', NULL, 1, 0, 'C', '0', '0', '', 'skill', 'admin', '2022-03-28 20:45:57', 'admin', '2022-04-12 11:04:49', '个人竞赛菜单');
 INSERT INTO `sys_menu` VALUES (6, '个人心得', 1, 4, 'think', 'own/think/index', NULL, 1, 0, 'C', '0', '0', '', 'form', 'admin', '2022-03-28 20:47:23', 'admin', '2022-04-12 11:05:08', '个人心得菜单');
-INSERT INTO `sys_menu` VALUES (7, '专业管理', 2, 1, 'major', 'team/major/index', NULL, 1, 0, 'C', '0', '0', '', 'tool', 'admin', '2022-03-28 22:12:02', 'admin', '2022-04-12 11:05:30', '专业管理菜单');
+INSERT INTO `sys_menu` VALUES (7, '专业管理', 2, 4, 'major', 'team/major/index', NULL, 1, 0, 'C', '0', '0', '', 'tool', 'admin', '2022-03-28 22:12:02', 'admin', '2024-07-23 01:03:25', '专业管理菜单');
 INSERT INTO `sys_menu` VALUES (8, '年级管理', 2, 2, 'grage', 'team/grade/index', NULL, 1, 0, 'C', '0', '0', '', 'job', 'admin', '2022-03-29 22:56:23', 'admin', '2022-04-12 11:06:09', '年级管理菜单');
-INSERT INTO `sys_menu` VALUES (9, '成员管理', 2, 5, 'member', 'team/member/index', NULL, 1, 0, 'C', '0', '0', '', 'peoples', 'admin', '2022-03-29 22:56:25', 'admin', '2022-04-12 11:07:52', '成员管理菜单');
-INSERT INTO `sys_menu` VALUES (10, '证书管理', 2, 4, 'ccies', 'team/ccies/index', NULL, 1, 0, 'C', '0', '0', '', 'system', 'admin', '2022-03-29 22:56:27', 'admin', '2022-04-12 11:07:23', '证书管理菜单');
-INSERT INTO `sys_menu` VALUES (11, '竞赛管理', 2, 3, 'races', 'team/races/index', NULL, 1, 0, 'C', '0', '0', '', 'skill', 'admin', '2022-03-29 22:56:30', 'admin', '2022-04-12 11:06:48', '竞赛管理菜单');
+INSERT INTO `sys_menu` VALUES (9, '成员管理', 2, 7, 'member', 'team/member/index', NULL, 1, 0, 'C', '0', '0', '', 'peoples', 'admin', '2022-03-29 22:56:25', 'admin', '2024-07-23 01:03:08', '成员管理菜单');
+INSERT INTO `sys_menu` VALUES (10, '证书管理', 2, 6, 'ccies', 'team/ccies/index', NULL, 1, 0, 'C', '0', '0', '', 'system', 'admin', '2022-03-29 22:56:27', 'admin', '2024-07-23 01:03:13', '证书管理菜单');
+INSERT INTO `sys_menu` VALUES (11, '竞赛管理', 2, 5, 'races', 'team/races/index', NULL, 1, 0, 'C', '0', '0', '', 'skill', 'admin', '2022-03-29 22:56:30', 'admin', '2024-07-23 01:03:18', '竞赛管理菜单');
 INSERT INTO `sys_menu` VALUES (12, '系统管理', 0, 3, 'system', NULL, NULL, 1, 0, 'M', '0', '0', NULL, 'system', 'admin', '2022-04-10 21:56:17', '', NULL, '系统管理目录');
 INSERT INTO `sys_menu` VALUES (13, '角色管理', 12, 2, 'role', 'system/role/index', NULL, 1, 0, 'C', '0', '0', '', 'peoples', 'admin', '2022-04-10 21:57:23', 'admin', '2022-04-13 08:32:15', '角色管理菜单');
 INSERT INTO `sys_menu` VALUES (14, '菜单管理', 12, 1, 'menu', 'system/menu/index', NULL, 1, 0, 'C', '0', '0', '', 'tree-table', 'admin', '2022-04-11 17:11:00', 'admin', '2022-04-13 08:32:19', '菜单管理菜单');
@@ -303,13 +375,14 @@ INSERT INTO `sys_menu` VALUES (81, '列表查询', 13, 0, '', NULL, NULL, 1, 0, 
 INSERT INTO `sys_menu` VALUES (82, '查询菜单列表', 14, 0, '', NULL, NULL, 1, 0, 'F', '0', '0', 'system:menu:list', '#', 'admin', '2022-04-12 11:08:44', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (83, '获取竞赛的参赛成员信息', 5, 5, '', NULL, NULL, 1, 0, 'F', '0', '0', 'own:race:members', '#', 'admin', '2022-04-12 15:27:22', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (84, '备份数据', 9, 10, '', NULL, NULL, 1, 0, 'F', '0', '0', 'team:member:backup', '#', 'admin', '2022-06-03 09:38:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (85, '学院管理', 2, 0, 'academy', 'team/academy/index', NULL, 1, 0, 'C', '0', '0', '', 'education', 'admin', '2024-05-28 14:57:16', 'admin', '2024-05-29 11:12:43', '学院菜单');
+INSERT INTO `sys_menu` VALUES (85, '学院管理', 2, 3, 'academy', 'team/academy/index', NULL, 1, 0, 'C', '0', '0', '', 'education', 'admin', '2024-05-28 14:57:16', 'admin', '2024-07-23 01:03:30', '学院菜单');
 INSERT INTO `sys_menu` VALUES (86, '学院查询', 85, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'team:academy:query', '#', 'admin', '2024-05-28 14:57:16', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (87, '学院新增', 85, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'team:academy:add', '#', 'admin', '2024-05-28 14:57:16', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (88, '学院修改', 85, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'team:academy:edit', '#', 'admin', '2024-05-28 14:57:16', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (89, '学院删除', 85, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'team:academy:remove', '#', 'admin', '2024-05-28 14:57:16', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (90, '学院导出', 85, 6, '#', '', NULL, 1, 0, 'F', '0', '0', 'team:academy:export', '#', 'admin', '2024-05-28 14:57:16', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (91, '学院列表查询', 85, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'team:academy:list', '#', 'admin', '2024-05-29 10:57:16', 'admin', '2024-05-29 10:57:16', '学院菜单列表查询');
+INSERT INTO `sys_menu` VALUES (92, '网站配置管理', 2, 1, 'site', 'team/site/index', NULL, 1, 0, 'C', '0', '0', '', 'dashboard', 'admin', '2024-07-23 01:02:03', 'admin', '2024-07-23 01:14:18', '');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -638,32 +711,33 @@ CREATE TABLE `sys_user`  (
   `major_id` bigint(20) NULL DEFAULT NULL COMMENT '专业id',
   `grade_id` bigint(20) NULL DEFAULT NULL COMMENT '年级id',
   `academy_id` bigint(20) NULL DEFAULT NULL COMMENT '学院id',
+  `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '额外字段，详情可见模型',
   PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '123', '00', 'cl@163.com', '15888888888', '1', 'http://studio.codercl.xyz/studio/static/5d0b05ed-c3b7-4fa5-a87a-d6f6bb9df6d1.png', '{noop}123', '0', '0', '127.0.0.1', '2022-03-28 19:44:08', 'admin', '2022-03-17 09:22:45', '', '2024-05-30 00:41:26', '管理员', '', '热爱生活，热爱coding...1', '', 2, 3, NULL);
-INSERT INTO `sys_user` VALUES (29, '2020tongxue1', '2020tongxue1', '00', '', '', '0', '', '{bcrypt}$2a$10$tmU.D2KvbgFI/JAciQHvJOd5emZn1QZtdbVNpbP9u/P5mCjUjdF06', '0', '0', '', NULL, '', '2022-06-11 16:06:07', '', '2022-06-13 08:56:36', NULL, '路飞', '骷髅的旗帜,是信念的象征；每个人都有梦想,去实现吧!；我们是伙(同)伴啊!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/9f295c18-c124-4b25-bfde-a385c4286d81.png', 1, 3, NULL);
-INSERT INTO `sys_user` VALUES (30, '2020tongxue2', '2020tongxue2', '00', '', '', '0', '', '{bcrypt}$2a$10$69mpAoGpyBTTyteU60i66OzwYGOoeZns.YpLs8h9WghJyxbaff74O', '0', '0', '', NULL, '', '2022-06-11 16:06:18', '', '2022-06-13 08:56:18', NULL, '龙猫', '心存善意,定能途遇天使；大声地笑出来,就不那么害怕了；没问题的,别担心,一切都会好的', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/de5b8775-1a17-4761-aa7d-9cf78d36e21d.png', 6, 3, NULL);
-INSERT INTO `sys_user` VALUES (31, '2021tongxue1', '2021tongxue1', '00', '', '', '0', '', '{bcrypt}$2a$10$PtSycSpaWNEvzhEd/motMOIPurDZtkpEV2K2d2x0.1kfFGRKhzhiu', '0', '0', '', NULL, '', '2022-06-11 16:06:26', '', '2022-06-13 08:55:56', NULL, '灰太狼', '立志要如山 ,行道要如水。不如山 ,不能坚定;不如水 ,不能曲达', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/97bf7c67-6c39-4330-827d-078cf1391822.png', 5, 2, NULL);
-INSERT INTO `sys_user` VALUES (32, '2021tongxue2', '2021tongxue2', '00', '', '', '0', '', '{bcrypt}$2a$10$RMY/MJE9OCYTSNb37DcsWeIYInxGvNYrDsOW.epvCkigoQjFV2mmm', '0', '0', '', NULL, '', '2022-06-11 16:06:39', '', '2024-05-27 02:27:49', NULL, '柯南', '真相永远只有一个；当然是因为我喜欢你 比地球上任何一个人都喜欢你！人讲的话就像刀刃，要是用错了就会变成棘手的凶器。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/7949d189-3f26-4efc-8997-776cb4c9ddc6.png', 4, 2, NULL);
-INSERT INTO `sys_user` VALUES (33, '2022tongxue1', '2022tongxue1', '00', '', '', '0', '', '{bcrypt}$2a$10$zCQioXgzYA8hRz.IUwuqOO9.TLoZBVlbSUJH1iRL4KM4Kz9Nb3Ow2', '0', '0', '', NULL, '', '2022-06-11 16:06:52', '', '2022-06-13 08:55:16', NULL, '哪吒', '去他个鸟命!我命由我,不由天!是魔是仙,我自己决定!生活你全是泪,越是折腾越倒霉,垂死挣扎你累不累,不如瘫在床上睡', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/2db68433-a646-4cca-94d7-145ec9b121dd.png', 2, 1, NULL);
-INSERT INTO `sys_user` VALUES (34, '2021tongxue3', '2021tongxue3', '00', '', '', '0', '', '{bcrypt}$2a$10$njo41Ttde4szVwxljIztLOHXJjEQ24Bl1zFE8VT.Nx54fy.zBltum', '0', '0', '', NULL, '', '2022-06-11 16:07:03', '', '2022-06-13 08:55:01', NULL, '喜羊羊', '这一次，换我来保护你们吧！有本事来抓我啊！', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/160cf775-4599-4aff-9310-cff551647003.png', 1, 2, NULL);
-INSERT INTO `sys_user` VALUES (35, 'dijia', 'dijia', '00', '', '', '0', '', '{bcrypt}$2a$10$bCR/RZArgtNOm6qLxal65OkgvT5JoG4kkFC.eakMNYPUmpN5/Wcm2', '0', '0', '', NULL, '', '2022-06-11 16:26:37', '', '2022-06-13 08:54:05', NULL, '迪迦', '大古，我感觉我们正失去一些美好的东西，善良温柔体贴——这些属于我们人类美好的本质——好像正慢慢淡化!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/a93b7517-1f38-47ab-abe9-72fd297beccf.png', 2, 4, NULL);
-INSERT INTO `sys_user` VALUES (36, 'yiquanchaoren', 'yiquanchaoren', '00', '', '', '0', '', '{bcrypt}$2a$10$NHa5IjkH.wNnqA2bFfRco.3j2SGgPP3bWt5MCvQqnpvBPhGmkG2pC', '0', '0', '', NULL, '', '2022-06-11 16:28:18', '', '2022-06-13 08:54:23', NULL, '一拳超人', '世界上,没有一拳解决不了的事情。如果有,没有如果；只要你仍是因妥协成就的你,就永远战胜不了因兴趣铸就的我! ', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/beb50ee0-611d-4081-a65d-277c9d2d0b14.png', 2, 4, NULL);
-INSERT INTO `sys_user` VALUES (37, 'xiaozhi', 'xiaozhi', '00', '', '', '0', '', '{bcrypt}$2a$10$VlORBlfCJIA4hYLcgd3aSOcWlwrkZVfmBEsyWeeqR6H/xtaC8ucdO', '0', '0', '', NULL, '', '2022-06-11 16:30:10', '', '2022-06-13 08:54:45', NULL, '小智', '我相信你', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/c7279fb3-7fb0-4ab4-9f1d-e0c51b503845.png', 2, 2, NULL);
-INSERT INTO `sys_user` VALUES (38, 'yingmuhuadao', 'yingmuhuadao', '00', '', '', '0', '', '{bcrypt}$2a$10$7M5pOD/XqTfd1wdbD2eKnOf.3wuxCoxb21V3ofasPWlGQxWLyRUHq', '0', '0', '', NULL, '', '2022-06-11 16:35:08', '', '2022-06-13 08:53:39', NULL, '樱木花道', '本人是天才篮球手樱木花道,看着,看我英勇的姿势!外面明明是春天,而我的心却是寒冬。我的春天来了,我的春天终于来了!我最喜', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/816a00da-8c45-4e4c-a856-026b00242ca7.png', 1, 2, NULL);
-INSERT INTO `sys_user` VALUES (39, 'labixiaoxin', 'labixiaoxin', '00', '', '', '0', '', '{bcrypt}$2a$10$Mf9TBwG9ZDWFa4rlKhYh0eRkb675yolZjW1p2V1i9BBu/WRi81tBC', '0', '0', '', NULL, '', '2022-06-11 16:36:46', '', '2022-06-13 08:53:23', NULL, '蜡笔小新', '大家好!我是野原新之助,大家都叫我小新,我今年五岁,喜欢的颜色是白色,喜欢的内裤图案是动感超人哦!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/8a750268-4227-497b-b106-6b5133c3a713.png', 1, 1, NULL);
-INSERT INTO `sys_user` VALUES (40, 'qianxun', 'qianxun', '00', '', '', '0', '', '{bcrypt}$2a$10$1AKYCdSUIaqyjs3pHLdayewCRprCW4LU7HENlq/D3iICS/Dt0.kOi', '0', '0', '', NULL, '', '2022-06-11 16:38:39', '', '2024-05-26 16:44:32', NULL, '千寻', '不管前方的路有多崎岖，只要方向正确，都比站在原地更接近幸福。曾经发生过的事情不可能忘记，只不过是想不起而已。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/f0e590cf-0895-4776-a5cb-e038a54c0b71.png', 2, 1, NULL);
-INSERT INTO `sys_user` VALUES (41, 'bailong', 'bailong', '00', '', '', '0', '', '{noop}123', '0', '0', '', NULL, '', '2022-06-11 16:40:43', '', '2024-06-01 08:15:26', NULL, '白龙1', '我不知道将去何方,但我已在路上。我们会在原来的世界相遇吗,会的一定会,重要的人就算走到哪里都不会忘记。千万不可以丢失自我', 'http://127.0.0.1:8999/studio/static/40da8d90-a992-4586-bd76-0ddf30253a1a.jpg', 5, 1, 2);
-INSERT INTO `sys_user` VALUES (42, 'mingren', 'mingren', '00', '', '', '0', '', '{bcrypt}$2a$10$GBWwxrzJwfitNZPwyladNuw3e4Fu6MVdctg/x7rtCAJjUaUWR2z.u', '0', '0', '', NULL, '', '2022-06-11 16:42:10', '', '2022-06-13 08:52:37', NULL, '鸣人', '我决定了,从今天起,我要选择一条不会让自己后悔的路。我要创造出属于自己的忍道!你别小看我!我不会临阵脱逃!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/00a92046-6111-446f-bfeb-87da9ff87686.png', 3, 1, NULL);
-INSERT INTO `sys_user` VALUES (43, 'sunwukong', 'sunwukong', '00', '', '', '0', '', '{bcrypt}$2a$10$NCZPA/amp3JHqZpOIN29QOWxRgDqCT9z4K5kJPJN..ZnSe3S.ACrG', '0', '0', '', NULL, '', '2022-06-11 16:44:07', '', '2022-06-13 08:52:03', NULL, '孙悟空', '我是在地球上成长的赛亚人!这就是那个魔人布欧么?好像不怎么强的样子。这家伙我一个人就够了!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/39d94b94-87b0-4498-af7a-f8581b1d5cc2.png', 4, 2, NULL);
-INSERT INTO `sys_user` VALUES (44, 'duolaameng', 'duolaameng', '00', '', '', '0', '', '{bcrypt}$2a$10$aEDy2e2eH5VUhfgMe5eA1ObHRbFAKqdXkXoQnfQDGA84lnxiBj54i', '0', '0', '', NULL, '', '2022-06-11 16:46:32', '', '2022-06-13 08:51:44', NULL, '哆啦a梦', '人的眼睛为什么长在前面？为的就是要你不断的前进，不要总是回想过去的事，应该以明天为目标。梦想是一个天真的词，实现梦想是一', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/afd2223d-e2b6-4af0-9614-7e7289744089.png', 5, 2, NULL);
-INSERT INTO `sys_user` VALUES (45, 'tiejiaxiaobao', 'tiejiaxiaobao', '00', '', '', '0', '', '{noop}123', '0', '0', '', NULL, '', '2022-06-11 16:48:31', '', '2024-05-24 14:00:30', NULL, '铁甲小宝1', '是男人就该默默地工作, 嘿嘿 !绝对不能让你得到和平星。这就是友情的力量。1', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/1b4e014a-6a4c-4c3c-a52f-201e770d4ea4.png', 1, 3, NULL);
-INSERT INTO `sys_user` VALUES (46, 'yixiu', 'yixiu', '00', '', '', '0', '', '{bcrypt}$2a$10$JBAypKNClWhF0l84B0Nax.pahuiBfcra1ea8TBDm6gTLxOKgMW3eG', '0', '0', '', NULL, '', '2022-06-11 16:50:41', '', '2022-06-13 08:50:39', NULL, '一休', '明白了,母亲大人的意思是想提醒我不要自满对吧。不要着急,不要着急,休息,休息一会。我已经吃得饱饱的了,你就别客气了。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/5e988da5-f631-4537-8814-094d8badc61e.png', 4, 2, NULL);
-INSERT INTO `sys_user` VALUES (47, 'changlu', 'changlu', '00', '', '', '0', '', '{bcrypt}$2a$10$sEcpna7ypjEuTR4AxvqY7ua5J4ukFb48nHGmTCeYTkr23FEAbFI9.', '0', '0', '', NULL, '', '2022-06-11 16:52:46', '', '2022-06-13 08:51:04', NULL, '长路', '每个人都是独一无二的，把握好自己的节奏，跟着自己的心走。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/c2d7f120-cb60-47cc-91da-8f55bd2d285c.png', 3, NULL, NULL);
+INSERT INTO `sys_user` VALUES (1, 'admin', '123', '00', 'cl@163.com', '15888888888', '1', 'http://studio.codercl.xyz/studio/static/5d0b05ed-c3b7-4fa5-a87a-d6f6bb9df6d1.png', '{noop}123', '0', '0', '127.0.0.1', '2022-03-28 19:44:08', 'admin', '2022-03-17 09:22:45', '', '2024-07-26 16:13:01', '管理员', '茅津菁', '热爱生活，热爱coding...1', '', 2, 3, NULL, NULL);
+INSERT INTO `sys_user` VALUES (29, '2020tongxue1', '2020tongxue1', '00', '', '', '0', '', '{bcrypt}$2a$10$tmU.D2KvbgFI/JAciQHvJOd5emZn1QZtdbVNpbP9u/P5mCjUjdF06', '0', '0', '', NULL, '', '2022-06-11 16:06:07', '', '2022-06-13 08:56:36', NULL, '路飞', '骷髅的旗帜,是信念的象征；每个人都有梦想,去实现吧!；我们是伙(同)伴啊!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/9f295c18-c124-4b25-bfde-a385c4286d81.png', 1, 3, NULL, NULL);
+INSERT INTO `sys_user` VALUES (30, '2020tongxue2', '2020tongxue2', '00', '', '', '0', '', '{bcrypt}$2a$10$69mpAoGpyBTTyteU60i66OzwYGOoeZns.YpLs8h9WghJyxbaff74O', '0', '0', '', NULL, '', '2022-06-11 16:06:18', '', '2022-06-13 08:56:18', NULL, '龙猫', '心存善意,定能途遇天使；大声地笑出来,就不那么害怕了；没问题的,别担心,一切都会好的', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/de5b8775-1a17-4761-aa7d-9cf78d36e21d.png', 6, 3, NULL, NULL);
+INSERT INTO `sys_user` VALUES (31, '2021tongxue1', '2021tongxue1', '00', '', '', '0', '', '{bcrypt}$2a$10$PtSycSpaWNEvzhEd/motMOIPurDZtkpEV2K2d2x0.1kfFGRKhzhiu', '0', '0', '', NULL, '', '2022-06-11 16:06:26', '', '2022-06-13 08:55:56', NULL, '灰太狼', '立志要如山 ,行道要如水。不如山 ,不能坚定;不如水 ,不能曲达', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/97bf7c67-6c39-4330-827d-078cf1391822.png', 5, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (32, '2021tongxue2', '2021tongxue2', '00', '', '', '0', '', '{bcrypt}$2a$10$RMY/MJE9OCYTSNb37DcsWeIYInxGvNYrDsOW.epvCkigoQjFV2mmm', '0', '0', '', NULL, '', '2022-06-11 16:06:39', '', '2024-05-27 02:27:49', NULL, '柯南', '真相永远只有一个；当然是因为我喜欢你 比地球上任何一个人都喜欢你！人讲的话就像刀刃，要是用错了就会变成棘手的凶器。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/7949d189-3f26-4efc-8997-776cb4c9ddc6.png', 4, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (33, '2022tongxue1', '2022tongxue1', '00', '', '', '0', '', '{bcrypt}$2a$10$zCQioXgzYA8hRz.IUwuqOO9.TLoZBVlbSUJH1iRL4KM4Kz9Nb3Ow2', '0', '0', '', NULL, '', '2022-06-11 16:06:52', '', '2022-06-13 08:55:16', NULL, '哪吒', '去他个鸟命!我命由我,不由天!是魔是仙,我自己决定!生活你全是泪,越是折腾越倒霉,垂死挣扎你累不累,不如瘫在床上睡', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/2db68433-a646-4cca-94d7-145ec9b121dd.png', 2, 1, NULL, NULL);
+INSERT INTO `sys_user` VALUES (34, '2021tongxue3', '2021tongxue3', '00', '', '', '0', '', '{bcrypt}$2a$10$njo41Ttde4szVwxljIztLOHXJjEQ24Bl1zFE8VT.Nx54fy.zBltum', '0', '0', '', NULL, '', '2022-06-11 16:07:03', '', '2022-06-13 08:55:01', NULL, '喜羊羊', '这一次，换我来保护你们吧！有本事来抓我啊！', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/160cf775-4599-4aff-9310-cff551647003.png', 1, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (35, 'dijia', 'dijia', '00', '', '', '0', '', '{bcrypt}$2a$10$bCR/RZArgtNOm6qLxal65OkgvT5JoG4kkFC.eakMNYPUmpN5/Wcm2', '0', '0', '', NULL, '', '2022-06-11 16:26:37', '', '2022-06-13 08:54:05', NULL, '迪迦', '大古，我感觉我们正失去一些美好的东西，善良温柔体贴——这些属于我们人类美好的本质——好像正慢慢淡化!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/a93b7517-1f38-47ab-abe9-72fd297beccf.png', 2, 4, NULL, NULL);
+INSERT INTO `sys_user` VALUES (36, 'yiquanchaoren', 'yiquanchaoren', '00', '', '', '0', '', '{bcrypt}$2a$10$NHa5IjkH.wNnqA2bFfRco.3j2SGgPP3bWt5MCvQqnpvBPhGmkG2pC', '0', '0', '', NULL, '', '2022-06-11 16:28:18', '', '2022-06-13 08:54:23', NULL, '一拳超人', '世界上,没有一拳解决不了的事情。如果有,没有如果；只要你仍是因妥协成就的你,就永远战胜不了因兴趣铸就的我! ', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/beb50ee0-611d-4081-a65d-277c9d2d0b14.png', 2, 4, NULL, NULL);
+INSERT INTO `sys_user` VALUES (37, 'xiaozhi', 'xiaozhi', '00', '', '', '0', '', '{bcrypt}$2a$10$VlORBlfCJIA4hYLcgd3aSOcWlwrkZVfmBEsyWeeqR6H/xtaC8ucdO', '0', '0', '', NULL, '', '2022-06-11 16:30:10', '', '2022-06-13 08:54:45', NULL, '小智', '我相信你', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/c7279fb3-7fb0-4ab4-9f1d-e0c51b503845.png', 2, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (38, 'yingmuhuadao', 'yingmuhuadao', '00', '', '', '0', '', '{bcrypt}$2a$10$7M5pOD/XqTfd1wdbD2eKnOf.3wuxCoxb21V3ofasPWlGQxWLyRUHq', '0', '0', '', NULL, '', '2022-06-11 16:35:08', '', '2022-06-13 08:53:39', NULL, '樱木花道', '本人是天才篮球手樱木花道,看着,看我英勇的姿势!外面明明是春天,而我的心却是寒冬。我的春天来了,我的春天终于来了!我最喜', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/816a00da-8c45-4e4c-a856-026b00242ca7.png', 1, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (39, 'labixiaoxin', 'labixiaoxin', '00', '', '', '0', '', '{bcrypt}$2a$10$Mf9TBwG9ZDWFa4rlKhYh0eRkb675yolZjW1p2V1i9BBu/WRi81tBC', '0', '0', '', NULL, '', '2022-06-11 16:36:46', '', '2022-06-13 08:53:23', NULL, '蜡笔小新', '大家好!我是野原新之助,大家都叫我小新,我今年五岁,喜欢的颜色是白色,喜欢的内裤图案是动感超人哦!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/8a750268-4227-497b-b106-6b5133c3a713.png', 1, 1, NULL, NULL);
+INSERT INTO `sys_user` VALUES (40, 'qianxun', 'qianxun', '00', '', '', '0', '', '{bcrypt}$2a$10$1AKYCdSUIaqyjs3pHLdayewCRprCW4LU7HENlq/D3iICS/Dt0.kOi', '0', '0', '', NULL, '', '2022-06-11 16:38:39', '', '2024-05-26 16:44:32', NULL, '千寻', '不管前方的路有多崎岖，只要方向正确，都比站在原地更接近幸福。曾经发生过的事情不可能忘记，只不过是想不起而已。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/f0e590cf-0895-4776-a5cb-e038a54c0b71.png', 2, 1, NULL, NULL);
+INSERT INTO `sys_user` VALUES (41, 'bailong', 'bailong', '00', '', '', '0', '', '{noop}123', '0', '0', '', NULL, '', '2022-06-11 16:40:43', '', '2024-07-14 14:33:01', NULL, '白龙1', '我不知道将去何方,但我已在路上。我们会在原来的世界相遇吗,会的一定会,重要的人就算走到哪里都不会忘记。千万不可以丢失自我', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/55736544-f209-468d-89cf-d9adec9d4cea.jpg', 5, 1, 2, '{\"studentExtra\":{\"logoImg\":\"http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/8c44b79e-cd18-40ae-8d5a-5e2a0df303b7.png\",\"directionType\":\"就业\",\"directionName\":\"杭州玳数科技有限公司\"},\"teacherExtra\":{\"teacherMainHref\":\"https://www.baidu.com/\"}}');
+INSERT INTO `sys_user` VALUES (42, 'mingren', 'mingren', '00', '', '', '0', '', '{bcrypt}$2a$10$GBWwxrzJwfitNZPwyladNuw3e4Fu6MVdctg/x7rtCAJjUaUWR2z.u', '0', '0', '', NULL, '', '2022-06-11 16:42:10', '', '2024-07-13 01:14:11', NULL, '鸣人', '我决定了,从今天起,我要选择一条不会让自己后悔的路。我要创造出属于自己的忍道!你别小看我!我不会临阵脱逃!', '', 2, 1, 2, NULL);
+INSERT INTO `sys_user` VALUES (43, 'sunwukong', 'sunwukong', '00', '', '', '0', '', '{bcrypt}$2a$10$NCZPA/amp3JHqZpOIN29QOWxRgDqCT9z4K5kJPJN..ZnSe3S.ACrG', '0', '0', '', NULL, '', '2022-06-11 16:44:07', '', '2022-06-13 08:52:03', NULL, '孙悟空', '我是在地球上成长的赛亚人!这就是那个魔人布欧么?好像不怎么强的样子。这家伙我一个人就够了!', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/39d94b94-87b0-4498-af7a-f8581b1d5cc2.png', 4, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (44, 'duolaameng', 'duolaameng', '00', '', '', '0', '', '{bcrypt}$2a$10$aEDy2e2eH5VUhfgMe5eA1ObHRbFAKqdXkXoQnfQDGA84lnxiBj54i', '0', '0', '', NULL, '', '2022-06-11 16:46:32', '', '2022-06-13 08:51:44', NULL, '哆啦a梦', '人的眼睛为什么长在前面？为的就是要你不断的前进，不要总是回想过去的事，应该以明天为目标。梦想是一个天真的词，实现梦想是一', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/afd2223d-e2b6-4af0-9614-7e7289744089.png', 5, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (45, 'tiejiaxiaobao', 'tiejiaxiaobao', '00', '', '', '0', '', '{noop}123', '0', '0', '', NULL, '', '2022-06-11 16:48:31', '', '2024-05-24 14:00:30', NULL, '铁甲小宝1', '是男人就该默默地工作, 嘿嘿 !绝对不能让你得到和平星。这就是友情的力量。1', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/1b4e014a-6a4c-4c3c-a52f-201e770d4ea4.png', 1, 3, NULL, NULL);
+INSERT INTO `sys_user` VALUES (46, 'yixiu', 'yixiu', '00', '', '', '0', '', '{bcrypt}$2a$10$JBAypKNClWhF0l84B0Nax.pahuiBfcra1ea8TBDm6gTLxOKgMW3eG', '0', '0', '', NULL, '', '2022-06-11 16:50:41', '', '2022-06-13 08:50:39', NULL, '一休', '明白了,母亲大人的意思是想提醒我不要自满对吧。不要着急,不要着急,休息,休息一会。我已经吃得饱饱的了,你就别客气了。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/5e988da5-f631-4537-8814-094d8badc61e.png', 4, 2, NULL, NULL);
+INSERT INTO `sys_user` VALUES (47, 'changlu', 'changlu', '00', '', '', '0', '', '{bcrypt}$2a$10$sEcpna7ypjEuTR4AxvqY7ua5J4ukFb48nHGmTCeYTkr23FEAbFI9.', '0', '0', '', NULL, '', '2022-06-11 16:52:46', '', '2024-07-14 14:30:16', NULL, '长路', '每个人都是独一无二的，把握好自己的节奏，跟着自己的心走。', 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/c2d7f120-cb60-47cc-91da-8f55bd2d285c.png', 3, NULL, NULL, '{\"teacherExtra\":{\"teacherMainHref\":\"https://baike.baidu.com/item/%E9%83%AD%E9%93%81%E9%93%AE/64453120?fr=ge_ala\"}}');
 
 -- ----------------------------
 -- Table structure for sys_user_role

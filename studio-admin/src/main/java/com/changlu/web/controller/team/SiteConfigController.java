@@ -6,8 +6,13 @@
  */
 package com.changlu.web.controller.team;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.changlu.common.domain.LoginBody;
+import com.changlu.common.domain.ResponseResult;
+import com.changlu.service.SiteConfigService;
+import com.changlu.vo.config.ConfigVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @description  网站配置控制器
@@ -18,8 +23,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/team/site")
 public class SiteConfigController {
 
-    //保存配置（add or update）
+    @Autowired
+    private SiteConfigService siteConfigService;
 
-    //查询配置
+    /**
+     * 新增或编辑网站配置
+     */
+    @PostMapping("/addOrUpdateSiteConfig")
+    public ResponseResult addOrUpdateSiteConfig(@RequestBody ConfigVo configVo){
+        boolean flag = siteConfigService.addOrUpdateSiteConfig(configVo);
+        if (flag) {
+            return ResponseResult.success("success");
+        }else {
+            return ResponseResult.error("保存或配置失败！");
+        }
+    }
+
+    //查询网站配置
+    @GetMapping("/selectConfigValueByConfigKey")
+    public ResponseResult selectConfigValueByConfigKey(@RequestParam("configKey") String configKey){
+        ConfigVo curConfigVo = siteConfigService.selectConfigValueByConfigKey(configKey);
+        return ResponseResult.success(curConfigVo);
+    }
+
 
 }

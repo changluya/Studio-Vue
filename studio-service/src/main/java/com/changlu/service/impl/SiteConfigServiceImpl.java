@@ -1,5 +1,6 @@
 package com.changlu.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.utils.Base64Util;
 import com.changlu.common.utils.JsonObjectUtil;
@@ -37,7 +38,8 @@ public class SiteConfigServiceImpl implements SiteConfigService{
         //0、获取到最基础的id、key以及value
         Long configId = configVo.getConfigId();
         String configKey = configVo.getConfigKey();
-        String configValue = (String) configVo.getConfigValue();
+        //对象转为json字符串
+        String configValue = JSONObject.toJSONString(configVo.getConfigValue());
         int res = 0;
         //1、根据id是否存在来表示新增or更新
         if (configId == null) {

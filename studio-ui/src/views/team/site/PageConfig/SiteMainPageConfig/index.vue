@@ -73,7 +73,7 @@ export default {
     return {
       //表单
       siteMainFormData: {
-        teamDescription: '',
+        teamDescription: '这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！\n工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。\n',
         bannerTableData: [{
           bannerImg: 'https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/071.png',
           mainTitle: '欢迎来到仿生实验室',

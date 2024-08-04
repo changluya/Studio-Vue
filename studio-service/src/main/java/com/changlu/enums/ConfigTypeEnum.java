@@ -6,6 +6,8 @@
  */
 package com.changlu.enums;
 
+import com.changlu.common.config.file.AliyunOssConfig;
+import com.changlu.common.config.file.LocalUploadConfig;
 import com.changlu.vo.config.BasicConfig;
 import com.changlu.vo.config.FooterConfig;
 import com.changlu.vo.config.MainConfig;
@@ -21,16 +23,17 @@ import org.apache.poi.ss.formula.functions.T;
 public enum ConfigTypeEnum {
 
     SITE_BASICCONFIG("网站基础配置", "site.basicConfig", "N", BasicConfig.class),
-    SITE_PAGE_MAINCONFIG("网站主页", "site.page.mainConfig", "N", MainConfig.class),
-    SITE_PAGE_FOOTERCONFIG("网站底部栏目", "site.page.footerConfig", "N", FooterConfig.class),
-    SITE_PAGE_TIMECONFIG("时光轴", "site.page.timeConfig", "N", TimeConfig.class),
-    SITE_UPLOAD_FILE("本地文件上传配置", "site.upload.file", "N", null),
-    SITE_UPLOAD_OSS("oss资源配置", "site.upload.oss", "N", null);
+    SITE_PAGE_MAINCONFIG("网站主页配置", "site.page.mainConfig", "N", MainConfig.class),
+    SITE_PAGE_FOOTERCONFIG("网站底部栏目配置", "site.page.footerConfig", "N", FooterConfig.class),
+    SITE_PAGE_TIMECONFIG("时光轴配置", "site.page.timeConfig", "N", TimeConfig.class),
+    SITE_UPLOAD_OPTION("文件上传配置选项", "site.upload.option", "N", String.class),
+    SITE_UPLOAD_FILE("本地文件上传配置", "site.upload.file", "N", LocalUploadConfig.class),
+    SITE_UPLOAD_OSS("OSS资源上传配置", "site.upload.oss", "N", AliyunOssConfig.class);
 
-    private String configName;
-    private String configKey;
-    private String configType;
-    private Class pojoClazz;
+    private final String configName;
+    private final String configKey;
+    private final String configType;
+    private final Class pojoClazz;
 
     ConfigTypeEnum(String configName, String configKey, String configType, Class pojoClazz) {
         this.configName = configName;

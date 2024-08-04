@@ -6,6 +6,8 @@
  */
 package com.changlu.common.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.changlu.common.exception.ServiceException;
 import org.slf4j.Logger;
@@ -66,8 +68,35 @@ public class JsonObjectUtil {
      * @return Object
      */
     public static Object transferJsonToObjectByBase64(String jsonStr, Class clazz) {
-        //进行base64编码处理，同时转换为指定的对象
-        return JSONObject.parseObject(Base64Util.decodeToStr(jsonStr), clazz);
+        String decodedToStr = Base64Util.decodeToStr(jsonStr);
+        return transferJsonToObject(decodedToStr, clazz);
     }
+
+    /**
+     * 将jsonStr转换为指定class对象
+     * @param jsonStr String
+     * @param clazz Class
+     * @return Object
+     */
+    public static Object transferJsonToObject(String jsonStr, Class clazz) {
+        Object obj = null;
+        try {
+            // 使用Json库解析该json串的形式
+            Object jsonObject = JSON.parse(jsonStr);
+            // 若是JSONArray格式，一般为[] => List，则使用JSONObject.parseArray来进行解析
+            if (jsonObject instanceof JSONArray) {
+                obj = JSONObject.parseArray(jsonObject.toString(), clazz);
+            }else if (jsonObject instanceof String) {
+                obj = jsonObject;
+            }else { //JSONObject格式
+                obj = JSONObject.parseObject(jsonObject.toString(), clazz);
+            }
+        }catch (Exception ex) {
+            log.error(String.format("解析json串：%s => %s 失败！", jsonStr, clazz), ex);
+        }
+        return obj;
+    }
+
+
 
 }

@@ -2,11 +2,13 @@ package com.changlu.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.Base64Util;
 import com.changlu.common.utils.JsonObjectUtil;
 import com.changlu.enums.ConfigTypeEnum;
-import com.changlu.enums.StudioRoleEnum;
+import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.SiteConfigService;
+import com.changlu.service.UploadService;
 import com.changlu.system.mapper.SysConfigMapper;
 import com.changlu.system.pojo.SysConfig;
 import com.changlu.system.service.ISysConfigService;
@@ -14,9 +16,14 @@ import com.changlu.vo.config.ConfigVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @description  网站配置业务类
@@ -27,43 +34,75 @@ import javax.annotation.Resource;
 public class SiteConfigServiceImpl implements SiteConfigService{
 
     private static final Logger log = LoggerFactory.getLogger(SiteConfigServiceImpl.class);
+
     @Autowired
     private ISysConfigService iSysConfigService;
 
     @Resource
     private SysConfigMapper sysConfigMapper;
 
+    @Autowired
+    @Lazy
+    private UploadService uploadService;
+
+    /**
+     * 需要进行连通性测试合集
+     */
+    private static final Set<String> needCheckConnTypes = new HashSet<String>(){
+        {
+            List<String> needs = Arrays.asList(
+                    ConfigTypeEnum.SITE_UPLOAD_OSS.getConfigKey(),
+                    ConfigTypeEnum.SITE_UPLOAD_FILE.getConfigKey()
+            );
+            this.addAll(needs);
+        }
+    };
+
     @Override
     public boolean addOrUpdateSiteConfig(ConfigVo configVo) {
-        //0、获取到最基础的id、key以及value
+        // 0、获取到最基础的id、key以及value
         Long configId = configVo.getConfigId();
         String configKey = configVo.getConfigKey();
-        //对象转为json字符串
+        // 对象转为json字符串
         String configValue = JSONObject.toJSONString(configVo.getConfigValue());
-        int res = 0;
-        //1、根据id是否存在来表示新增or更新
-        if (configId == null) {
-            //1.1、若是configKey不存在，新增
-            if (sysConfigMapper.checkConfigKeyUnique(configKey) == null) {
-                ConfigTypeEnum configTypeEnum = ConfigTypeEnum.getConfigTypeEnum(configKey);
-                if (configTypeEnum == null) {
-                    log.error(String.format("Site相关configKey：%s不存在无法新增！", configKey));
-                    return false;
-                }
-                SysConfig newSysConfig = SysConfig.builder()
-                        .configKey(configKey)
-                        .configName(configTypeEnum.getConfigName())
-                        .configType(configTypeEnum.getConfigType())
-                        .configValue(Base64Util.encode(configValue)).build();
-                newSysConfig.setCreateBy(StudioRoleEnum.ROLE_ADMIN.getRoleKey());
-                //1.2、插入网站配置
-                res = iSysConfigService.insertConfig(newSysConfig);
+        // 针对需要进行连通性测试的配置来进行测试
+        if (needCheckConnTypes.contains(configKey)) {
+            boolean testConRes = uploadService.testConn(false, configVo);
+            if (!testConRes) {
+                throw new ServiceException("请检查配置，测试连通失败！");
             }
+        }
+        int res = 0;
+        //1、根据前端传来的id是否存在来表示新增or更新
+        if (configId == null) {
+            //1.1、新增操作
+            //若是db查询configKey不存在，则不进行重复添加
+            if (sysConfigMapper.checkConfigKeyUnique(configKey) != null) {
+                log.error("已添加过该configKey，无法新增！");
+                throw new ServiceException("已添加过该configKey，无法新增！");
+            }
+            //1.2、若是枚举类不存在，则无法完成新增配置记录
+            ConfigTypeEnum configTypeEnum = ConfigTypeEnum.getConfigTypeEnum(configKey);
+            if (configTypeEnum == null) {
+                log.error(String.format("枚举类configKey：%s不存在无法新增！", configKey));
+                throw new ServiceException(String.format("枚举类configKey：%s不存在无法新增！", configKey));
+            }
+            SysConfig newSysConfig = SysConfig.builder()
+                    .configKey(configKey)
+                    .configName(configTypeEnum.getConfigName())
+                    .configType(configTypeEnum.getConfigType())
+                    .configValue(Base64Util.encode(configValue)).build();
+            String userName = SecurityUtils.getUser().getUserName();
+            newSysConfig.setCreateBy(userName);
+            //1.3、db插入网站配置
+            res = iSysConfigService.insertConfig(newSysConfig);
         }else {
-            //1.1、若是id存在，则更新网站配置
+            //1.1、更新操作
+            String userName = SecurityUtils.getUser().getUserName();
             SysConfig updateSysConfig = SysConfig.builder()
                     .configId(configId)
                     .configValue(Base64Util.encode(configValue)).build();
+            updateSysConfig.setUpdateBy(userName);
             res = iSysConfigService.updateConfig(updateSysConfig);
         }
         return res != 0;
@@ -95,4 +134,5 @@ public class SiteConfigServiceImpl implements SiteConfigService{
         configVo.setConfigValue(JsonObjectUtil.transferJsonToObjectByBase64(jsonStr, pojoClazz));
         return configVo;
     }
+
 }

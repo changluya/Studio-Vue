@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -33,6 +34,17 @@ public class GenerateTeamUsersTask {
 
     @Autowired
     private RedisCache redisCache;
+
+    public static void main(String[] args) {
+        // 创建Timestamp对象
+        Timestamp specificTimestamp = Timestamp.valueOf("2023-08-01 16:48:56");
+
+        // 获取时间戳
+        long timestamp = specificTimestamp.getTime();
+
+        // 打印时间戳
+        System.out.println("Timestamp: " + timestamp);
+    }
 
 //    @PostConstruct  //初始化servlet执行一次
     @Async("taskExecutor")  //执行异步任务

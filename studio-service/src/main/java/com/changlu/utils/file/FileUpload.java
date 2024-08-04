@@ -1,5 +1,6 @@
 package com.changlu.utils.file;
 
+import com.changlu.common.config.file.AliyunOssConfig;
 import com.changlu.common.exception.ServiceCallException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,5 +23,10 @@ public interface FileUpload {
      * 删除单个文件
      */
     void deleteFile(String filename);
+
+    /**
+     * 连通性测试
+     */
+    boolean testConn(boolean defaultConfig, Object config);
 
 }

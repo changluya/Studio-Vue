@@ -6,6 +6,8 @@
  */
 package com.changlu.vo.config;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,15 +26,8 @@ import java.util.List;
 public class TimeConfig implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    class teamTime implements Serializable {
-        private static final long serialVersionUID = 1L;
-        private String year;
-        private String title;
-        private String description;
-    }
-    private List<teamTime> timeTableData;
+    private String year;
+    private String title;
+    private String description;
 
 }

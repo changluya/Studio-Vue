@@ -6,12 +6,10 @@
  */
 package com.changlu.web.controller.team;
 
-import com.changlu.common.domain.LoginBody;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.SiteConfigService;
 import com.changlu.vo.config.ConfigVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,7 +31,7 @@ public class SiteConfigController {
     public ResponseResult addOrUpdateSiteConfig(@RequestBody ConfigVo configVo){
         boolean flag = siteConfigService.addOrUpdateSiteConfig(configVo);
         if (flag) {
-            return ResponseResult.success("success");
+            return ResponseResult.success("保存成功！");
         }else {
             return ResponseResult.error("保存或配置失败！");
         }

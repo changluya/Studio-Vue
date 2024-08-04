@@ -22,5 +22,8 @@ application-localpro.yml
 # 仿生实验室的yml配置文件
 application-fsstudio.yml
 
+# mac的本地配置文件
+application-macdev.yml
+
 # 官网的index主页面（部署测试服务器）
 index(pro).html

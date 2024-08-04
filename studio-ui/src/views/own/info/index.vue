@@ -226,6 +226,7 @@ export default {
       ],
       // 校验当前是老师还是学生
       isTeacher: true,
+      roleKey: '',
       // 上传配置
       uploadConfig: {
         'perImgAction': '',

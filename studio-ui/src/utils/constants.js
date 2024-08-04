@@ -28,6 +28,39 @@ const Roles = {
   }
 }
 
+// 网站配置参数key
+const siteConfigKeys = {
+  SITE_BASICCONFIG: {
+    configName: '网站基础配置',
+    configKey: 'site.basicConfig'
+  },
+  SITE_PAGE_MAINCONFIG: {
+    configName: '网站主页配置',
+    configKey: 'site.page.mainConfig'
+  },
+  SITE_PAGE_FOOTERCONFIG: {
+    configName: '网站底部栏目配置',
+    configKey: 'site.page.footerConfig'
+  },
+  SITE_PAGE_TIMECONFIG: {
+    configName: '时光轴配置',
+    configKey: 'site.page.timeConfig'
+  },
+  SITE_UPLOAD_OPTION: {
+    configName: '文件上传配置选项',
+    configKey: 'site.upload.option'
+  },
+  SITE_UPLOAD_FILE: {
+    configName: '本地文件上传配置',
+    configKey: 'site.upload.file'
+  },
+  SITE_UPLOAD_OSS: {
+    configName: 'OSS资源上传配置',
+    configKey: 'site.upload.oss'
+  }
+}
+
 export const MY_CONSTANT = {
-  Roles
+  Roles,
+  siteConfigKeys
 }

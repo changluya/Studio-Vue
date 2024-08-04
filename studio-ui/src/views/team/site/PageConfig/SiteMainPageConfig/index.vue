@@ -1,8 +1,8 @@
 <template>
-  <el-form ref="SiteMainForm" :model="siteMainFormData" size="medium" label-width="140px">
+  <el-form ref="SiteMainForm" :model="siteMainFormData.configValue" size="medium" label-width="140px">
     <el-form-item>
       <el-button type="danger" size="small" icon="el-icon-edit" @click="editForm">编辑</el-button>
-      <el-button type="success" size="small" icon="el-icon-check" :disabled="!isEdit" @click="saveForm">保存</el-button>
+      <el-button type="success" size="small" icon="el-icon-check" :disabled="!isEdit" @click="submitForm">保存</el-button>
     </el-form-item>
     <el-col :span="24">
       <el-form-item label="关于我们" prop="teamDescription">
@@ -12,7 +12,7 @@
           placeholder="请输入关于我们的介绍..."
           :style="{width: '30%'}"
           :disabled="!isEdit"
-          v-model="siteMainFormData.teamDescription">
+          v-model="siteMainFormData.configValue.teamDescription">
         </el-input>
       </el-form-item>
     </el-col>
@@ -21,7 +21,7 @@
         <template slot-scope="scope">
           <el-table
             ref="singleTable"
-            :data="siteMainFormData.bannerTableData"
+            :data="siteMainFormData.configValue.bannerTableData"
             highlight-current-row
             style="width: 100%">
             <el-table-column
@@ -34,8 +34,8 @@
               label="Banner图"
               width="250">
               <template slot-scope="scope">
-                <ImageUpload
-                  :value="scope.row.bannerImg"
+                <image-upload
+                  v-model="scope.row.bannerImg"
                   :limit="1"
                   :disabled="!isEdit"
                   :tipInfo="'请上传1920x1080分辨率图片官网显示！'"
@@ -67,39 +67,60 @@
 </template>
 
 <script>
+import siteApi from '@/api/team/site'
+import { MY_CONSTANT } from '@/utils/constants'
+
 export default {
-  name: "SiteMainPageConfig",
+  name: 'SiteMainPageConfig',
   data() {
     return {
-      //表单
+      // 表单：simple1
       siteMainFormData: {
-        teamDescription: '这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！\n工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。\n',
-        bannerTableData: [{
-          bannerImg: 'https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/071.png',
-          mainTitle: '欢迎来到仿生实验室',
-          subTitle: '一群志同道合的人，一起奔跑在理想的路上...'
-        },{
-          bannerImg: 'https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/072.png',
-          mainTitle: '关于我们',
-          subTitle: '最好的团队，最好的我们，不负韶华，努力奋斗。'
-        },{
-          bannerImg: 'https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/073.png',
-          mainTitle: '时光轴',
-          subTitle: '时间是温柔的羽毛，把过往的灰尘轻轻弹去。'
-        },{
-          bannerImg: 'https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/074.png',
-          mainTitle: '团队',
-          subTitle: '拍照只需要三秒，可锁住的是我们三年青春，感谢遇见！'
-        }]
+        configId: '',
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAINCONFIG.configKey,
+        configValue: {
+          teamDescription: '',
+          bannerTableData: [{
+            bannerImg: '',
+            mainTitle: '',
+            subTitle: ''
+          },{
+            bannerImg: '',
+            mainTitle: '',
+            subTitle: ''
+          },{
+            bannerImg: '',
+            mainTitle: '',
+            subTitle: ''
+          },{
+            bannerImg: '',
+            mainTitle: '',
+            subTitle: ''
+          }]
+        }
       },
-      //编辑状态
+      // 查询参数
+      queryParams: {
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAINCONFIG.configKey
+      },
+      // 编辑状态
       isEdit: false
     }
   },
   created() {
-    // console.log("SiteMainPageConfig")
+    this.getMainPageConfig()
   },
   methods: {
+    getMainPageConfig() {
+      // console.log('this.queryParams=>', this.queryParams)
+      siteApi.selectConfigValueByConfigKey(this.queryParams).then(data => {
+        if (data.code === 200) {
+          this.siteMainFormData = data.data
+          // console.log('this.basicFormData=>', this.basicFormData)
+        }
+      }).catch(err => console.log(err))
+    },
+    // 编辑表单
     editForm() {
       if (this.isEdit) {
         this.isEdit = false;
@@ -107,14 +128,15 @@ export default {
         this.isEdit = true;
       }
     },
-    saveForm() {
+    submitForm() {
       if (this.isEdit) {
-        this.$message({
-          showClose: true,
-          message: '保存成功',
-          type: 'success'
-        })
-        this.isEdit = false
+        console.log('this.siteMainFormData=>', this.siteMainFormData)
+        siteApi.addOrUpdateSiteConfig(this.siteMainFormData).then(data => {
+          if (data.code === 200) {
+            this.isEdit = false
+            this.$modal.msgSuccess('更新成功！')
+          }
+        }).catch(err => console.log(err))
       }
     }
   }

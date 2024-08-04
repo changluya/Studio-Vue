@@ -51,7 +51,7 @@
             </el-row>
           </el-col>
           <!-- 学生额外字段显示 -->
-          <div v-if="!isTeacher">
+          <div v-if="checkRole('member')">
             <el-col :span="24">
               <el-row :gutter="15">
                 <el-col :span="9">
@@ -93,7 +93,7 @@
             </el-col>
           </div>
           <!-- 老师额外字段展示 -->
-          <div v-else>
+          <div v-else-if="checkRole('teacher')">
             <el-col :span="14">
               <el-form-item label="导师主页链接" prop="teacherMainHref">
                 <el-input v-model="formData.teacherExtra.teacherMainHref" placeholder="请填写导师学校个人主页链接" clearable :style="{width: '55%'}">
@@ -224,8 +224,7 @@ export default {
           directionType: '就业'
         }
       ],
-      // 校验当前是老师还是学生
-      isTeacher: true,
+      // 当前角色
       roleKey: '',
       // 上传配置
       uploadConfig: {
@@ -238,15 +237,15 @@ export default {
   computed: {},
   watch: {},
   created() {
-    //获取菜单信息：专业、年级
+    // 获取菜单信息：专业、年级
     this.getMenu()
-    //获取用户信息
+    // 获取用户信息
     this.getUserInfo()
     // console.log("commonConfig=>", commonConfig)
-    //上传配置
+    // 上传配置
     this.uploadConfig = {
-      "perImgAction": commonConfig.uploadAction,
-      "headers": {
+      perImgAction: commonConfig.uploadAction,
+      headers: {
         'Authorization': 'Bearer ' + getToken()
       }
     }
@@ -254,35 +253,43 @@ export default {
   },
   mounted() {},
   methods: {
+    checkRole(role) {
+      if (role === 'teacher') {
+        return this.roleKey.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)
+      } else if (role === 'member') {
+        return this.roleKey === this.$MY_CONSTANT.Roles.ROLE_MEMBER.roleKey
+      }
+      return true
+    },
     submitForm() {
       // console.log(this.formData)
       // this.$refs['elForm'].validate(valid => {
       //   if (!valid) return
-        //提交信息
-        infoApi.commitUserInfo(this.formData).then(data=>{
-          console.log(data)
-          if (data.code == 200) {
-            //调用插件方法
-            this.$modal.msgSuccess("更新成功！")
-          }
-        }).catch(err=>console.log(err))
+      // 提交信息
+      infoApi.commitUserInfo(this.formData).then(data => {
+        console.log(data)
+        if (data.code === 200) {
+          // 调用插件方法
+          this.$modal.msgSuccess('更新成功！')
+        }
+      }).catch(err => console.log(err))
       // })
     },
     resetForm() {
       this.$refs['elForm'].resetFields()
     },
     perImgBeforeUpload(file) {
-      let isRightSize = file.size / 1024 / 1024 < 10
+      const isRightSize = file.size / 1024 / 1024 < 10
       if (!isRightSize) {
         this.$message.error('文件大小超过 10MB')
       }
-      let isAccept = new RegExp('image/*').test(file.type)
+      const isAccept = new RegExp('image/*').test(file.type)
       if (!isAccept) {
         this.$message.error('应该选择image/*类型的文件')
       }
       return isRightSize && isAccept
     },
-    getMenu(){
+    getMenu() {
       infoApi.getMenu().then(data => {
         // console.log("getMenus:",data)
         let results = data.data
@@ -313,22 +320,24 @@ export default {
             // 老师额外字段：导师主页链接
             teacherExtra: results.teacherExtra == null ? {} : results.teacherExtra
         }
-        //校验是否为老师
-        const roleNames = results.roleNames;
-        if (roleNames && roleNames.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)) {
-          this.isTeacher = true;
-        }else {
-          this.isTeacher = false;
-          //去向logo图片处理
-          let logoImg = results.studentExtra.logoImg;
-          if (!isEmpty(logoImg)){
-            this.logoImgFileList.push({
-              name: logoImg.substring(logoImg.lastIndexOf('/') + 1),
-              url: logoImg
-            })
+        // 校验是否为老师
+        const roleNames = results.roleNames
+        if (roleNames && !roleNames.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)) {
+          // 去向logo图片处理
+          if (results.studentExtra) {
+            const logoImg = results.studentExtra.logoImg;
+            if (!isEmpty(logoImg)) {
+              this.logoImgFileList.push({
+                name: logoImg.substring(logoImg.lastIndexOf('/') + 1),
+                url: logoImg
+              })
+            }
           }
         }
-        //个人照片处理
+        // 获取到当前的角色信息
+        this.roleKey = roleNames
+        console.log('roleKey=>', this.roleKey)
+        // 个人照片处理
         if (!isEmpty(results.perImg)){
           this.perImgfileList.push({
             name: results.perImg.substring(results.perImg.lastIndexOf('/') + 1),

@@ -13,6 +13,8 @@ out/
 
 logs/
 
+upload/
+
 # 本地测试的yml文件
 application-localdev.yml
 # 本地虚拟机centos测试的yml文件

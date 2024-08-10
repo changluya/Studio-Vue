@@ -1,4 +1,4 @@
-package com.changlu.web.controller;
+package com.changlu.web.controller.open.user;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.RedisCache;
@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
  * @Description 常用控制器：用于对外暴露调用接口
  */
 @RestController
-@RequestMapping("/api/common")
-public class CommonController {
+@RequestMapping("/api/open/user")
+public class OpenUserController {
 
     @Autowired
     private RedisCache redisCache;
@@ -29,7 +29,7 @@ public class CommonController {
     @Autowired
     private GenerateTeamUsersTask genTeamUsersTask;
 
-    @GetMapping("/members")
+    @GetMapping("/teamMembers")
     public ResponseResult getMembersInfo(){
         //1、走缓存
         List<Map> result = redisCache.getCacheObject(StudioConstant.REDIS_MEMBERS_DATA);

@@ -63,10 +63,14 @@ jQuery(document).ready(function ($) {
 
   // Header scroll class
   $(window).scroll(function () {
-    if ($(this).scrollTop() > 100) {
-      $('#header').addClass('header-scrolled');
-    } else {
-      $('#header').removeClass('header-scrolled');
+    console.log("window.curPage=>", window.curPage)
+    // 根据当前页面来判断是否需要进行滚动校验
+    if (window.curPage === 'index') {
+      if ($(this).scrollTop() > 100) {
+        $('#header').addClass('header-scrolled');
+      } else {
+        $('#header').removeClass('header-scrolled');
+      }
     }
   });
 

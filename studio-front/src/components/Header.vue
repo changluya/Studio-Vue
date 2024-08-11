@@ -3,17 +3,14 @@
         <header id="header" :class="isScrolled ? 'header-scrolled' : ''">
             <div class="container-fluid">
                 <div id="logo" class="pull-left">
-                <h1><a href="./index.html" class="scrollto">仿生实验室</a></h1>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="#intro"><img src="@/assets/image/logo.png" alt="" title="" /></a>-->
+                <h1><a href="#/index" class="scrollto" v-html="siteConfig.siteTitle"></a></h1>
                 </div>
 
                 <nav id="nav-menu-container">
                 <ul class="nav-menu">
                     <li class="menu-active"><a href="#intro">主页</a></li>
-                    <li><a href="#about">关于我们</a></li>
-                    <!-- <li><a href="#services">服务</a></li> -->
-                    <li><a href="#portfolio">作品</a></li>
+                    <li><a class="tab" v-scroll-to="'#about'" v-on:click="click1">关于我们</a></li>
+                    <li><a class="tab" v-scroll-to="'#portfolio'">作品</a></li>
                     <li><a href="#time" target="_blank">时光轴</a></li>
                     <li><a href="#team" target="_blank">团队</a></li>
                     <!-- <li class="menu-has-children"><a href="">Drop Down</a>
@@ -34,14 +31,62 @@
 </template>
 
 <script>
+
     export default {
         name: 'Header',
         props: {
             isScrolled: {
-                type: Boolean,
+                type: [Boolean, String],
                 default: true
             }
-        }
+        },
+        watch: {
+            isScrolled: {
+                immediate: true, //立即执行观察者函数
+                handler(isScrolled) {
+                    // 检查 isScrolled 是否为字符串，并尝试转换为布尔值
+                    if (typeof isScrolled === 'string') {
+                        try {
+                            // 尝试将字符串转换为布尔值
+                            const boolValue = Boolean(isScrolled);
+                            this.localIsScrolled = boolValue
+                        } catch (error) {
+                            console.log('Error converting isScrolled to boolean:', error)
+                        }
+                    }
+                }
+            }
+        },
+        data() {
+            return {
+                siteConfigParms: {
+                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASICCONFIG.configKey
+                },
+                // 父组件传递值
+                localIsScrolled: this.isScrolled,
+                // 基础配置
+                siteConfig: {
+                    siteTitle: 'xxx团队'
+                }
+            }
+        },
+        created() {
+            this.getSiteConfig();
+        },
+        methods: {
+            getSiteConfig() {
+                this.$getSiteConfig(this.siteConfigParms).then(configValue=>{
+                    this.siteConfig.siteTitle = configValue.siteTitle
+                });
+            },
+            click1() {
+                const anchor = document.getElementById('锚点名称')
+                console.log("anchor=>", anchor)
+                if (anchor) {
+                    anchor.scrollIntoView()
+                }
+            }
+        },
     }
 </script>
 

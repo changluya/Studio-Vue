@@ -8,7 +8,7 @@
     -->
     <el-row>
       <el-button type="danger" size="small" icon="el-icon-edit" @click="editForm">编辑</el-button>
-      <el-button type="success" size="small" icon="el-icon-check" :disabled="!isEdit" @click="saveForm">保存</el-button>
+      <el-button type="success" size="small" icon="el-icon-check" :disabled="!isEdit" @click="submitForm">保存</el-button>
       <el-tooltip class="item" effect="dark" content="鼠标按住下面栏目最左侧按钮可拖拽时间线，最顶部则表示的是最新时间" placement="right-start">
         <el-image
           slot = error
@@ -124,11 +124,12 @@ export default {
       siteApi.selectConfigValueByConfigKey(this.queryParams).then(data => {
         if (data.code === 200) {
           this.timeLineFormData = data.data
-          // console.log('this.basicFormData=>', this.basicFormData)
+          console.log('this.timeLineFormData=>', this.timeLineFormData)
         }
       }).catch(err => console.log(err))
     },
     submitForm() {
+      // console.log('submitForm this.timeLineFormData=>', this.timeLineFormData)
       siteApi.addOrUpdateSiteConfig(this.timeLineFormData).then(data => {
         if (data.code === 200) {
           this.isEdit = false
@@ -137,7 +138,6 @@ export default {
       }).catch(err => console.log(err))
     },
     checkMove(evt) {
-      console.log(evt)
       return true;
     },
     // 开始拖拽事件
@@ -146,7 +146,8 @@ export default {
     },
     //拖拽结束事件
     onEnd() {
-      this.drag=false;
+      if (!this.isEdit)
+        this.submitForm()
     },
     addTime(index) {
       console.log('cur index=>', index)

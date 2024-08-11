@@ -33,4 +33,24 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+import { querySiteConfig } from '@/api/openSiteApi.js'
+// 导出查询网站配置
+export async function getSiteConfig(params) {
+  // console.log("params=>", params)
+  try {
+    let configValue = {}
+    // 阻塞等待该次请求结束
+    await querySiteConfig(params).then((data) => {
+      configValue = data.data.configValue
+    });
+    // console.log(configValue)
+    return configValue;
+  } catch (err) {
+    // 错误处理
+    console.error('Error in getSiteConfig:', err);
+    throw err; // 重新抛出错误，或者根据需要进行错误处理
+  }
+}
+
 export default service;

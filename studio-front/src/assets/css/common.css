@@ -236,6 +236,15 @@ h1, h2, h3, h4, h5, h6 {
   color: #18d26e;
 }
 
+.nav-menu .tab {
+  color: white !important;
+}
+
+.nav-menu .tab:hover {
+  color: #18d26e !important;
+  cursor: pointer;
+}
+
 .nav-menu li:hover > a, .nav-menu > .menu-active > a {
   color: #18d26e;
 }

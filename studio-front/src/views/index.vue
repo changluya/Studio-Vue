@@ -5,22 +5,22 @@
             Intro Section
             ============================-->
             <section id="intro">
-            <div class="intro-container">
-                <el-carousel height="100vh" :interval="5000" arrow="always">
-                    <el-carousel-item v-for="(banner, index) in banners" :key="index">
-                         <el-image :src="banner.bannerImg" style="filter: brightness(0.5);width: 100%;height: 120%;" fit="cover">
-                         </el-image>
-                         <!-- style="height: 500px; width: 600px; position: relative; align-items: center;" -->
-                         <div class="carousel-container">
-                            <div class="carousel-content">
-                                <h2 v-html="banner.mainTitle"></h2>
-                                <p v-html="banner.subTitle"></p>
-                                <a href="./index.html" class="btn-get-started scrollto">Get Started</a>
+                <div class="intro-container">
+                    <el-carousel height="100vh" :interval="5000" arrow="always">
+                        <el-carousel-item v-for="(banner, index) in siteConfig.banners" :key="index">
+                            <el-image :src="banner.bannerImg" style="filter: brightness(0.5);width: 100%;height: 120%;" fit="cover">
+                            </el-image>
+                            <!-- style="height: 500px; width: 600px; position: relative; align-items: center;" -->
+                            <div class="carousel-container">
+                                <div class="carousel-content">
+                                    <h2 v-html="banner.mainTitle"></h2>
+                                    <p v-html="banner.subTitle"></p>
+                                    <a href="./index.html" class="btn-get-started scrollto">Get Started</a>
+                                </div>
                             </div>
-                         </div>
-                    </el-carousel-item>
-                </el-carousel>
-            </div>
+                        </el-carousel-item>
+                    </el-carousel>
+                </div>
             </section>
 
 
@@ -34,8 +34,9 @@
 
                 <header class="section-header">
                     <h3>关于我们</h3>
-                    <p style="margin: 0;">这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！</p>
-                    <p style="margin: 0;">工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。</p>
+                    <p style="white-space: pre-wrap;" v-html="siteConfig.teamDescription"></p>
+                    <!-- <p style="margin: 0;">这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！</p>
+                    <p style="margin: 0;">工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。</p> -->
                 </header>
 
                 <div class="row about-cols">
@@ -417,34 +418,50 @@ export default {
     },
     data() {
         return {
-            banners: [
-                {
-                "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/071.png",
-                "mainTitle": "欢迎来到仿生实验室",
-                "subTitle": "一群志同道合的人，一起奔跑在理想的路上..."
-                },
-                {
-                "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/072.png",
-                "mainTitle": "关于我们",
-                "subTitle": "最好的团队，最好的我们，不负韶华，努力奋斗。"
-                },
-                {
-                "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/073.png",
-                "mainTitle": "时光轴",
-                "subTitle": "时间是温柔的羽毛，把过往的灰尘轻轻弹去。"
-                },
-                {
-                "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/074.png",
-                "mainTitle": "团队",
-                "subTitle": "拍照只需要三秒，可锁住的是我们三年青春，感谢遇见！"
-                }
-            ]
+            siteConfigParms: {
+                configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_MAINCONFIG.configKey
+            },
+            siteConfig: {
+                banners: [
+                    {
+                    "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/071.png",
+                    "mainTitle": "欢迎来到仿生实验室",
+                    "subTitle": "一群志同道合的人，一起奔跑在理想的路上..."
+                    },
+                    {
+                    "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/072.png",
+                    "mainTitle": "关于我们",
+                    "subTitle": "最好的团队，最好的我们，不负韶华，努力奋斗。"
+                    },
+                    {
+                    "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/073.png",
+                    "mainTitle": "时光轴",
+                    "subTitle": "时间是温柔的羽毛，把过往的灰尘轻轻弹去。"
+                    },
+                    {
+                    "bannerImg": "https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2024/074.png",
+                    "mainTitle": "团队",
+                    "subTitle": "拍照只需要三秒，可锁住的是我们三年青春，感谢遇见！"
+                    }
+                ],
+                teamDescription: "这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！\n工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。\n"
+            }
+
         }
     },
     created() {
         console.log("index")
         window.curPage = 'index'
-    }
+        this.$getSiteConfig(this.siteConfigParms).then(configValue=>{
+            // console.log(configValue)
+            this.siteConfig.banners = configValue.bannerTableData
+            this.siteConfig.teamDescription = configValue.teamDescription.replace(/\n/g,'<br />')
+        });
+
+        // this.$router.push({ path: '/index#contact' })
+
+
+    },
 }
 </script>
 

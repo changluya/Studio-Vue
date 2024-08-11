@@ -109,7 +109,7 @@
         methods: {
             getMembers() {
                 queryTeamMembers().then((data) => {
-                    console.log("queryTeamMembers=>", data)
+                    // console.log("queryTeamMembers=>", data)
                     this.gradesMembers = data.data;
                     this.loading = false;
                 }).catch(err=>console.log(err))

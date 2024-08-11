@@ -63,7 +63,7 @@ jQuery(document).ready(function ($) {
 
   // Header scroll class
   $(window).scroll(function () {
-    console.log("window.curPage=>", window.curPage)
+    // console.log("window.curPage=>", window.curPage)
     // 根据当前页面来判断是否需要进行滚动校验
     if (window.curPage === 'index') {
       if ($(this).scrollTop() > 100) {

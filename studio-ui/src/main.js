@@ -65,7 +65,7 @@ Vue.component('ImagePreview', ImagePreview)
 // 全局方法挂载
 Vue.prototype.download = download
 //自定义常量
-Vue.prototype.$MY_CONSTANT = MY_CONSTANT;
+Vue.prototype.$MY_CONSTANT = MY_CONSTANT
 
 // 用于设置页面字体大小
 Vue.use(Element, {

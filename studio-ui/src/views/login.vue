@@ -11,7 +11,7 @@
                   <div class="card-front">
                     <div class="center-wrap">
                       <div class="section text-center" v-on:keyup.enter="login">
-                        <h4 class="mb-4 pb-3">仿生实验室 登录</h4>
+                        <h4 class="mb-4 pb-3"><span v-html="teamTitle"/> 登录</h4>
                         <div class="form-group">
                           <input type="text"  name="username" class="form-style" v-model="loginForm.username" placeholder="请输入用户名" id="username" autocomplete="off">
                           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
@@ -116,6 +116,9 @@ export default {
   },
   // 计算属性，会监听依赖属性值随之变化
   computed: {
+    teamTitle() {
+      return this.$store.state.site.teamTitle
+    }
   },
   // 监控data中的数据变化
   watch: {

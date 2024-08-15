@@ -4,7 +4,10 @@ import { MY_CONSTANT } from '@/utils/constants';
 const site = {
   state: {
     teamLogo: '',
-    teamTitle: ''
+    teamTitle: '',
+    siteTitle: '',
+    ISPN: '',
+    siteCreateTime: ''
   },
 
   mutations: {
@@ -20,7 +23,16 @@ const site = {
     SET_TEAM_TITLE: (state, teamTitle) => {
       document.getElementsByTagName('title')[0].innerText = teamTitle
       state.teamTitle = teamTitle
-    }
+    },
+    SET_SITE_TITLE: (state, siteTitle) => {
+      state.siteTitle = siteTitle
+    },
+    SET_ISPN: (state, ISPN) => {
+      state.ISPN = ISPN
+    },
+    SET_SITE_CREATE_TIME: (state, siteCreateTime) => {
+      state.siteCreateTime = siteCreateTime
+    },
   },
 
   actions: {
@@ -32,10 +44,14 @@ const site = {
       }
       return new Promise((resolve, reject) => {
         querySiteConfig(siteConfigParms).then(res => {
-          console.log('querySiteConfig=>', querySiteConfig)
+          // console.log('querySiteConfig=>', res)
           const configValue = res.data.configValue
           commit('SET_TEAM_LOGO', configValue.teamLogo)
           commit('SET_TEAM_TITLE', configValue.teamTitle)
+          commit('SET_SITE_TITLE', configValue.siteTitle)
+          commit('SET_ISPN', configValue.ispn)
+          // console.log('SET_SITE_CREATE_TIME=>', configValue.siteCreateTime)
+          commit('SET_SITE_CREATE_TIME', configValue.siteCreateTime)
           resolve()
         }).catch(error => {
           reject(error)

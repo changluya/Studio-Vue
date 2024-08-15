@@ -34,10 +34,10 @@
 
         <div class="container">
             <div class="copyright">
-            Copyright  <span v-html="siteConfig.time"/> Studio All rights reserved.
+            Copyright  <span v-html="time"/> Studio All rights reserved.
             </div>
             <div class="copyright" style="padding-top: 10px !important;">
-            <a style="color: white!important;" href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank" v-html="siteConfig.ispn"></a>
+            <a style="color: white!important;" href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank" v-html="ISPN"></a>
             </div>
         </div>
     </footer><!-- #footer -->
@@ -59,10 +59,20 @@
                     briefDescription: "去年在工作室偶然听到其他工作室要做一个官网，接着趁着一时兴起然后也找了个模板来做了一个自己的官网以及一个后台管理系统，当时的后台系统只有一个登录、注册还有一个提交个人信息的页面，主要为了方便展示动态汇总团队成员。该工作室系统主要面向校园工作室，可供个人及工作室团队学习使用。",
                     contactPerson: "长路老师",
                     contactAddress: "xx大学xx大楼xxx层",
-                    contactEmail: "939974883@qq.com",
-                    time: "2021-2024",
-                    ispn: "京公网安备1xxxxxx002000001号"
+                    contactEmail: "939974883@qq.com"
                 }
+            }
+        },
+        computed: {
+            time() {
+                // 获取网站创建时间
+                let createYear = this.$store.state.site.siteCreateTime
+                let curYear = new Date().getFullYear()
+                // 合并为最终网站的历史时间
+                return createYear + '-' + curYear
+            },
+            ISPN() {
+                return this.$store.state.site.ISPN
             }
         },
         created() {
@@ -77,14 +87,6 @@
                     this.siteConfig.contactPerson = configValue.contactPerson
                     this.siteConfig.contactAddress = configValue.contactAddress
                     this.siteConfig.contactEmail = configValue.contactEmail
-                });
-                // 网站基础配置
-                this.$getSiteConfig(this.siteBasicConfigParms).then(configValue=>{
-                    this.siteConfig.ispn = configValue.ispn
-                    // 获取网站创建时间
-                    let createYear = configValue.siteCreateTime
-                    let curYear = new Date().getFullYear()
-                    this.siteConfig.time = createYear + '-' + curYear
                 });
             }
         }

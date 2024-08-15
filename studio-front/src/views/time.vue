@@ -72,6 +72,14 @@
                 }
             }
         },
+        computed: {
+            teamTitle() {
+                return this.$store.state.site.teamTitle
+            },
+            siteCreateTime() {
+                return this.$store.state.site.siteCreateTime + '年'
+            }
+        },
         created() {
             // console.log(this.siteCon.times)
             this.getSiteConfig()
@@ -88,10 +96,6 @@
                         updatedItem.description = updatedItem.description.replace(/\n/g, '<br />');
                         return updatedItem;
                     });
-                });
-                this.$getSiteConfig(this.siteBasicConfigParms).then(configValue=>{
-                    this.siteCon.teamTitle = configValue.teamTitle
-                    this.siteCon.siteCreateTime = configValue.siteCreateTime
                 });
             }
         }

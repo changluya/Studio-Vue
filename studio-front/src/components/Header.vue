@@ -3,13 +3,13 @@
         <header id="header" :class="isScrolled ? 'header-scrolled' : ''">
             <div class="container-fluid">
                 <div id="logo" class="pull-left">
-                <h1><a href="#/index" class="scrollto" v-html="siteConfig.siteTitle"></a></h1>
+                <h1><a href="#/index" class="scrollto" v-html="siteTitle"></a></h1>
                 </div>
 
                 <nav id="nav-menu-container">
                 <ul class="nav-menu">
                     <li class="menu-active"><a href="#intro">主页</a></li>
-                    <li><a class="tab" v-scroll-to="'#about'" v-on:click="click1">关于我们</a></li>
+                    <li><a class="tab" v-scroll-to="'#about'">关于我们</a></li>
                     <li><a class="tab" v-scroll-to="'#portfolio'">作品</a></li>
                     <li><a href="#time" target="_blank">时光轴</a></li>
                     <li><a href="#team" target="_blank">团队</a></li>
@@ -64,28 +64,16 @@
                 },
                 // 父组件传递值
                 localIsScrolled: this.isScrolled,
-                // 基础配置
-                siteConfig: {
-                    siteTitle: 'xxx团队'
-                }
+            }
+        },
+        computed: {
+            siteTitle() {
+                return this.$store.state.site.siteTitle
             }
         },
         created() {
-            this.getSiteConfig();
         },
         methods: {
-            getSiteConfig() {
-                this.$getSiteConfig(this.siteConfigParms).then(configValue=>{
-                    this.siteConfig.siteTitle = configValue.siteTitle
-                });
-            },
-            click1() {
-                const anchor = document.getElementById('锚点名称')
-                console.log("anchor=>", anchor)
-                if (anchor) {
-                    anchor.scrollIntoView()
-                }
-            }
         },
     }
 </script>

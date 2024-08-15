@@ -457,10 +457,6 @@ export default {
             this.siteConfig.banners = configValue.bannerTableData
             this.siteConfig.teamDescription = configValue.teamDescription.replace(/\n/g,'<br />')
         });
-
-        // this.$router.push({ path: '/index#contact' })
-
-
     },
 }
 </script>

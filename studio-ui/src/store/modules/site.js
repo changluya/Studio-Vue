@@ -9,9 +9,16 @@ const site = {
 
   mutations: {
     SET_TEAM_LOGO: (state, teamLogo) => {
+      // 对应index.html中去除图标
+      const link = document.querySelector("link[rel*='icon']") || document.createElement('link')
+      link.type = 'image/x-icon'
+      link.rel = 'shortcut icon'
+      link.href = teamLogo
+      document.getElementsByTagName('head')[0].appendChild(link)
       state.teamLogo = teamLogo
     },
     SET_TEAM_TITLE: (state, teamTitle) => {
+      document.getElementsByTagName('title')[0].innerText = teamTitle + '后台管理系统'
       state.teamTitle = teamTitle
     }
   },

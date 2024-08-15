@@ -84,7 +84,7 @@ export default {
     getBasicConfig() {
       // console.log('this.queryParams=>', this.queryParams)
       siteApi.selectConfigValueByConfigKey(this.queryParams).then(data => {
-        console.log('query data:', data)
+        // console.log('query data:', data)
         if (data.code === 200) {
           this.basicFormData = data.data
           // console.log('this.basicFormData=>', this.basicFormData)

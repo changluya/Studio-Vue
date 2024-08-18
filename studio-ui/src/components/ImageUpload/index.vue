@@ -142,6 +142,9 @@ export default {
       return this.isShowTip && (this.fileType || this.fileSize) && this.fileList.length < this.limit;
     }
   },
+  created() {
+    // console.log("组件加载...")
+  },
   methods: {
     // 删除图片
     handleRemove(file, fileList) {

@@ -10,6 +10,7 @@ import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.SiteConfigService;
 import com.changlu.vo.config.ConfigVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,6 +29,7 @@ public class SiteConfigController {
      * 新增或编辑网站配置
      */
     @PostMapping("/addOrUpdateSiteConfig")
+    @PreAuthorize("@ss.hasPerm('site:config:edit')")
     public ResponseResult addOrUpdateSiteConfig(@RequestBody ConfigVo configVo){
         boolean flag = siteConfigService.addOrUpdateSiteConfig(configVo);
         if (flag) {
@@ -39,6 +41,7 @@ public class SiteConfigController {
 
     //查询网站配置
     @GetMapping("/selectConfigValueByConfigKey")
+    @PreAuthorize("@ss.hasPerm('site:config:list')")
     public ResponseResult selectConfigValueByConfigKey(@RequestParam("configKey") String configKey){
         ConfigVo curConfigVo = siteConfigService.selectConfigValueByConfigKey(configKey);
         return ResponseResult.success(curConfigVo);

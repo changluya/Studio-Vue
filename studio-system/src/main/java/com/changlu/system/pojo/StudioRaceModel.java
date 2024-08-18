@@ -45,12 +45,12 @@ public class StudioRaceModel extends BaseEntity {
 
     @ApiModelProperty(value = "竞赛开始时间")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @Excel(name = "竞赛开始时间", dateFormat = "yyyy-MM-dd HH:mm:ss", sort = 5)
+    @Excel(name = "竞赛开始时间", dateFormat = "yyyy-MM-dd", sort = 5)
     private Date raceBeginTime;
 
     @ApiModelProperty(value = "竞赛结束时间")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @Excel(name = "竞赛结束时间", dateFormat = "yyyy-MM-dd HH:mm:ss", sort = 6)
+    @Excel(name = "竞赛结束时间", dateFormat = "yyyy-MM-dd", sort = 6)
     private Date raceEndTime;
 
     @ApiModelProperty(value = "标识个人还是团队(1是个人,2是团队)")

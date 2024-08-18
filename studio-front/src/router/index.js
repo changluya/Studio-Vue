@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Index from '@/views/index.vue'
 import Team from '@/views/team.vue'
 import Time from '@/views/time.vue'
+import Test from '@/views/test.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ const routers = [
     path: '/time',
     component: Time,
     name: 'Time',
+  },
+  {
+    path: '/test',
+    component: Test,
+    name: 'test',
   }
 ]
 

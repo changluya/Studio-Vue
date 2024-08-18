@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueScrollTo from 'vue-scrollto'
+import scroll from 'vue-seamless-scroll'
 // 引入公共方法
 import { getSiteConfig } from '@/utils/request'
 // 引入常量
@@ -20,6 +21,7 @@ Vue.prototype.$getSiteConfig = getSiteConfig
 // 全局常量挂载
 Vue.prototype.$MY_CONSTANT = MY_CONSTANT;
 Vue.use(VueScrollTo)
+Vue.use(scroll)
  
 new Vue({
   el: '#app',

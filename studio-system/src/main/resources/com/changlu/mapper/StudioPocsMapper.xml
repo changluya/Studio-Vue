@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.system.mapper.StudioPocsMapper">
+
+    <resultMap type="com.changlu.system.pojo.StudioPocsModel" id="StudioPocsResult">
+        <result property="id"    column="id"    />
+        <result property="pocsName"    column="pocs_name"    />
+    </resultMap>
+
+    <sql id="selectStudioPocsVo">
+        select id, pocs_name from studio_pocs
+    </sql>
+
+    <select id="selectStudioPocsList" parameterType="com.changlu.system.pojo.StudioPocsModel" resultMap="StudioPocsResult">
+        <include refid="selectStudioPocsVo"/>
+        <where>
+            <if test="pocsName != null  and pocsName != ''"> and pocs_name like concat('%', #{pocsName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectStudioPocsById" parameterType="Long" resultMap="StudioPocsResult">
+        <include refid="selectStudioPocsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertStudioPocs" parameterType="com.changlu.system.pojo.StudioPocsModel" useGeneratedKeys="true" keyProperty="id">
+        insert into studio_pocs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pocsName != null and pocsName != ''">pocs_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pocsName != null and pocsName != ''">#{pocsName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStudioPocs" parameterType="com.changlu.system.pojo.StudioPocsModel">
+        update studio_pocs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pocsName != null and pocsName != ''">pocs_name = #{pocsName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudioPocsById" parameterType="Long">
+        delete from studio_pocs where id = #{id}
+    </delete>
+
+    <delete id="deleteStudioPocsByIds" parameterType="String">
+        delete from studio_pocs where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

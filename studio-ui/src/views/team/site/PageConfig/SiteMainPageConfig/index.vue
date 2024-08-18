@@ -150,6 +150,4 @@ export default {
   min-width: 230px;
   min-height: 150px;
 }
-
-
 </style>

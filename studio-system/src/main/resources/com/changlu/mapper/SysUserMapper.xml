@@ -72,6 +72,21 @@
         SELECT * from sys_user where user_id = #{userId}
     </select>
 
+    <select id="selectUserByIds" resultMap="SysUserResult">
+        SELECT user_id, real_name
+        FROM sys_user
+        <where>
+            <if test="userIds != null and userIds.length > 0">
+                user_id IN
+                <foreach item="userId" index="index" collection="userIds"
+                         open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
     <select id="selectRolesByUserId" resultType="java.lang.String">
         SELECT DISTINCT
             r.role_name

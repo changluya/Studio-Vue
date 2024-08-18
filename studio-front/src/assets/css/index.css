@@ -255,6 +255,7 @@
 #about .container {
   position: relative;
   z-index: 10;
+  max-width: 1300px;
 }
 
 #about .about-col {
@@ -604,7 +605,7 @@
   background: #fff;
   text-align: center;
   padding: 30px;
-  height: 90px;
+  height: 100px;
   border-radius: 0 0 3px 3px;
 }
 

@@ -148,7 +148,7 @@
 
                     <div class="col-lg-3 col-6 text-center">
                     <span data-toggle="counter-up">4</span>
-                    <p>项目</p>
+                    <p>成果</p>
                     </div>
 
                 </div>
@@ -167,7 +167,7 @@
                 <div class="container">
 
                 <header class="section-header">
-                    <h3 class="section-title">我们的作品</h3>
+                    <h3 class="section-title">成果展示</h3>
                 </header>
 
                 <div class="row">
@@ -181,106 +181,21 @@
                     </div>
                 </div>
 
-                <div class="row portfolio-container">
-
-                    <!-- 属于web：filter-web -->
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <figure>
-                        <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
-                        <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                            data-title="xx信号检测仪web" title="Preview"><i class="ion ion-eye"></i></a>
-                        <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                        </figure>
-                        <div class="portfolio-info">
-                        <h4><a href="#">xx信号检测仪web</a></h4>
-                        <p>Web</p>
+                <div class="row portfolio-container" style="display: flex;flex-wrap: wrap;">
+                    <div v-for="index in [1,2,3,4]" class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="portfolio-wrap">
+                            <figure>
+                            <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
+                            <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
+                                data-title="xx信号检测仪web" title="Preview"><i class="ion ion-eye"></i></a>
+                            <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                            </figure>
+                            <div class="portfolio-info">
+                                <h4><a href="#">xx信号检测仪web</a></h4>
+                                <p style="font-size: 12px;font-weight: lighter;color: black;">2024年5月～2024年8月</p>
+                                <span style="font-size: 12px;">参与成员：茅津菁、xxx、xxx</span>
                         </div>
-                    </div>
-                    </div>
-
-
-
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <figure>
-                        <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
-                        <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                            data-title="xx管理系统web" title="Preview"><i class="ion ion-eye"></i></a>
-                        <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                        </figure>
-                        <div class="portfolio-info">
-                            <h4><a href="#">xx管理系统web</a></h4>
-                            <p>web</p>
                         </div>
-                    </div>
-                    </div>
-
-
-
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <figure>
-                        <img src="@/assets/image/portfolio/production.png" class=" img-fluid" alt="">
-                        <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                            data-title="xx停车管理系统web" title="Preview"><i class="ion ion-eye"></i></a>
-                        <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                            <h4><a href="#">xx停车管理系统</a></h4>
-                            <p>Web</p>
-                        </div>
-                    </div>
-                    </div>
-
-                    <!-- 属于app：filter-app -->
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <figure>
-                        <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
-                        <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                            data-title="xx信号检测仪app" title="Preview"><i class="ion ion-eye"></i></a>
-                        <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                            <h4><a href="#">xx信号检测仪APP</a></h4>
-                            <p>App</p>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <figure>
-                        <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
-                        <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                            data-title="xx微信小程序" title="xx微信小程序"><i class="ion ion-eye"></i></a>
-                        <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                            <h4><a href="#">xx微信小程序</a></h4>
-                            <p>App</p>
-                        </div>
-                    </div>
-                    </div>
-                    <!-- 属于硬件：filter-硬件 -->
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-硬件 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <figure>
-                        <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
-                        <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                            data-title="xx检测仪硬件" title="xx检测仪硬件"><i class="ion ion-eye"></i></a>
-                        <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                        </figure>
-
-                        <div class="portfolio-info">
-                        <h4><a href="#">xx检测仪硬件</a></h4>
-                        <p>硬件</p>
-                        </div>
-                    </div>
                     </div>
                 </div>
 
@@ -289,72 +204,62 @@
 
             <!-- 荣誉 -->
             <section id="honer" class="section-bg">
-                <div class="container">
+                <div class="container" style="max-width: 1250px !important;">
 
-                <div class="section-header wow fadeInUp">
-                    <h3>荣誉证书</h3>
-                </div>
-
-                <div class="row honer-imgs">
-
-                    <div class="col-lg-4 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/honers/honer.png" alt="">
-                    </div>
+                    <div class="section-header wow fadeInUp">
+                        <h3>团队荣誉资质</h3>
                     </div>
 
-                    <div class="col-lg-4 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/honers/honer.png" alt="">
-                    </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/honers/honer.png" alt="">
-                    </div>
+                    <div style="width: 600px; position: relative; left: 22%;">
+                        <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
+                            <el-tab-pane label="专利、论文、软著" name="first"></el-tab-pane>
+                            <el-tab-pane label="竞赛证书" name="second"></el-tab-pane>
+                        </el-tabs>
                     </div>
 
-                </div>
-                </div>
-            </section><!-- #contact -->
+                    <div v-if="activeName === 'first'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap;">
+                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
+                            <div class="honerDate">2024年7月</div>
+                            <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">
+                            <div class="honerType" >软著</div>
+                            <div class="honerDesc" >xxxxxxxxxxx软著</div>
+                        </div>
 
-            <!-- 软著：patents -->
-            <section id="honer" class="section-bg">
-                <div class="container">
-
-                <div class="section-header wow fadeInUp">
-                    <h3>软著</h3>
-                </div>
-
-                <div class="row honer-imgs">
-
-                    <div class="col-lg-3 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/patents/patents.png" alt="">
-                    </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/patents/patents.png" alt="">
-                    </div>
+                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
+                            <div class="honerDate">2024年7月</div>
+                            <img class="honerImg" src="@/assets/image/patents/patents.png" alt="">
+                            <div class="honerType" >软著</div>
+                            <div class="honerDesc" >xxxxxxxxxxx软著</div>
+                        </div>
+                        
+                        <!-- <div class="col-lg-4 col-md-6 wow fadeInUp">
+                        <div class="imgbox">
+                            <img src="@/assets/image/honers/honer.png" alt="">
+                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="col-lg-3 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/patents/patents.png" alt="">
-                    </div>
-                    </div>
+                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap;">
+                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
+                            <div class="honerDate">2024年7月</div>
+                            <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">
+                            <div class="honerType" >个人竞赛</div>
+                            <div class="honerDesc" >xxxxxxxxxxx个人竞赛</div>
+                        </div>
 
-                    <div class="col-lg-3 col-md-6 wow fadeInUp">
-                    <div class="imgbox">
-                        <img src="@/assets/image/patents/patents.png" alt="">
+                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
+                            <div class="honerDate">2024年7月</div>
+                            <img class="honerImg" src="@/assets/image/patents/patents.png" alt="">
+                            <div class="honerType" >团队竞赛</div>
+                            <div class="honerDesc" >xxxxxxxxxxx团队竞赛</div>
+                        </div>
+                        
+                        <!-- <div class="col-lg-4 col-md-6 wow fadeInUp">
+                        <div class="imgbox">
+                            <img src="@/assets/image/honers/honer.png" alt="">
+                        </div>
+                        </div> -->
                     </div>
-                    </div>
-
-                </div>
-
                 </div>
             </section><!-- #contact -->
 
@@ -418,6 +323,8 @@ export default {
     },
     data() {
         return {
+            activeName: 'first',
+            stretch: true,
             siteConfigParms: {
                 configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_MAINCONFIG.configKey
             },
@@ -458,10 +365,62 @@ export default {
             this.siteConfig.teamDescription = configValue.teamDescription.replace(/\n/g,'<br />')
         });
     },
+    methods: {
+        handleClick() {
+            console.log("activeName=>", this.activeName)
+        }
+    }
 }
 </script>
 
 <style scoped lang="scss">
+  .imgbox {
+    width: 210px;
+    height: 280px;
+    position: relative;
+    background: white;
+    margin-right: 40px;
+
+    .honerDate {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        font-size: 14px;
+    }
+
+    .honerImg {
+        width: auto;
+        max-width: 80%;
+        height: auto;
+        max-height: 60%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -42%);top: 43%;
+    }
+
+    .honerType {
+        position: absolute;
+        left: 5px;
+        bottom: 30px;
+        font-size: 14px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        font-weight: bold;
+    }
+
+    .honerDesc {
+        width: 200px; 
+        position: absolute;
+        left: 5px;
+        bottom: 10px;
+        font-size: 14px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        text-align: center;
+    }
+
+  }
+
   .progressBox span{
     position: relative;
     top: -32px;

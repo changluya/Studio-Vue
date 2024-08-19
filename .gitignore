@@ -13,7 +13,8 @@ out/
 
 logs/
 
-upload/
+# upload/
+/upload/*
 
 # studio-front
 studio-front/.vscode/

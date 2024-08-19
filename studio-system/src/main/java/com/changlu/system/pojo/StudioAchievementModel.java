@@ -55,4 +55,7 @@ public class StudioAchievementModel extends BaseEntity {
     /** 删除标志，0表示未删除，1表示删除 */
     private Integer delFlag;
 
+    /** 收录标志，0表示未收录，1为申请收录，2为收录打回，3为收录通过（可对外展示） */
+    private Integer inclusionFlag;
+
 }

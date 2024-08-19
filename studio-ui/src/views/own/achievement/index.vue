@@ -45,15 +45,6 @@
           @click="handleDelete"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -74,9 +65,9 @@
 <!--      <el-table-column label="预览图" align="center" prop="previewImg" />-->
       <el-table-column label="成果分类" align="center" prop="pocsName" />
       <el-table-column label="参与者" align="center" prop="partUserNames" width="300"/>
-      <el-table-column label="过程开始时间" align="center" prop="startTime" width="100">
+      <el-table-column label="收录状态" align="center" prop="inclusionFlag" width="100">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ getInclusionFlagName(scope.row.inclusionFlag) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="过程结束时间" align="center" prop="endTime" width="180">
@@ -138,6 +129,11 @@
               :value="item.value">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="申请收录" prop="chooseInclusion" label-width="100px">
+          <el-switch
+            v-model="chooseInclusion">
+          </el-switch>
         </el-form-item>
         <el-form-item label="过程开始时间" prop="startTime" label-width="100px">
           <el-date-picker
@@ -217,9 +213,12 @@ export default {
       },
       // 参与者数组列表
       partUserArr: [],
-      // 成果分类
+      // 是否申请收录
+      chooseInclusion: false,
+      // 下拉选项
+      // 1、成果分类
       pocsIdOptions: [],
-      // 成员分类选项
+      // 2、成员分类选项
       memberOptions: []
     }
   },
@@ -238,7 +237,7 @@ export default {
       getMemberOptions().then(response => {
         //构造选项数组
         const mOptions = []
-        response.data.forEach((user)=>{
+        response.data.forEach((user) => {
           mOptions.push({
             "label": user.realName,
             "value": user.userId
@@ -280,7 +279,8 @@ export default {
         partUserIds: null,
         startTime: null,
         endTime: null,
-        description: null
+        description: null,
+        inclusionFlag: 0
       }
       this.partUserArr = []
       this.resetForm('form')
@@ -356,11 +356,13 @@ export default {
       // console.log('this.partUserArr=>', this.partUserArr)
       // 1、处理参赛成员：将数组[1,2] => "1,2"来传递到后台保存
       this.form.partUserIds = this.partUserArr.join(',')
+      // 2、处理是否申请
+      this.form.inclusionFlag = this.chooseInclusion ? 1 : 0
     },
     /** 删除按钮操作 */
     handleDelete(row) {
       const title = row.title
-      this.$modal.confirm('是否确认删除成果名称为"' + title + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除成果名称为"' + title + '"的数据项？').then(function () {
         return delAchievement(ids)
       }).then(() => {
         this.getList()
@@ -368,11 +370,19 @@ export default {
       }).catch(() => {
       })
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('achievement/achievement/export', {
-        ...this.queryParams
-      }, `achievement_${new Date().getTime()}.xlsx`)
+    // 根据flag获取指定的收录状态
+    getInclusionFlagName(inclusionFlag) {
+      let name = '';
+      if (inclusionFlag === 0) {
+        name = '未收录'
+      } else if (inclusionFlag === 1) {
+        name = '申请中'
+      } else if (inclusionFlag === 2) {
+        name = '收录打回'
+      } else if (inclusionFlag === 3) {
+        name = '收录通过'
+      }
+      return name
     }
   }
 }

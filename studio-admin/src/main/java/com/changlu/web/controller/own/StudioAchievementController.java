@@ -48,18 +48,6 @@ public class StudioAchievementController extends BaseController
     }
 
     /**
-     * 导出成果列表
-     */
-    @PreAuthorize("@ss.hasPerm('own:achievement:export')")
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, StudioAchievementModel studioAchievement)
-    {
-        List<StudioAchievementDTO> list = studioAchievementService.selectStudioAchievementList(studioAchievement);
-        ExcelUtil<StudioAchievementDTO> util = new ExcelUtil<>(StudioAchievementDTO.class);
-        util.exportExcel(response, list, "成果数据");
-    }
-
-    /**
      * 获取成果详细信息
      */
     @PreAuthorize("@ss.hasPerm('own:achievement:query')")

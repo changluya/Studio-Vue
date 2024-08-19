@@ -15,6 +15,7 @@
         <result property="endTime"    column="end_time"    />
         <result property="description"    column="description"    />
         <result property="delFlag"    column="del_flag"    />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
@@ -30,17 +31,18 @@
         <result property="endTime"    column="end_time"    />
         <result property="description"    column="description"    />
         <result property="delFlag"    column="del_flag"    />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="pocsName"    column="pocs_name"    />
     </resultMap>
 
     <sql id="selectStudioAchievementVo">
-        select id, title, preview_img, pocs_id, create_user_id, part_user_ids, start_time, end_time, description, del_flag, create_time, update_time from studio_achievement
+        select id, title, preview_img, pocs_id, create_user_id, part_user_ids, start_time, end_time, description, del_flag, inclusion_flag, create_time, update_time from studio_achievement
     </sql>
 
     <select id="selectStudioAchievementList" parameterType="com.changlu.system.pojo.StudioAchievementModel" resultMap="StudioAchievementDTOResult">
-        select t1.id, title, preview_img, pocs_id, create_user_id, part_user_ids, start_time, end_time, description, del_flag, create_time, update_time,
+        select t1.id, title, preview_img, pocs_id, create_user_id, part_user_ids, start_time, end_time, description, del_flag, create_time, update_time, inclusion_flag,
             t2.pocs_name
         from studio_achievement as t1
         left join studio_pocs as t2 on t1.pocs_id = t2.id
@@ -67,6 +69,7 @@
             <if test="endTime != null">end_time,</if>
             <if test="description != null">description,</if>
             <if test="delFlag != null">del_flag,</if>
+            <if test="inclusionFlag != null">inclusion_flag,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
         </trim>
@@ -80,6 +83,7 @@
             <if test="endTime != null">#{endTime},</if>
             <if test="description != null">#{description},</if>
             <if test="delFlag != null">#{delFlag},</if>
+            <if test="inclusionFlag != null">#{inclusionFlag},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
         </trim>
@@ -97,6 +101,7 @@
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="description != null">description = #{description},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="inclusionFlag != null">inclusion_flag = #{inclusionFlag},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>

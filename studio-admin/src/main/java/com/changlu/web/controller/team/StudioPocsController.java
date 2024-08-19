@@ -53,18 +53,6 @@ public class StudioPocsController extends BaseController {
     }
 
     /**
-     * 导出成果分类列表
-     */
-    @PreAuthorize("@ss.hasPerm('team:pocs:export')")
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, StudioPocsModel studioPocs)
-    {
-        List<StudioPocsModel> list = studioPocsService.selectStudioPocsList(studioPocs);
-        ExcelUtil<StudioPocsModel> util = new ExcelUtil<StudioPocsModel>(StudioPocsModel.class);
-        util.exportExcel(response, list, "成果分类数据");
-    }
-
-    /**
      * 获取成果分类详细信息
      */
     @PreAuthorize("@ss.hasPerm('team:pocs:query')")

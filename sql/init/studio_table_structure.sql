@@ -237,6 +237,7 @@ CREATE TABLE `studio_achievement` (
   `end_time` DATETIME COMMENT '过程结束时间',
   `description` TEXT COMMENT '成果描述及总结材料（可以markdown形式）',
   `del_flag` TINYINT DEFAULT 0 COMMENT '删除标志，0表示未删除，1表示删除',
+  `inclusion_flag` TINYINT DEFAULT 0 COMMENT '收录标志，0表示未收录，1为申请收录，2为收录打回，3为收录通过（可对外展示）',
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)

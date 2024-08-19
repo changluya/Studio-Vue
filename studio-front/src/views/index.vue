@@ -210,14 +210,14 @@
                         <h3>团队荣誉资质</h3>
                     </div>
 
-                    <div style="width: 600px; position: relative; left: 22%;">
+                    <div style="width: 600px; position: relative;left: 27%;">
                         <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
                             <el-tab-pane label="专利、论文、软著" name="first"></el-tab-pane>
                             <el-tab-pane label="竞赛证书" name="second"></el-tab-pane>
                         </el-tabs>
                     </div>
 
-                    <div v-if="activeName === 'first'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap;">
+                    <div v-if="activeName === 'first'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
                         <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
                             <div class="honerDate">2024年7月</div>
                             <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">
@@ -239,7 +239,7 @@
                         </div> -->
                     </div>
 
-                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap;">
+                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
                         <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
                             <div class="honerDate">2024年7月</div>
                             <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">

@@ -57,20 +57,29 @@
            width="70">
       </el-table-column>
       <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="预览图" align="center" prop="previewImg" width="200">
+      <el-table-column label="综合成果" align="center" prop="title" >
+        <template slot-scope="scope">
+          <span>{{scope.row.partUserNames ? '团队' : '个人'}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="预览图" align="center" prop="previewImg" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.previewImg" :width="50" :height="50"/>
         </template>
       </el-table-column>
 <!--      <el-table-column label="预览图" align="center" prop="previewImg" />-->
       <el-table-column label="成果分类" align="center" prop="pocsName" />
-      <el-table-column label="参与者" align="center" prop="partUserNames" width="300"/>
+      <el-table-column label="其他参与者" align="center" prop="partUserNames" width="300">
+        <template slot-scope="scope">
+          <span>{{scope.row.partUserNames ? scope.row.partUserNames : '暂无'}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="收录状态" align="center" prop="inclusionFlag" width="100">
         <template slot-scope="scope">
           <span>{{ getInclusionFlagName(scope.row.inclusionFlag) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="过程结束时间" align="center" prop="endTime" width="180">
+      <el-table-column label="成果获取时间" align="center" prop="endTime" width="120">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d}') }}</span>
         </template>
@@ -92,6 +101,20 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['achievement:achievement:remove']"
           >删除</el-button>
+          <el-button
+            v-if="scope.row.inclusionFlag === 0 || scope.row.inclusionFlag === 2"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleApplyInclusion(scope.row)"
+          >申请收录</el-button>
+          <el-button
+            v-if="scope.row.inclusionFlag === 1 || scope.row.inclusionFlag === 3"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleCancelInclusion(scope.row)"
+          >取消收录</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -109,7 +132,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="title" label-width="100px">
           <el-input v-model="form.title" placeholder="请输入标题"  :style="{width: '60%'}"/>
-        </el-form-item>
+        </el-form-item>=
         <el-form-item label="预览图" prop="previewImg" label-width="100px">
           <image-upload v-model="form.previewImg" :limit="1" :fileSize="15" :tipInfo="'请上传1920x1080分辨率图片后续用于官网显示！'"/>
         </el-form-item>
@@ -166,7 +189,7 @@
 </template>
 
 <script>
-import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement } from '@/api/own/achievement'
+import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement, applyInclusion, cancelInclusion } from '@/api/own/achievement'
 import { getPocsMenu } from '@/api/team/pocs'
 import { getMemberOptions } from "@/api/team/race";
 
@@ -367,8 +390,7 @@ export default {
       }).then(() => {
         this.getList()
         this.$modal.msgSuccess('删除成功')
-      }).catch(() => {
-      })
+      }).catch(() => {})
     },
     // 根据flag获取指定的收录状态
     getInclusionFlagName(inclusionFlag) {
@@ -383,6 +405,33 @@ export default {
         name = '收录通过'
       }
       return name
+    },
+    // 申请收录
+    handleApplyInclusion(row) {
+      this.$modal.confirm('是否申请成果名称为"' + row.title + '"的成果收录到系统网站展示？').then(() => {
+        const form = {
+          id: row.id
+        }
+        // 发起申请请求
+        applyInclusion(form).then(() => {
+          this.$modal.msgSuccess('申请成功！')
+          this.open = false
+          this.getList()
+        }).catch((err) => console.log(err))
+      })
+    },
+    // 取消收录
+    handleCancelInclusion(row) {
+      this.$modal.confirm('是否取消申请成果名称为"' + row.title + '"的成果收录到系统网站展示？').then(() => {
+        const form = {
+          id: row.id
+        }
+        cancelInclusion(form).then(() => {
+          this.$modal.msgSuccess('取消成功！')
+          this.open = false
+          this.getList()
+        }).catch((err) => console.log(err))
+      })
     }
   }
 }

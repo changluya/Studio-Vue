@@ -1,19 +1,20 @@
-package com.changlu.system.service.impl;
-
-import java.util.*;
-import java.util.stream.Collectors;
+package com.changlu.service.impl;
 
 import com.changlu.common.utils.StringUtils;
+import com.changlu.enums.InclusionTypeEnum;
+import com.changlu.security.util.SecurityUtils;
+import com.changlu.service.IStudioAchievementService;
 import com.changlu.system.mapper.StudioAchievementMapper;
 import com.changlu.system.mapper.SysUserMapper;
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
-import com.changlu.system.service.IStudioAchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 成果Service业务层处理
@@ -94,6 +95,8 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
     @Override
     public int insertStudioAchievement(StudioAchievementModel studioAchievement)
     {
+        // 设置创建人
+        studioAchievement.setCreateUserId(SecurityUtils.getUserId());
         return studioAchievementMapper.insertStudioAchievement(studioAchievement);
     }
 
@@ -108,6 +111,28 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
     {
         return studioAchievementMapper.updateStudioAchievement(studioAchievement);
     }
+
+    /**
+     * 修改收录状态
+     * @param id 成果id
+     * @param behavior 不同行为情况
+     * @return
+     */
+    @Override
+    public int updateInclusion(Long id, int behavior) {
+        StudioAchievementModel updateStudioAchievementModel = new StudioAchievementModel();
+        // 设置成果id
+        updateStudioAchievementModel.setId(id);
+        // 情况1、behavior 为 1情况，【申请收录操作】修改状态为申请收录
+        if (behavior == 1) {
+            updateStudioAchievementModel.setInclusionFlag(InclusionTypeEnum.APPLY_INCLUSION.getVal());
+        }else if (behavior == 2) { // 情况2、behavior 为 2情况，【退回收录操作】修改状态为退出收录（未收录状态）
+            updateStudioAchievementModel.setInclusionFlag(InclusionTypeEnum.NO_INCLUSION.getVal());
+        }
+        // 更新成果
+        return this.updateStudioAchievement(updateStudioAchievementModel);
+    }
+
 
     /**
      * 批量删除成果

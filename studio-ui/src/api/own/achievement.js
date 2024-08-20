@@ -35,6 +35,24 @@ export function updateAchievement(data) {
   })
 }
 
+// 申请收录
+export function applyInclusion(data) {
+  return request({
+    url: '/own/achievement/apply',
+    method: 'put',
+    data: data
+  })
+}
+
+// 取消收留
+export function cancelInclusion(data) {
+  return request({
+    url: '/own/achievement/cancel',
+    method: 'put',
+    data: data
+  })
+}
+
 // 删除成果
 export function delAchievement(id) {
   return request({

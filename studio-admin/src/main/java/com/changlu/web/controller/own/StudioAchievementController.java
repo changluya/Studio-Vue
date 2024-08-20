@@ -1,13 +1,12 @@
 package com.changlu.web.controller.own;
 
-import javax.servlet.http.HttpServletResponse;
-
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.common.utils.ExcelUtil;
+import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.page.TableDataInfo;
+import com.changlu.security.util.SecurityUtils;
+import com.changlu.service.IStudioAchievementService;
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
-import com.changlu.system.service.IStudioAchievementService;
 import com.changlu.web.controller.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +42,8 @@ public class StudioAchievementController extends BaseController
     public TableDataInfo list(StudioAchievementModel studioAchievement)
     {
         startPage();
+        // 设置创建人为用户本身自己（检索个人创建的成果列表）
+        studioAchievement.setCreateUserId(SecurityUtils.getUserId());
         List<StudioAchievementDTO> list = studioAchievementService.selectStudioAchievementList(studioAchievement);
         return getDataTable(list);
     }
@@ -76,6 +77,37 @@ public class StudioAchievementController extends BaseController
     {
         return ResponseResult.toResponse(studioAchievementService.updateStudioAchievement(studioAchievement));
     }
+
+    /**
+     * 申请收录
+     */
+//    @PreAuthorize("@ss.hasPerm('own:achievement:apply')")
+    @PutMapping("/apply")
+    public ResponseResult applyInclusion(@RequestBody StudioAchievementModel studioAchievement)
+    {
+        // 校验参数
+        Long id = studioAchievement.getId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        return ResponseResult.toResponse(studioAchievementService.updateInclusion(id, 1));
+    }
+
+    /**
+     * 取消收录
+     */
+//    @PreAuthorize("@ss.hasPerm('own:achievement:cancel')")
+    @PutMapping("/cancel")
+    public ResponseResult cancelInclusion(@RequestBody StudioAchievementModel studioAchievement)
+    {
+        // 校验参数
+        Long id = studioAchievement.getId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        return ResponseResult.toResponse(studioAchievementService.updateInclusion(id, 2));
+    }
+
 
     /**
      * 删除成果

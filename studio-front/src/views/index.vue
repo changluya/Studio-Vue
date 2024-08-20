@@ -239,7 +239,7 @@
                         </div> -->
                     </div>
 
-                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
+                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap;">
                         <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
                             <div class="honerDate">2024年7月</div>
                             <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">

@@ -1,4 +1,4 @@
-package com.changlu.system.service;
+package com.changlu.service;
 
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
@@ -13,6 +13,12 @@ import java.util.List;
  */
 public interface IStudioAchievementService {
 
+    /**
+     * 查询成果
+     *
+     * @param id 根据成果id查询
+     * @return 成果
+     */
     public StudioAchievementModel selectStudioAchievementById(Long id);
 
     /**
@@ -38,6 +44,14 @@ public interface IStudioAchievementService {
      * @return 结果
      */
     public int updateStudioAchievement(StudioAchievementModel studioAchievement);
+
+    /**
+     * 修改收录状态
+     * @param id 成果id
+     * @param behavior 不同行为情况
+     * @return
+     */
+    public int updateInclusion(Long id, int behavior);
 
     /**
      * 批量删除成果

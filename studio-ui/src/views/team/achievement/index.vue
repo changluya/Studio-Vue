@@ -9,6 +9,13 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="收录状态" prop="title">
+        <el-select v-model="queryParams.inclusionFlag" placeholder="请选择收录状态" filterable clearable
+                   :style="{width: '100%'}" @keyup.enter.native="handleQuery">
+          <el-option v-for="(item, index) in inclusionFlagOptions" :key="index" :label="item.inclusionName"
+                     :value="item.val" :disabled="item.disabled"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -51,12 +58,18 @@
     <el-table v-loading="loading" :data="achievementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column
-           fixed
-           label="序号"
-           type="index"
-           width="70">
+        fixed
+        label="序号"
+        type="index"
+        width="70">
       </el-table-column>
       <el-table-column label="标题" align="center" prop="title" />
+      <el-table-column label="成果获取时间" align="center" prop="endTime" width="120">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建者" align="center" prop="createUserName" />
       <el-table-column label="综合成果" align="center" prop="title" >
         <template slot-scope="scope">
           <span>{{scope.row.partUserNames ? '团队' : '个人'}}</span>
@@ -67,9 +80,9 @@
           <image-preview :src="scope.row.previewImg" :width="50" :height="50"/>
         </template>
       </el-table-column>
-<!--      <el-table-column label="预览图" align="center" prop="previewImg" />-->
+      <!--      <el-table-column label="预览图" align="center" prop="previewImg" />-->
       <el-table-column label="成果分类" align="center" prop="pocsName" />
-      <el-table-column label="其他参与者" align="center" prop="partUserNames" width="300">
+      <el-table-column label="参与者" align="center" prop="partUserNames" width="300">
         <template slot-scope="scope">
           <span>{{scope.row.partUserNames ? scope.row.partUserNames : '暂无'}}</span>
         </template>
@@ -79,12 +92,7 @@
           <span>{{ getInclusionFlagName(scope.row.inclusionFlag) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="成果获取时间" align="center" prop="endTime" width="120">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-<!--      <el-table-column label="成果描述" align="center" prop="description" />-->
+      <!--      <el-table-column label="成果描述" align="center" prop="description" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -102,14 +110,14 @@
             v-hasPermi="['achievement:achievement:remove']"
           >删除</el-button>
           <el-button
-            v-if="scope.row.inclusionFlag === 0 || scope.row.inclusionFlag === 2"
+            v-if="scope.row.inclusionFlag === 1"
             size="mini"
             type="text"
             icon="el-icon-delete"
-            @click="handleApplyInclusion(scope.row)"
-          >申请收录</el-button>
+            @click="handleApprovedInclusion(scope.row)"
+          >审核通过</el-button>
           <el-button
-            v-if="scope.row.inclusionFlag === 1 || scope.row.inclusionFlag === 3"
+            v-if="scope.row.inclusionFlag === 3"
             size="mini"
             type="text"
             icon="el-icon-delete"
@@ -130,19 +138,20 @@
     <!-- 添加或修改成果对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="700px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="标题" prop="title" label-width="120px">
+        <el-form-item label="标题" prop="title" label-width="100px">
           <el-input v-model="form.title" placeholder="请输入标题"  :style="{width: '60%'}"/>
         </el-form-item>
-        <el-form-item label="预览图" prop="previewImg" label-width="120px">
+        <el-form-item label="预览图" prop="previewImg" label-width="100px">
           <image-upload v-model="form.previewImg" :limit="1" :fileSize="15" :tipInfo="'请上传1920x1080分辨率图片后续用于官网显示！'"/>
         </el-form-item>
-        <el-form-item label="成果分类" prop="pocsId" label-width="120px">
-          <el-select v-model="form.pocsId" placeholder="请选择成果分类" filterable clearable>
+        <el-form-item label="成果分类" prop="pocsId" label-width="100px">
+          <el-select v-model="form.pocsId" placeholder="请选择成果分类" filterable clearable
+                     :style="{width: '60%'}">
             <el-option v-for="(item, index) in pocsIdOptions" :key="index" :label="item.pocsName"
                        :value="item.id" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="参与者" prop="partUserIds" label-width="120px">
+        <el-form-item label="参与者" prop="partUserIds" label-width="100px">
           <el-select v-model="partUserArr" multiple placeholder="请选择">
             <el-option
               v-for="item in memberOptions"
@@ -152,35 +161,31 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <!--    显示申请收录表单，若是已申请，那么此时会直接显示已申请    -->
-        <el-form-item v-if="showApply" label="申请收录" prop="chooseInclusion" label-width="120px">
+        <el-form-item label="是否收录" prop="chooseInclusion" label-width="100px">
           <el-switch
             v-model="chooseInclusion">
           </el-switch>
         </el-form-item>
-        <el-form-item v-else label="收录状态" prop="chooseInclusion" label-width="120px">
-          已收录
-        </el-form-item>
-        <el-form-item label="过程开始时间" prop="startTime" label-width="120px">
+        <el-form-item label="过程开始时间" prop="startTime" label-width="100px">
           <el-date-picker
-              clearable
-              v-model="form.startTime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="请选择过程开始时间">
+            clearable
+            v-model="form.startTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择过程开始时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="过程结束时间" prop="endTime" label-width="120px">
+        <el-form-item label="过程结束时间" prop="endTime" label-width="100px">
           <el-date-picker
-              clearable
-              v-model="form.endTime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="请选择过程结束时间">
+            clearable
+            v-model="form.endTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择过程结束时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="成果描述" prop="description" label-width="120px">
-          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" :style="{width: '60%'}"/>
+        <el-form-item label="成果描述" prop="description" label-width="100px">
+          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -192,12 +197,12 @@
 </template>
 
 <script>
-import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement, applyInclusion, cancelInclusion } from '@/api/own/achievement'
+import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement, approvedInclusion, cancelInclusion } from '@/api/team/achievement'
 import { getPocsMenu } from '@/api/team/pocs'
 import { getMemberOptions } from "@/api/team/race";
 
 export default {
-  name: 'Achievement',
+  name: 'Achievements',
   data() {
     return {
       // 遮罩层
@@ -227,7 +232,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         title: null,
-        description: null
+        description: null,
+        inclusionFlag: null
       },
       // 表单参数
       form: {},
@@ -235,24 +241,36 @@ export default {
       rules: {
         title: [
           { required: true, message: '标题不能为空', trigger: 'blur' }
-        ],
-        previewImg: [
-          { required: true, message: '预览图不能为空', trigger: 'blur' }
-        ],
-        endTime: [
-          { required: true, message: '结束时间不能为空', trigger: 'blur' }
         ]
       },
       // 参与者数组列表
       partUserArr: [],
-      // 是否申请收录
-      showApply: true,
+      // 是否收录
       chooseInclusion: false,
       // 下拉选项
       // 1、成果分类
       pocsIdOptions: [],
       // 2、成员分类选项
-      memberOptions: []
+      memberOptions: [],
+      // 3、收录状态选项
+      inclusionFlagOptions: [
+        {
+          val: '0',
+          inclusionName: '未收录'
+        },
+        {
+          val: '1',
+          inclusionName: '申请收录'
+        },
+        {
+          val: '2',
+          inclusionName: '拒绝收录'
+        },
+        {
+          val: '3',
+          inclusionName: '已收录'
+        },
+      ]
     }
   },
   created() {
@@ -315,7 +333,6 @@ export default {
         description: null,
         inclusionFlag: 0
       }
-      this.showApply = true
       this.partUserArr = []
       this.resetForm('form')
     },
@@ -354,14 +371,9 @@ export default {
       // 获取成果详情
       getAchievement(id).then(response => {
         this.form = response.data
-        console.log('this.form=>', this.form)
         // 参与成员id字符串转为数组，如："1,2" => ["1","2"]，后面的map(Number)意思是["1","2"]=>[1,2]
         if (response.data.partUserIds && response.data.partUserIds.length > 0) {
           this.partUserArr = response.data.partUserIds.split(",").map(Number)
-        }
-        // 审核通过状态
-        if (response.data.inclusionFlag === 3) {
-          this.showApply = false
         }
         this.open = true
         this.title = '修改成果'
@@ -396,9 +408,7 @@ export default {
       // 1、处理参赛成员：将数组[1,2] => "1,2"来传递到后台保存
       this.form.partUserIds = this.partUserArr.join(',')
       // 2、处理是否申请
-      if (this.showApply) {
-        this.form.inclusionFlag = this.chooseInclusion ? 1 : 0
-      }
+      this.form.inclusionFlag = this.chooseInclusion ? 3 : 0
     },
     /** 删除按钮操作 */
     handleDelete(row) {
@@ -424,14 +434,14 @@ export default {
       }
       return name
     },
-    // 申请收录
-    handleApplyInclusion(row) {
-      this.$modal.confirm('是否申请成果名称为"' + row.title + '"的成果收录到系统网站展示？').then(() => {
+    // 审核通过
+    handleApprovedInclusion(row) {
+      this.$modal.confirm('是否审核通过成果名称为"' + row.title + '"的成果，审核通过的成果将收录到系统网站展示！').then(() => {
         const form = {
           id: row.id
         }
         // 发起申请请求
-        applyInclusion(form).then(() => {
+        approvedInclusion(form).then(() => {
           this.$modal.msgSuccess('申请成功！')
           this.open = false
           this.getList()
@@ -456,8 +466,8 @@ export default {
 </script>
 
 <style scoped>
-  >>> .el-upload-list--picture-card .el-upload-list__item {
-    width: 240px;
-    min-height: 80px;
-  }
+>>> .el-upload-list--picture-card .el-upload-list__item {
+  width: 240px;
+  min-height: 80px;
+}
 </style>

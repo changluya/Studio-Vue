@@ -49,6 +49,9 @@
         <where>
             <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
+            <if test="inclusionFlag != null"> and inclusion_flag = #{inclusionFlag}</if>
+            <if test="createUserId != null"> and create_user_id = #{createUserId}</if>
+            <if test="pocsId != null"> and pocs_id = #{pocsId}</if>
         </where>
     </select>
 

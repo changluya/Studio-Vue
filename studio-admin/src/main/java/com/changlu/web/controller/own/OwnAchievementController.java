@@ -3,7 +3,6 @@ package com.changlu.web.controller.own;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.page.TableDataInfo;
-import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.IStudioAchievementService;
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
@@ -29,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/own/achievement")
-public class StudioAchievementController extends BaseController
+public class OwnAchievementController extends BaseController
 {
     @Autowired
     private IStudioAchievementService studioAchievementService;
@@ -42,9 +41,7 @@ public class StudioAchievementController extends BaseController
     public TableDataInfo list(StudioAchievementModel studioAchievement)
     {
         startPage();
-        // 设置创建人为用户本身自己（检索个人创建的成果列表）
-        studioAchievement.setCreateUserId(SecurityUtils.getUserId());
-        List<StudioAchievementDTO> list = studioAchievementService.selectStudioAchievementList(studioAchievement);
+        List<StudioAchievementDTO> list = studioAchievementService.selectOwnStudioAchievementList(studioAchievement);
         return getDataTable(list);
     }
 
@@ -55,7 +52,7 @@ public class StudioAchievementController extends BaseController
     @GetMapping(value = "/{id}")
     public ResponseResult getInfo(@PathVariable("id") Long id)
     {
-        return ResponseResult.success(studioAchievementService.selectStudioAchievementById(id));
+        return ResponseResult.success(studioAchievementService.selectOwnStudioAchievementById(id));
     }
 
     /**
@@ -65,7 +62,8 @@ public class StudioAchievementController extends BaseController
     @PostMapping
     public ResponseResult add(@RequestBody StudioAchievementModel studioAchievement)
     {
-        return ResponseResult.toResponse(studioAchievementService.insertStudioAchievement(studioAchievement));
+        studioAchievementService.insertStudioAchievement(studioAchievement);
+        return ResponseResult.success();
     }
 
     /**
@@ -75,7 +73,8 @@ public class StudioAchievementController extends BaseController
     @PutMapping
     public ResponseResult edit(@RequestBody StudioAchievementModel studioAchievement)
     {
-        return ResponseResult.toResponse(studioAchievementService.updateStudioAchievement(studioAchievement));
+        studioAchievementService.updateOwnStudioAchievement(studioAchievement);
+        return ResponseResult.success();
     }
 
     /**
@@ -90,7 +89,8 @@ public class StudioAchievementController extends BaseController
         if (id == null) {
             throw new ServiceException("成果id为空，请传递正确参数！");
         }
-        return ResponseResult.toResponse(studioAchievementService.updateInclusion(id, 1));
+        studioAchievementService.updateInclusion(id, 1);
+        return ResponseResult.success();
     }
 
     /**
@@ -105,7 +105,8 @@ public class StudioAchievementController extends BaseController
         if (id == null) {
             throw new ServiceException("成果id为空，请传递正确参数！");
         }
-        return ResponseResult.toResponse(studioAchievementService.updateInclusion(id, 2));
+        studioAchievementService.updateInclusion(id, 2);
+        return ResponseResult.success();
     }
 
 
@@ -116,6 +117,7 @@ public class StudioAchievementController extends BaseController
 	@DeleteMapping("/{ids}")
     public ResponseResult remove(@PathVariable Long[] ids)
     {
-        return ResponseResult.toResponse(studioAchievementService.deleteStudioAchievementByIds(ids));
+        studioAchievementService.deleteOwnStudioAchievementByIds(ids);
+        return ResponseResult.success();
     }
 }

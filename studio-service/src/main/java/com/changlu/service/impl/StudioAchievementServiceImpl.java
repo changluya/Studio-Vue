@@ -1,5 +1,6 @@
 package com.changlu.service.impl;
 
+import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.StringUtils;
 import com.changlu.enums.InclusionTypeEnum;
 import com.changlu.security.util.SecurityUtils;
@@ -9,6 +10,9 @@ import com.changlu.system.mapper.SysUserMapper;
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
+import com.changlu.vo.achievement.ShowAchievement;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,7 @@ import java.util.stream.Collectors;
  * @date 2024-08-18
  */
 @Service
+@Slf4j
 public class StudioAchievementServiceImpl implements IStudioAchievementService
 {
     @Autowired
@@ -32,23 +37,69 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
     private SysUserMapper sysUserMapper;
 
     /**
-     * 查询成果
-     * 
-     * @param id 成果主键
-     * @return 成果
+     * 我的接口检查：检查是否是个人创建的成果，是个人创建的才可查询、编辑、删除
+     * @param id 成果id
+     * @return 如果不是我的成果返回true，如果是我的成果返回false
      */
+    public boolean checkNotOwnAchievement(Long id) {
+        if (id == null) {
+            log.error("传递空的成果id，拦截！");
+            return false;
+        }
+        // 走db根据成果id查询成果
+        StudioAchievementModel dbAchievement = studioAchievementMapper.selectStudioAchievementById(id);
+        // 校验是否是自己的成果
+        if (dbAchievement != null && !dbAchievement.getCreateUserId().equals(SecurityUtils.getUserId())) {
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public StudioAchievementModel selectOwnStudioAchievementById(Long id) {
+        if (checkNotOwnAchievement(id)) {
+            throw new ServiceException("请勿查询非个人的成果信息！");
+        }
+        return selectStudioAchievementById(id);
+    }
+
+
     @Override
     public StudioAchievementModel selectStudioAchievementById(Long id)
     {
         return studioAchievementMapper.selectStudioAchievementById(id);
     }
 
-    /**
-     * 查询成果列表
-     * 
-     * @param studioAchievement 成果
-     * @return 成果
-     */
+    @Override
+    public List<ShowAchievement> showAchievements(StudioAchievementModel query) {
+        // 查询出来基础成果列表
+        query.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal()); // 默认检索收录
+        List<StudioAchievementDTO> achievementDTOS = selectStudioAchievementList(query);
+        // 封装处理结果集
+        List<ShowAchievement> res = achievementDTOS.stream()
+                .map((o) -> { // 映射对象
+                    ShowAchievement showAchievement = new ShowAchievement();
+                    BeanUtils.copyProperties(o, showAchievement);
+                    showAchievement.build();
+                    return showAchievement;
+                })
+                .sorted((o1, o2) -> { // 根据结束时间排序处理
+                    if (o1.getEndTime() != null && o2.getEndTime() != null) {
+                        return o2.getEndTime().compareTo(o1.getEndTime());
+                    }
+                    return 0;
+                }).collect(Collectors.toList());
+        return res;
+    }
+
+    @Override
+    public List<StudioAchievementDTO> selectOwnStudioAchievementList(StudioAchievementModel studioAchievement) {
+        // 设置创建人为用户本身自己（检索个人创建的成果列表）
+        studioAchievement.setCreateUserId(SecurityUtils.getUserId());
+        return selectStudioAchievementList(studioAchievement);
+    }
+
     @Override
     public List<StudioAchievementDTO> selectStudioAchievementList(StudioAchievementModel studioAchievement)
     {
@@ -56,7 +107,7 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
         if (studioAchievementDTOS == null || studioAchievementDTOS.isEmpty()) {
             return studioAchievementDTOS;
         }
-        // 1. 收集所有要查询的用户id，并去除重复
+        // 1. 收集所有要查询的参与者用户id【partUserIds】，并去除重复
         Set<Long> userIdsSet = studioAchievementDTOS.stream()
                 .filter(achievementDTO -> StringUtils.isNotEmpty(achievementDTO.getPartUserIds()))
                 .map(achievement -> achievement.getPartUserIds().split(","))
@@ -64,40 +115,57 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
                 .map(Long::parseLong)
                 .collect(Collectors.toSet());
 
+        // 收集创建者用户id【createUserId】
+        studioAchievementDTOS.forEach(achievementDTO -> {
+            if (achievementDTO.getCreateUserId() != null) {
+                userIdsSet.add(achievementDTO.getCreateUserId());
+            }
+        });
+
         // 2. 查询用户信息，并构建用户映射
         if (!userIdsSet.isEmpty()) {
             List<SysUser> users = sysUserMapper.selectUserByIds(userIdsSet.toArray(new Long[0]));
             Map<Long, String> userMap = users.stream()
                     .collect(Collectors.toMap(SysUser::getUserId, SysUser::getRealName));
-            // 3. 构建真实参与者姓名信息
+            // 3. 构建关联信息
             studioAchievementDTOS.forEach(achievementDTO -> {
+                Long createUserId = achievementDTO.getCreateUserId();
                 String partUserIds = achievementDTO.getPartUserIds();
-                if (StringUtils.isNotEmpty(partUserIds)) {
-                    String[] uids = partUserIds.split(","); // 以逗号分隔，忽略空白
-                    String partUserNames = Arrays.stream(uids)
-                            .mapToLong(Long::parseLong)
-                            .mapToObj(userMap::get) // 这里可能会有null值，如果用户ID不存在于userMap中
-                            .filter(Objects::nonNull) // 过滤掉null值
-                            .collect(Collectors.joining(", "));
-                    achievementDTO.setPartUserNames(partUserNames);
+                // 创建成果者姓名
+                achievementDTO.setCreateUserName(userMap.get(createUserId));
+                // 参与者姓名构建
+                // 参与者添加创建者
+                List<String> participantIds = new ArrayList<>();
+                participantIds.add(String.valueOf(createUserId));
+                if(StringUtils.isNotEmpty(partUserIds)) {
+                    participantIds.addAll(Arrays.asList(partUserIds.split(",")));
                 }
+                // 匹配获取所有参与者姓名
+                String partUserNames = participantIds.stream()
+                        .mapToLong(Long::parseLong)
+                        .mapToObj(userMap::get) // 这里可能会有null值，如果用户ID不存在于userMap中
+                        .filter(Objects::nonNull) // 过滤掉null值
+                        .collect(Collectors.joining(", "));
+                achievementDTO.setPartUserNames(partUserNames);
             });
         }
         return studioAchievementDTOS;
     }
 
-    /**
-     * 新增成果
-     * 
-     * @param studioAchievement 成果
-     * @return 结果
-     */
     @Override
-    public int insertStudioAchievement(StudioAchievementModel studioAchievement)
+    public void insertStudioAchievement(StudioAchievementModel studioAchievement)
     {
         // 设置创建人
         studioAchievement.setCreateUserId(SecurityUtils.getUserId());
-        return studioAchievementMapper.insertStudioAchievement(studioAchievement);
+        studioAchievementMapper.insertStudioAchievement(studioAchievement);
+    }
+
+    @Override
+    public void updateOwnStudioAchievement(StudioAchievementModel studioAchievement) {
+        if (checkNotOwnAchievement(studioAchievement.getId())) {
+            throw new ServiceException("请勿编辑非个人的成果信息！");
+        }
+        updateStudioAchievement(studioAchievement);
     }
 
     /**
@@ -107,30 +175,39 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
      * @return 结果
      */
     @Override
-    public int updateStudioAchievement(StudioAchievementModel studioAchievement)
+    public void updateStudioAchievement(StudioAchievementModel studioAchievement)
     {
-        return studioAchievementMapper.updateStudioAchievement(studioAchievement);
+        studioAchievementMapper.updateStudioAchievement(studioAchievement);
     }
 
     /**
      * 修改收录状态
      * @param id 成果id
      * @param behavior 不同行为情况
+     *        情况1、behavior 为 1情况，【申请收录操作】修改状态为申请收录
+     *        情况2、behavior 为 2情况，【退回收录操作】修改状态为退出收录（未收录状态）
+     *        情况3、behavior 为 3情况，【审核通过收录操作】修改状态为通过收录（已收录状态）
      * @return
      */
     @Override
-    public int updateInclusion(Long id, int behavior) {
+    public void updateInclusion(Long id, int behavior) {
         StudioAchievementModel updateStudioAchievementModel = new StudioAchievementModel();
         // 设置成果id
         updateStudioAchievementModel.setId(id);
-        // 情况1、behavior 为 1情况，【申请收录操作】修改状态为申请收录
         if (behavior == 1) {
             updateStudioAchievementModel.setInclusionFlag(InclusionTypeEnum.APPLY_INCLUSION.getVal());
-        }else if (behavior == 2) { // 情况2、behavior 为 2情况，【退回收录操作】修改状态为退出收录（未收录状态）
+        }else if (behavior == 2) {
             updateStudioAchievementModel.setInclusionFlag(InclusionTypeEnum.NO_INCLUSION.getVal());
+        }else if (behavior == 3) {
+            updateStudioAchievementModel.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal());
         }
         // 更新成果
-        return this.updateStudioAchievement(updateStudioAchievementModel);
+        this.updateStudioAchievement(updateStudioAchievementModel);
+    }
+
+    @Override
+    public void deleteOwnStudioAchievementByIds(Long[] ids) {
+
     }
 
 
@@ -141,20 +218,8 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
      * @return 结果
      */
     @Override
-    public int deleteStudioAchievementByIds(Long[] ids)
+    public void deleteStudioAchievementByIds(Long[] ids)
     {
-        return studioAchievementMapper.deleteStudioAchievementByIds(ids);
-    }
-
-    /**
-     * 删除成果信息
-     * 
-     * @param id 成果主键
-     * @return 结果
-     */
-    @Override
-    public int deleteStudioAchievementById(Long id)
-    {
-        return studioAchievementMapper.deleteStudioAchievementById(id);
+        studioAchievementMapper.deleteStudioAchievementByIds(ids);
     }
 }

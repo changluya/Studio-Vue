@@ -173,27 +173,29 @@
                 <div class="row">
                     <div class="col-lg-12">
                     <ul id="portfolio-flters">
-                        <li class="filter-active">All</li>
-                        <li >Web</li>
+                        <li v-for="(pocs, index) in pocsArr" v-on:click="clickPocs(pocs.id)" :class="curClickPocs == pocs.id ? 'filter-active' : ''" v-html="pocs.pocsName" >All</li>
+                        <!-- <li >Web</li>
                         <li >App</li>
-                        <li >硬件</li>
+                        <li >硬件</li> -->
                     </ul>
                     </div>
                 </div>
 
                 <div class="row portfolio-container" style="display: flex;flex-wrap: wrap;">
-                    <div v-for="index in [1,2,3,4]" class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
+                    <div v-for="(achievement, index) in showAchievementArr" :key="index" class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
                         <div class="portfolio-wrap">
                             <figure>
-                            <img src="@/assets/image/portfolio/production.png" class="img-fluid" alt="">
-                            <a href="@/assets/image/portfolio/production.png" class="link-preview" data-lightbox="portfolio"
-                                data-title="xx信号检测仪web" title="Preview"><i class="ion ion-eye"></i></a>
-                            <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                                <!-- @/assets/image/portfolio/production.png -->
+                                <img :src="achievement.previewImg" class="img-fluid" alt="">
+                                <a :href="achievement.previewImg" class="link-preview" data-lightbox="portfolio"
+                                    :data-title="achievement.title" title="Preview"><i class="ion ion-eye"></i></a>
+                                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                             </figure>
                             <div class="portfolio-info">
-                                <h4><a href="#">xx信号检测仪web</a></h4>
-                                <p style="font-size: 12px;font-weight: lighter;color: black;">2024年5月～2024年8月</p>
-                                <span style="font-size: 12px;">参与成员：茅津菁、xxx、xxx</span>
+                                <div :class="achievement.partUserNames.includes(',') ? 'teamTagBox' : 'ownTagBox'" v-html="achievement.partUserNames.includes(',') ? '团队' : '个人'">个人</div>
+                                <h4><a href="#" v-html="achievement.title">xx信号检测仪web</a></h4>
+                                <p style="font-size: 12px;font-weight: lighter;color: black;" v-html="achievement.procedureDate">2024年5月～2024年8月</p>
+                                <span style="font-size: 12px;">参与成员：<span v-html="achievement.partUserNames"></span></span>
                         </div>
                         </div>
                     </div>
@@ -239,7 +241,7 @@
                         </div> -->
                     </div>
 
-                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap;">
+                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
                         <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
                             <div class="honerDate">2024年7月</div>
                             <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">
@@ -315,6 +317,8 @@
 <script>
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
+import { showAchievements } from '@/api/openAchievementApi.js'
+import { pocsList } from '@/api/openPocsApi.js'
 
 export default {
     name: 'Index',
@@ -323,11 +327,14 @@ export default {
     },
     data() {
         return {
+            // 动态配置
             activeName: 'first',
             stretch: true,
+            curClickPocs: 0,  // 当前选中的栏目
             siteConfigParms: {
                 configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_MAINCONFIG.configKey
             },
+            // 动态响应数据
             siteConfig: {
                 banners: [
                     {
@@ -352,22 +359,77 @@ export default {
                     }
                 ],
                 teamDescription: "这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！\n工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。\n"
-            }
-
+            },
+            // 展示成果数组
+            showAchievementArr: [],
+            // 成果分类列表
+            pocsArr: [
+                {
+                    "id": 0,
+                    "pocsName": "ALL"
+                },
+                {
+                    "id": 2,
+                    "pocsName": "无人机"
+                },
+                {
+                    "id": 3,
+                    "pocsName": "web系统"
+                },
+                {
+                    "id": 4,
+                    "pocsName": "无人车"
+                }
+            ]
         }
     },
     created() {
-        console.log("index")
-        window.curPage = 'index'
-        this.$getSiteConfig(this.siteConfigParms).then(configValue=>{
-            // console.log(configValue)
-            this.siteConfig.banners = configValue.bannerTableData
-            this.siteConfig.teamDescription = configValue.teamDescription.replace(/\n/g,'<br />')
-        });
+        this.init()
+        // console.log("index")
     },
     methods: {
+        init() {
+            window.curPage = 'index'
+            // 获取网站banner信息
+            this.$getSiteConfig(this.siteConfigParms).then(configValue=>{
+                // console.log(configValue)
+                this.siteConfig.banners = configValue.bannerTableData
+                this.siteConfig.teamDescription = configValue.teamDescription.replace(/\n/g,'<br />')
+            });
+            // 获取成果分类信息
+            pocsList().then((data) => {
+                console.log("pocsList=>", data.data)
+                this.pocsArr = data.data
+                this.pocsArr.unshift({
+                    id: 0,
+                    pocsName: 'ALL'
+                })
+            }).catch(err=>console.log(err))
+            // 获取成果信息
+            this.getShowAchievements()
+        },
+        // 获取成果信息
+        getShowAchievements() {
+            // 构建请求对象
+            let achievementParams = {}
+            if (this.curClickPocs != 0) {
+                achievementParams = { pocsId: this.curClickPocs }
+            }
+            console.log("achievementParams=>", achievementParams)
+            showAchievements(achievementParams).then((data) => {
+                // console.log("showAchievements=>", data)
+                this.showAchievementArr = data.data
+                console.log("showAchievementArr=>", this.showAchievementArr)
+            }).catch(err=>console.log(err))
+        },
         handleClick() {
             console.log("activeName=>", this.activeName)
+        },
+        // 点击分类标签
+        clickPocs(curClickPocs) {
+            this.curClickPocs = curClickPocs
+            // 获取成果信息
+            this.getShowAchievements()
         }
     }
 }
@@ -418,7 +480,29 @@ export default {
         transform: translate(-50%, 0%);
         text-align: center;
     }
+  }
 
+  // 定义一个基础类，包含共有的样式
+  %tagBoxBase {
+    font-size: 12px;
+    float: left;
+    position: relative;
+    font-weight: 330;
+    color: black;
+    left: -3%;
+    top: -27%;
+    padding: 2px 5px;
+    border-radius: 3px;
+  } 
+
+  .teamTagBox {
+    @extend %tagBoxBase;
+    background-color: rgba(129, 179, 55, 0.9);
+  }
+
+  .ownTagBox {
+    @extend %tagBoxBase;
+    background-color: rgba(127, 131, 247, 0.9);
   }
 
   .progressBox span{

@@ -1,4 +1,4 @@
-package com.changlu.web.controller.open.site;
+package com.changlu.web.controller.open;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.SiteConfigService;

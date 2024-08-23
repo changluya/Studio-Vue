@@ -15,6 +15,9 @@ public class StudioAchievementDTO extends StudioAchievementModel {
 
     private String pocsName;
 
+    // 创建者姓名，根据【createUserId】构建
+    private String createUserName;
+
     // 参与成员姓名，根据【partUserIds】构建
     private String partUserNames;
 

@@ -8,16 +8,18 @@
         <result property="ccieId"    column="ccie_id"    />
         <result property="ccieName"    column="ccie_name"    />
         <result property="ccieImg"    column="ccie_img"    />
-        <result property="ccciGetTime"    column="ccci_get_time"    />
+        <result property="ccieGetTime"    column="ccie_get_time"    />
         <result property="userId"    column="user_id"    />
         <result property="realName"    column="real_name"    />
         <result property="gradeNum"    column="grade_num"    />
         <result property="majorName"    column="major_name"    />
+        <result property="type"    column="type"    />
+        <result property="typeName"    column="type_name"    />
     </resultMap>
 
     <sql id="selectZfCcieModelVo">
         SELECT
-            t.ccie_id, t.ccie_name, t.ccie_img, t.ccci_get_time,
+            t.ccie_id, t.ccie_name, t.ccie_img, t.ccie_get_time, t.type, t.type_name,
             t1.real_name,
             t2.grade_num, t2.grade_id,
             t3.major_name, t3.major_id
@@ -35,10 +37,10 @@
             <if test="realName != null  and realName != ''"> and t1.real_name like concat('%', #{realName}, '%')</if>
             <if test="gradeId != null "> and t2.grade_id = #{gradeId}</if>
             <if test="majorId != null "> and t3.major_id = #{majorId}</if>
-            <if test="params.beginCcciGetTime != null and params.beginCcciGetTime != '' and params.endCcciGetTime != null and params.endCcciGetTime != ''"> and ccci_get_time between #{params.beginCcciGetTime} and #{params.endCcciGetTime}</if>
+            <if test="params.beginCcieGetTime != null and params.beginCcieGetTime != '' and params.endCcieGetTime != null and params.endCcieGetTime != ''"> and ccie_get_time between #{params.beginCcieGetTime} and #{params.endCcieGetTime}</if>
         </where>
         ORDER BY
-            t.ccci_get_time DESC
+            t.ccie_get_time DESC
     </select>
 
 

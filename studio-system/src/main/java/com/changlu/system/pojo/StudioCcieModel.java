@@ -43,10 +43,10 @@ public class StudioCcieModel extends BaseEntity {
     private String ccieImg;
 
     @ApiModelProperty(value = "获奖时间")
-    @TableField("ccci_get_time")
+    @TableField("ccie_get_time")
     @JsonFormat(pattern="yyyy-MM-dd")
     @Excel(name = "获奖时间", dateFormat = "yyyy-MM-dd")
-    private Date ccciGetTime;
+    private Date ccieGetTime;
 
     @ApiModelProperty(value = "经验总结")
     @TableField("ccie_think")
@@ -56,6 +56,14 @@ public class StudioCcieModel extends BaseEntity {
     @ApiModelProperty(value = "用户id")
     @TableField("user_id")
     private Long userId;
+
+    @ApiModelProperty(value = "类别code")
+    @TableField("类型")
+    private Integer type;
+
+    @ApiModelProperty(value = "类型名称")
+    @TableField("type_name")
+    private String typeName;
 
 
 }

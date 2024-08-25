@@ -27,15 +27,17 @@ CREATE TABLE `school_major` (
     PRIMARY KEY (`major_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
--- 团队个人证书表
+-- 证书表
 DROP TABLE IF EXISTS `studio_ccie`;
 CREATE TABLE `studio_ccie` (
    `ccie_id` bigint NOT NULL AUTO_INCREMENT COMMENT '获奖证书主键id',
-   `ccie_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '证书名称',
-   `ccie_img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '' COMMENT '获奖证书图片',
-   `ccci_get_time` datetime DEFAULT NULL COMMENT '获奖时间',
-   `ccie_think` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '经验总结',
+   `ccie_name` varchar(100)  NOT NULL DEFAULT '' COMMENT '证书名称',
+   `ccie_img` varchar(255) DEFAULT '' COMMENT '获奖证书图片',
+   `ccie_get_time` datetime DEFAULT NULL COMMENT '获奖时间',
+   `ccie_think` text COMMENT '经验总结',
    `user_id` bigint DEFAULT NULL COMMENT '用户id',
+   `type` TINYINT DEFAULT 0 COMMENT '类别字段码，对应sys_dict_type中的dict_type=CCIE_TYPE，0表示其他证书可自定义',
+   `type_name` varchar(100) DEFAULT '' COMMENT '自定义证书类别名称（自定义名称type=0的名称也放置其中）',
    PRIMARY KEY (`ccie_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 

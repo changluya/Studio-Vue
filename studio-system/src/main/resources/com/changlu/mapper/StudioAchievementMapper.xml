@@ -120,5 +120,8 @@
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+        <where>
+            <if test="createUserId != null">and create_user_id = #{createUserId},</if>
+        </where>
     </delete>
 </mapper>

@@ -1,6 +1,7 @@
 package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.changlu.common.domain.MenuOption;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.system.pojo.StudioCcieModel;
 
@@ -30,7 +31,7 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      * @param ccieModel
      * @return ZfCcie集合
      */
-    List<StudioCcieModel> selectZfCcieListByUserId(StudioCcieModel ccieModel);
+    List<StudioCcieModel> selectOwnCcieList(StudioCcieModel ccieModel);
 
     /**
      * 查询ZfCcie
@@ -38,7 +39,7 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      * @param ccieId ZfCcie主键
      * @return ZfCcie
      */
-    StudioCcieModel selectZfCcieByCcieId(Long ccieId);
+    StudioCcieModel selectOwnCcieByCcieId(Long ccieId);
 
     /**
      * 新增ZfCcie
@@ -54,7 +55,15 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      * @param zfCcie ZfCcie
      * @return 结果
      */
-    int updateZfCcie(StudioCcieModel zfCcie);
+    int updateOwnCcie(StudioCcieModel zfCcie);
+
+    /**
+     * 批量删除个人的Ccie
+     *
+     * @param ccieIds 需要删除的Ccie主键集合
+     * @return 结果
+     */
+    int deleteOwnCcieByCcieIds(Long[] ccieIds);
 
     /**
      * 批量删除ZfCcie

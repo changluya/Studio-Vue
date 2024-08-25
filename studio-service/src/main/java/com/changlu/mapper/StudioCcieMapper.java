@@ -3,6 +3,7 @@ package com.changlu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.changlu.system.pojo.StudioCcieModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public interface StudioCcieMapper extends BaseMapper<StudioCcieModel> {
      * @param ccieIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteZfCcieByCcieIds(Long[] ccieIds);
+    public int deleteZfCcieByCcieIds(@Param("ccieIds") Long[] ccieIds,@Param("createUserId") Long createUserId);
 
     /**
      * 根据用户id删除ZfCcie

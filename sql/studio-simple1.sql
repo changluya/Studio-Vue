@@ -83,7 +83,7 @@ CREATE TABLE `studio_ccie`  (
   `ccie_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '获奖证书主键id',
   `ccie_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '证书名称',
   `ccie_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '获奖证书图片',
-  `ccci_get_time` datetime(0) NULL DEFAULT NULL COMMENT '获奖时间',
+  `ccie_get_time` datetime(0) NULL DEFAULT NULL COMMENT '获奖时间',
   `ccie_think` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '经验总结',
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
   PRIMARY KEY (`ccie_id`) USING BTREE

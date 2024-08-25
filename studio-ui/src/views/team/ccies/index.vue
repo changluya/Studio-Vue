@@ -33,7 +33,7 @@
       </el-form-item>
       <el-form-item label="获奖时间">
         <el-date-picker
-          v-model="daterangeCcciGetTime"
+          v-model="daterangeCcieGetTime"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
@@ -98,12 +98,13 @@
         type="index"
         width="50">
       </el-table-column>
-      <el-table-column label="获奖时间" align="center" prop="ccciGetTime" width="160">
+      <el-table-column label="获奖时间" align="center" prop="ccieGetTime" width="160">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.ccciGetTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.ccieGetTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="证书名称" align="center" prop="ccieName" width="200"/>
+      <el-table-column label="证书类别" align="center" prop="typeName" width="200"/>
 <!--      <el-table-column label="获奖证书主键id" align="center" prop="ccieId" />-->
       <el-table-column label="姓名" align="center" prop="realName" width="120"/>
       <el-table-column label="年级" align="center" prop="gradeNum" width="150"/>
@@ -142,13 +143,22 @@
 
     <!-- 添加或修改ZfCcie对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="证书名称" prop="ccieName">
           <el-input v-model="form.ccieName" placeholder="请输入证书名称" />
         </el-form-item>
-        <el-form-item label="获奖时间" prop="ccciGetTime">
+        <el-form-item label="获取类别" prop="type" label-width="120px">
+          <el-select v-model="form.type" placeholder="请选择证书类别" filterable clearable>
+            <el-option v-for="(item, index) in ccieTypeOptions" :key="index" :label="item.name"
+                       :value="item.val" :disabled="item.disabled"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-show="form.type === 0" prop="typeName" label="自定义类别名称" label-width="120px">
+          <el-input v-model="form.typeName" placeholder="请输入自定义的类别名称" :style="{width: '60%'}"/>
+        </el-form-item>
+        <el-form-item label="获奖时间" prop="ccieGetTime" label-width="120px">
           <el-date-picker clearable
-                          v-model="form.ccciGetTime"
+                          v-model="form.ccieGetTime"
                           type="date"
                           value-format="yyyy-MM-dd"
                           placeholder="请选择获奖时间">
@@ -166,6 +176,7 @@
 <script>
 import { getCcie, delCcie, updateCcie } from "@/api/own/ccie";
 import { listCcie } from "@/api/team/ccie";
+import { getCcieTypeMenu } from "@/api/menu";
 import infoApi from "@/api/own/info";
 
 export default {
@@ -191,13 +202,13 @@ export default {
       // 是否显示弹出层
       open: false,
       // 用户id时间范围
-      daterangeCcciGetTime: [],
+      daterangeCcieGetTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         ccieName: null,
-        ccciGetTime: null,
+        ccieGetTime: null,
       },
       // 表单参数
       form: {},
@@ -212,8 +223,29 @@ export default {
       majorIdOptions: [],
       gradeIdOptions: [],
       //提示信息
-      name: ""
+      name: "",
+      ccieTypeOptions: []
     };
+  },
+  watch: {
+    // 监视 form 对象中的 type 属性
+    'form.type': function(newVal, oldVal) {
+      console.log(`form.type changed from ${oldVal} to ${newVal}`);
+      // 处理分自定义的时候，typeName根据选项的name来进行取值
+      if (this.form.type !== 0) {
+        for (let i = 0; i < this.ccieTypeOptions.length; i++) {
+          if (this.form.type === this.ccieTypeOptions[i].val) {
+            this.form.typeName = this.ccieTypeOptions[i].name
+          }
+        }
+      }
+      // 必要条件如下：
+      // 不能清空typeName情况：编辑界面打开时(undefined=>0)
+      // 需要清空typeName情况：其他非0状态切换到0时 (1=>0)
+      if (oldVal !== undefined && newVal === 0) {
+        this.form.typeName = ''
+      }
+    }
   },
   created() {
     this.getList();
@@ -222,27 +254,40 @@ export default {
   methods: {
     /** 查询ZfCcie列表 */
     getList() {
-      this.loading = true;
+      this.loading = true
       this.queryParams.params = {};
-      if (null != this.daterangeCcciGetTime && '' != this.daterangeCcciGetTime) {
-        this.queryParams.params["beginCcciGetTime"] = this.daterangeCcciGetTime[0];
-        this.queryParams.params["endCcciGetTime"] = this.daterangeCcciGetTime[1];
+      if (null != this.daterangeCcieGetTime && '' != this.daterangeCcieGetTime) {
+        this.queryParams.params["beginCcieGetTime"] = this.daterangeCcieGetTime[0];
+        this.queryParams.params["endCcieGetTime"] = this.daterangeCcieGetTime[1];
       }
       listCcie(this.queryParams).then(response => {
         this.ccieList = response.rows;
         this.total = response.total;
         this.loading = false;
-      });
+      })
     },
-    //查询菜单信息
-    getMenu(){
+    // 查询菜单信息
+    getMenu() {
+      // 获取证书信息
       infoApi.getMenu().then(data => {
         // console.log("getMenus:",data)
         let results = data.data
         this.majorIdOptions = results.majors
         this.gradeIdOptions = results.grades
         this.gradeIdOptions.forEach((grade)=>grade.gradeNum = grade.gradeNum + "级")
-      }).catch(err=>console.log(err))
+      }).catch(err => console.log(err))
+    },
+    // 获取证书类别菜单
+    getCcieMenuOptions() {
+      // 获取证书类别菜单
+      getCcieTypeMenu().then(data => {
+        // console.log('getCcieTypeMenu:', data)
+        this.ccieTypeOptions = data.data
+        this.ccieTypeOptions.push({
+          name: '自定义类别',
+          val: 0
+        })
+      }).catch(err => console.log(err))
     },
     // 取消按钮
     cancel() {
@@ -255,7 +300,7 @@ export default {
         ccieId: null,
         ccieName: null,
         ccieImg: null,
-        ccciGetTime: null,
+        ccieGetTime: null,
         ccieThink: null,
         userId: null
       };
@@ -268,7 +313,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.daterangeCcciGetTime = [];
+      this.daterangeCcieGetTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -299,6 +344,7 @@ export default {
         this.open = true;
         this.title = "修改证书";
       });
+      this.getCcieMenuOptions()
     },
     /** 提交按钮 */
     submitForm() {
@@ -309,14 +355,17 @@ export default {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
-            });
-          } else {
-            addCcie(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              this.reset()
             });
           }
+          // else {
+          //   addCcie(this.form).then(response => {
+          //     this.$modal.msgSuccess("新增成功");
+          //     this.open = false;
+          //     this.getList();
+          //     this.reset()
+          //   });
+          // }
         }
       });
     },

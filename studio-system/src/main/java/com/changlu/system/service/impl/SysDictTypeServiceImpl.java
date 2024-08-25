@@ -31,15 +31,6 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     private SysDictDataMapper dictDataMapper;
 
     /**
-     * 项目启动时，初始化字典到缓存
-     */
-    @PostConstruct
-    public void init()
-    {
-        loadingDictCache();
-    }
-
-    /**
      * 根据条件分页查询字典类型
      *
      * @param dictType 字典类型信息
@@ -120,32 +111,6 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
             }
             dictTypeMapper.deleteDictTypeById(dictId);
         }
-    }
-
-    /**
-     * 加载字典缓存数据
-     */
-    @Override
-    public void loadingDictCache()
-    {
-    }
-
-    /**
-     * 清空字典缓存数据
-     */
-    @Override
-    public void clearDictCache()
-    {
-    }
-
-    /**
-     * 重置字典缓存数据
-     */
-    @Override
-    public void resetDictCache()
-    {
-        clearDictCache();
-        loadingDictCache();
     }
 
     /**

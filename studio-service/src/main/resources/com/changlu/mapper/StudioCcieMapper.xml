@@ -7,14 +7,16 @@
         <result property="ccieId"    column="ccie_id"    />
         <result property="ccieName"    column="ccie_name"    />
         <result property="ccieImg"    column="ccie_img"    />
-        <result property="ccciGetTime"    column="ccci_get_time"    />
+        <result property="ccieGetTime"    column="ccie_get_time"    />
         <result property="ccieThink"    column="ccie_think"    />
         <result property="userId"    column="user_id"    />
+        <result property="type"    column="type"    />
+        <result property="typeName"    column="type_name"    />
     </resultMap>
 
     <!-- 查询的vo对象   -->
     <sql id="selectZfCcieVo">
-        select ccie_id, ccie_name, ccie_img, ccci_get_time, ccie_think, user_id from studio_ccie
+        select ccie_id, ccie_name, ccie_img, ccie_get_time, ccie_think, user_id, type, type_name from studio_ccie
     </sql>
 
     <!--  列表查询  -->
@@ -22,7 +24,7 @@
         <include refid="selectZfCcieVo"/>
         <where>
             <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
-            <if test="params.beginCcciGetTime != null and params.beginCcciGetTime != '' and params.endCcciGetTime != null and params.endCcciGetTime != ''"> and ccci_get_time between #{params.beginCcciGetTime} and #{params.endCcciGetTime}</if>
+            <if test="params.beginCcieGetTime != null and params.beginCcieGetTime != '' and params.endCcieGetTime != null and params.endCcieGetTime != ''"> and ccie_get_time between #{params.beginCcieGetTime} and #{params.endCcieGetTime}</if>
         </where>
     </select>
 
@@ -32,8 +34,7 @@
         <where>
             user_id = #{userId}
             <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
-            <if test="params.beginCcciGetTime != null and params.beginCcciGetTime != '' and params.endCcciGetTime != null and params.endCcciGetTime != ''"> and ccci_get_time between #{params.beginCcciGetTime} and #{params.endCcciGetTime}</if>
-
+            <if test="params.beginCcieGetTime != null and params.beginCcieGetTime != '' and params.endCcieGetTime != null and params.endCcieGetTime != ''"> and ccie_get_time between #{params.beginCcieGetTime} and #{params.endCcieGetTime}</if>
         </where>
     </select>
 
@@ -50,17 +51,21 @@
             <if test="ccieId != null">ccie_id,</if>
             <if test="ccieName != null and ccieName != ''">ccie_name,</if>
             <if test="ccieImg != null">ccie_img,</if>
-            <if test="ccciGetTime != null">ccci_get_time,</if>
+            <if test="ccieGetTime != null">ccie_get_time,</if>
             <if test="ccieThink != null">ccie_think,</if>
             <if test="userId != null">user_id,</if>
+            <if test="type != null">`type`,</if>
+            <if test="typeName != null">type_name,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="ccieId != null">#{ccieId},</if>
             <if test="ccieName != null and ccieName != ''">#{ccieName},</if>
             <if test="ccieImg != null">#{ccieImg},</if>
-            <if test="ccciGetTime != null">#{ccciGetTime},</if>
+            <if test="ccieGetTime != null">#{ccieGetTime},</if>
             <if test="ccieThink != null">#{ccieThink},</if>
             <if test="userId != null">#{userId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeName != null">#{typeName},</if>
         </trim>
     </insert>
 
@@ -70,9 +75,11 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="ccieName != null and ccieName != ''">ccie_name = #{ccieName},</if>
             <if test="ccieImg != null">ccie_img = #{ccieImg},</if>
-            <if test="ccciGetTime != null">ccci_get_time = #{ccciGetTime},</if>
+            <if test="ccieGetTime != null">ccie_get_time = #{ccieGetTime},</if>
             <if test="ccieThink != null">ccie_think = #{ccieThink},</if>
             <if test="userId != null">user_id = #{userId},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
         </trim>
         where ccie_id = #{ccieId}
     </update>
@@ -86,6 +93,9 @@
         <foreach item="ccieId" collection="array" open="(" separator="," close=")">
             #{ccieId}
         </foreach>
+        <where>
+            <if test="createUserId != null">and user_id = #{createUserId},</if>
+        </where>
     </delete>
 
     <delete id="deleteZfCcieByUserId" parameterType="Long">

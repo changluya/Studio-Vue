@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/own/ccie")
-public class CcieController extends BaseController {
+public class OwnCcieController extends BaseController {
 
     @Autowired
     private StudioCcieService ccieService;
@@ -31,7 +31,7 @@ public class CcieController extends BaseController {
     @PreAuthorize("@ss.hasPerm('own:ccie:list')")
     public TableDataInfo list(StudioCcieModel ccieModel){
         startPage();//开启分页
-        List<StudioCcieModel> list = ccieService.selectZfCcieListByUserId(ccieModel);
+        List<StudioCcieModel> list = ccieService.selectOwnCcieList(ccieModel);
         return getDataTable(list);
     }
 
@@ -41,7 +41,7 @@ public class CcieController extends BaseController {
     @GetMapping("/{ccieId}")
     @PreAuthorize("@ss.hasPerm('own:ccie:query')")
     public ResponseResult getInfo(@PathVariable("ccieId") Long ccieId){
-        return ResponseResult.success(ccieService.selectZfCcieByCcieId(ccieId));
+        return ResponseResult.success(ccieService.selectOwnCcieByCcieId(ccieId));
     }
 
     /**
@@ -59,7 +59,7 @@ public class CcieController extends BaseController {
     @PutMapping
     @PreAuthorize("@ss.hasPerm('own:ccie:edit')")
     public ResponseResult edit(@RequestBody StudioCcieModel ccieModel){
-        return ResponseResult.toResponse(ccieService.updateZfCcie(ccieModel));
+        return ResponseResult.toResponse(ccieService.updateOwnCcie(ccieModel));
     }
 
     /**

@@ -28,10 +28,10 @@
             UNION SELECT CONCAT(#{beginYear}+2,'')
             UNION SELECT CONCAT(#{beginYear}+3,'') ) as tmp
         LEFT JOIN (
-            SELECT COUNT(*) count,DATE_FORMAT(r.ccci_get_time, '%Y') as year
+            SELECT COUNT(*) count,DATE_FORMAT(r.ccie_get_time, '%Y') as year
                 FROM studio_ccie r
-                WHERE DATE_FORMAT(r.ccci_get_time, '%Y') BETWEEN #{beginYear} and #{endYear} -- 浣跨敤涓ゆ潯鏁版嵁
-                GROUP BY DATE_FORMAT(r.ccci_get_time, '%Y') ORDER BY DATE_FORMAT(r.ccci_get_time, '%Y') asc
+                WHERE DATE_FORMAT(r.ccie_get_time, '%Y') BETWEEN #{beginYear} and #{endYear} -- 浣跨敤涓ゆ潯鏁版嵁
+                GROUP BY DATE_FORMAT(r.ccie_get_time, '%Y') ORDER BY DATE_FORMAT(r.ccie_get_time, '%Y') asc
         ) t
         ON t.year = tmp.year
         order by tmp.year asc

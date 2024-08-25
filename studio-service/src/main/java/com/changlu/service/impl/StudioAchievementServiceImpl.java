@@ -12,6 +12,7 @@ import com.changlu.system.pojo.SysUser;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
 import com.changlu.vo.achievement.ShowAchievement;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.compiler.ast.Variable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -207,7 +208,8 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
 
     @Override
     public void deleteOwnStudioAchievementByIds(Long[] ids) {
-
+        Long createUserId = SecurityUtils.getUserId();
+        studioAchievementMapper.deleteStudioAchievementByIds(ids, createUserId);
     }
 
 
@@ -220,6 +222,6 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
     @Override
     public void deleteStudioAchievementByIds(Long[] ids)
     {
-        studioAchievementMapper.deleteStudioAchievementByIds(ids);
+        studioAchievementMapper.deleteStudioAchievementByIds(ids, null);
     }
 }

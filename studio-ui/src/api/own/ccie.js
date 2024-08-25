@@ -42,3 +42,21 @@ export function delCcie(ccieId) {
     method: 'delete'
   })
 }
+
+// 申请收录
+export function applyInclusion(data) {
+  return request({
+    url: '/own/ccie/apply',
+    method: 'put',
+    data: data
+  })
+}
+
+// 取消收录
+export function cancelInclusion(data) {
+  return request({
+    url: '/own/ccie/cancel',
+    method: 'put',
+    data: data
+  })
+}

@@ -92,14 +92,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['achievement:achievement:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['achievement:achievement:remove']"
           >删除</el-button>
           <el-button
             v-if="scope.row.inclusionFlag === 0 || scope.row.inclusionFlag === 2"
@@ -142,7 +140,7 @@
                        :value="item.id" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="参与者" prop="partUserIds" label-width="120px">
+        <el-form-item label="其他参与者" prop="partUserIds" label-width="120px">
           <el-select v-model="partUserArr" multiple placeholder="请选择">
             <el-option
               v-for="item in memberOptions"
@@ -195,6 +193,7 @@
 import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement, applyInclusion, cancelInclusion } from '@/api/own/achievement'
 import { getPocsMenu } from '@/api/team/pocs'
 import { getMemberOptions } from "@/api/team/race";
+import { getInclusionFlagName } from '@/utils/webtool.js'
 
 export default {
   name: 'Achievement',
@@ -354,7 +353,7 @@ export default {
       // 获取成果详情
       getAchievement(id).then(response => {
         this.form = response.data
-        console.log('this.form=>', this.form)
+        // console.log('this.form=>', this.form)
         // 参与成员id字符串转为数组，如："1,2" => ["1","2"]，后面的map(Number)意思是["1","2"]=>[1,2]
         if (response.data.partUserIds && response.data.partUserIds.length > 0) {
           this.partUserArr = response.data.partUserIds.split(",").map(Number)
@@ -412,17 +411,7 @@ export default {
     },
     // 根据flag获取指定的收录状态
     getInclusionFlagName(inclusionFlag) {
-      let name = '';
-      if (inclusionFlag === 0) {
-        name = '未收录'
-      } else if (inclusionFlag === 1) {
-        name = '申请中'
-      } else if (inclusionFlag === 2) {
-        name = '收录打回'
-      } else if (inclusionFlag === 3) {
-        name = '收录通过'
-      }
-      return name
+      return getInclusionFlagName(inclusionFlag)
     },
     // 申请收录
     handleApplyInclusion(row) {

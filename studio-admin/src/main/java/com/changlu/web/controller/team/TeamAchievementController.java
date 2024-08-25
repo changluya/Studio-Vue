@@ -30,7 +30,7 @@ public class TeamAchievementController extends BaseController
     /**
      * 查询成果列表
      */
-    @PreAuthorize("@ss.hasPerm('team:achievement:list')")
+//    @PreAuthorize("@ss.hasPerm('team:achievement:list')")
     @GetMapping("/list")
     public TableDataInfo list(StudioAchievementModel studioAchievement)
     {
@@ -42,7 +42,7 @@ public class TeamAchievementController extends BaseController
     /**
      * 获取成果详细信息
      */
-    @PreAuthorize("@ss.hasPerm('team:achievement:query')")
+//    @PreAuthorize("@ss.hasPerm('team:achievement:query')")
     @GetMapping(value = "/{id}")
     public ResponseResult getInfo(@PathVariable("id") Long id)
     {
@@ -52,7 +52,7 @@ public class TeamAchievementController extends BaseController
     /**
      * 新增成果
      */
-    @PreAuthorize("@ss.hasPerm('team:achievement:add')")
+//    @PreAuthorize("@ss.hasPerm('team:achievement:add')")
     @PostMapping
     public ResponseResult add(@RequestBody StudioAchievementModel studioAchievement)
     {

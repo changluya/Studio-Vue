@@ -1,7 +1,9 @@
 package com.changlu.web.controller.own;
 
 import com.changlu.common.domain.ResponseResult;
+import com.changlu.common.exception.ServiceException;
 import com.changlu.service.StudioCcieService;
+import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.web.controller.BaseController;
 import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.common.utils.page.TableDataInfo;
@@ -70,6 +72,38 @@ public class OwnCcieController extends BaseController {
     @PreAuthorize("@ss.hasPerm('own:ccie:remove')")
     public ResponseResult remove(@PathVariable(name = "ccieIds") Long[] ccieIds){
         return ResponseResult.toResponse(ccieService.deleteZfCcieByCcieIds(ccieIds));
+    }
+
+    /**
+     * 申请收录
+     */
+//    @PreAuthorize("@ss.hasPerm('own:achievement:apply')")
+    @PutMapping("/apply")
+    public ResponseResult applyInclusion(@RequestBody StudioCcieModel ccieModel)
+    {
+        // 校验参数
+        Long id = ccieModel.getCcieId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        ccieService.updateInclusion(id, 1);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 取消收录
+     */
+//    @PreAuthorize("@ss.hasPerm('own:achievement:cancel')")
+    @PutMapping("/cancel")
+    public ResponseResult cancelInclusion(@RequestBody StudioCcieModel ccieModel)
+    {
+        // 校验参数
+        Long id = ccieModel.getCcieId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        ccieService.updateInclusion(id, 2);
+        return ResponseResult.success();
     }
 
     /**

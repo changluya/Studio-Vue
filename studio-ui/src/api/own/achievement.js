@@ -44,7 +44,7 @@ export function applyInclusion(data) {
   })
 }
 
-// 取消收留
+// 取消收录
 export function cancelInclusion(data) {
   return request({
     url: '/own/achievement/cancel',

@@ -100,14 +100,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['achievement:achievement:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['achievement:achievement:remove']"
           >删除</el-button>
           <el-button
             v-if="scope.row.inclusionFlag === 1"
@@ -375,6 +373,8 @@ export default {
         if (response.data.partUserIds && response.data.partUserIds.length > 0) {
           this.partUserArr = response.data.partUserIds.split(",").map(Number)
         }
+        // 是否收录
+        this.chooseInclusion = response.data.inclusionFlag === 3
         this.open = true
         this.title = '修改成果'
       })

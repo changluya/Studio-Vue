@@ -104,16 +104,20 @@
         </template>
       </el-table-column>
       <el-table-column label="证书名称" align="center" prop="ccieName" width="200"/>
-      <el-table-column label="证书类别" align="center" prop="typeName" width="200"/>
-<!--      <el-table-column label="获奖证书主键id" align="center" prop="ccieId" />-->
-      <el-table-column label="姓名" align="center" prop="realName" width="120"/>
-      <el-table-column label="年级" align="center" prop="gradeNum" width="150"/>
-      <el-table-column label="专业" align="center" prop="majorName" width="180"/>
-      <el-table-column label="获奖证书" align="center" prop="ccieImg" width="200">
+      <el-table-column label="证书类别" align="center" prop="typeName" width="150"/>
+      <el-table-column label="获奖证书" align="center" prop="ccieImg" width="150">
         <template slot-scope="scope">
           <image-preview :src="scope.row.ccieImg" :width="50" :height="50"/>
         </template>
       </el-table-column>
+      <el-table-column label="姓名" align="center" prop="realName" width="120"/>
+      <el-table-column label="年级" align="center" prop="gradeNum" width="120"/>
+      <el-table-column label="收录状态" align="center" prop="inclusionFlag" width="100">
+        <template slot-scope="scope">
+          <span>{{ getInclusionFlagName(scope.row.inclusionFlag) }}</span>
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="专业" align="center" prop="majorName" width="180"/>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -123,6 +127,20 @@
             @click="handleUpdate(scope.row)"
             v-hasRole="['manage', 'teacher']"
           >修改</el-button>
+          <el-button
+            v-if="scope.row.inclusionFlag === 1"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleApprovedInclusion(scope.row)"
+          >审核通过</el-button>
+          <el-button
+            v-if="scope.row.inclusionFlag === 3"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleCancelInclusion(scope.row)"
+          >取消收录</el-button>
 <!--          <el-button-->
 <!--            size="mini"-->
 <!--            type="text"-->
@@ -153,6 +171,11 @@
                        :value="item.val" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="是否收录" prop="chooseInclusion" label-width="120px">
+          <el-switch
+            v-model="chooseInclusion">
+          </el-switch>
+        </el-form-item>
         <el-form-item v-show="form.type === 0" prop="typeName" label="自定义类别名称" label-width="120px">
           <el-input v-model="form.typeName" placeholder="请输入自定义的类别名称" :style="{width: '60%'}"/>
         </el-form-item>
@@ -175,9 +198,10 @@
 
 <script>
 import { getCcie, delCcie, updateCcie } from "@/api/own/ccie";
-import { listCcie } from "@/api/team/ccie";
+import { listCcie, approvedInclusion, cancelInclusion } from "@/api/team/ccie";
 import { getCcieTypeMenu } from "@/api/menu";
 import infoApi from "@/api/own/info";
+import { getInclusionFlagName } from '@/utils/webtool.js'
 
 export default {
   name: "Ccie",
@@ -224,7 +248,9 @@ export default {
       gradeIdOptions: [],
       //提示信息
       name: "",
-      ccieTypeOptions: []
+      ccieTypeOptions: [],
+      // 是否收录
+      chooseInclusion: false,
     };
   },
   watch: {
@@ -343,6 +369,10 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改证书";
+        // 审核通过状态
+        // console.log("response.data.inclusionFlag=>", response.data.inclusionFlag)
+        // 是否收录
+        this.chooseInclusion = response.data.inclusionFlag === 3
       });
       this.getCcieMenuOptions()
     },
@@ -350,6 +380,8 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          // 对提交的表单进行处理
+          this.processForm()
           if (this.form.ccieId != null) {
             updateCcie(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -367,7 +399,12 @@ export default {
           //   });
           // }
         }
-      });
+      })
+    },
+    // 对要提交的表单进行处理
+    processForm() {
+      // 1、处理是否申请
+      this.form.inclusionFlag = this.chooseInclusion ? 3 : 0
     },
     /** 删除按钮操作 */
     // handleDelete(row) {
@@ -388,6 +425,37 @@ export default {
       this.download('team/ccie/export', {
         ...this.queryParams
       }, `证书统计_${new Date().getTime()}.xlsx`)
+    },
+    // 根据flag获取指定的收录状态
+    getInclusionFlagName(inclusionFlag) {
+      return getInclusionFlagName(inclusionFlag)
+    },
+    // 审核通过
+    handleApprovedInclusion(row) {
+      this.$modal.confirm('是否审核通过证书名称为"' + row.ccieName + '"的证书，审核通过的证书将收录到系统网站展示！').then(() => {
+        const form = {
+          ccieId: row.ccieId
+        }
+        // 发起申请请求
+        approvedInclusion(form).then(() => {
+          this.$modal.msgSuccess('申请成功！')
+          this.open = false
+          this.getList()
+        }).catch((err) => console.log(err))
+      })
+    },
+    // 取消收录
+    handleCancelInclusion(row) {
+      this.$modal.confirm('是否取消申请证书名称为"' + row.ccieName + '"的证书收录到系统网站展示？').then(() => {
+        const form = {
+          ccieId: row.ccieId
+        }
+        cancelInclusion(form).then(() => {
+          this.$modal.msgSuccess('取消成功！')
+          this.open = false
+          this.getList()
+        }).catch((err) => console.log(err))
+      })
     }
   }
 };

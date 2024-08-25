@@ -36,6 +36,7 @@ CREATE TABLE `studio_ccie` (
    `ccie_get_time` datetime DEFAULT NULL COMMENT '获奖时间',
    `ccie_think` text COMMENT '经验总结',
    `user_id` bigint DEFAULT NULL COMMENT '用户id',
+   `inclusion_flag` TINYINT DEFAULT 0 COMMENT '收录标志，0表示未收录，1为申请收录，2为收录打回，3为收录通过（可对外展示）',
    `type` TINYINT DEFAULT 0 COMMENT '类别字段码，对应sys_dict_type中的dict_type=CCIE_TYPE，0表示其他证书可自定义',
    `type_name` varchar(100) DEFAULT '' COMMENT '自定义证书类别名称（自定义名称type=0的名称也放置其中）',
    PRIMARY KEY (`ccie_id`) USING BTREE

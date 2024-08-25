@@ -10,13 +10,14 @@
         <result property="ccieGetTime"    column="ccie_get_time"    />
         <result property="ccieThink"    column="ccie_think"    />
         <result property="userId"    column="user_id"    />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
         <result property="type"    column="type"    />
         <result property="typeName"    column="type_name"    />
     </resultMap>
 
     <!-- 查询的vo对象   -->
     <sql id="selectZfCcieVo">
-        select ccie_id, ccie_name, ccie_img, ccie_get_time, ccie_think, user_id, type, type_name from studio_ccie
+        select ccie_id, ccie_name, ccie_img, ccie_get_time, ccie_think, user_id, inclusion_flag, type, type_name from studio_ccie
     </sql>
 
     <!--  列表查询  -->
@@ -54,6 +55,7 @@
             <if test="ccieGetTime != null">ccie_get_time,</if>
             <if test="ccieThink != null">ccie_think,</if>
             <if test="userId != null">user_id,</if>
+            <if test="inclusionFlag != null">inclusion_flag,</if>
             <if test="type != null">`type`,</if>
             <if test="typeName != null">type_name,</if>
         </trim>
@@ -64,6 +66,7 @@
             <if test="ccieGetTime != null">#{ccieGetTime},</if>
             <if test="ccieThink != null">#{ccieThink},</if>
             <if test="userId != null">#{userId},</if>
+            <if test="inclusionFlag != null">#{inclusionFlag},</if>
             <if test="type != null">#{type},</if>
             <if test="typeName != null">#{typeName},</if>
         </trim>
@@ -78,6 +81,7 @@
             <if test="ccieGetTime != null">ccie_get_time = #{ccieGetTime},</if>
             <if test="ccieThink != null">ccie_think = #{ccieThink},</if>
             <if test="userId != null">user_id = #{userId},</if>
+            <if test="inclusionFlag != null">inclusion_flag = #{inclusionFlag},</if>
             <if test="type != null">`type` = #{type},</if>
             <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
         </trim>

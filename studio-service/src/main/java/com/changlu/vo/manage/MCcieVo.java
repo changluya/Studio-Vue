@@ -97,6 +97,10 @@ public class MCcieVo implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  //只允许序列化（json=>对象），在对象转json时忽略
     private Map<String, Object> params;
 
+    @ApiModelProperty(value = "类型名称")
+    @TableField("inclusion_flag")
+    private Integer inclusionFlag;
+
     public Map<String, Object> getParams() {
         if (params == null)
         {

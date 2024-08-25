@@ -50,12 +50,20 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      int insertZfCcie(StudioCcieModel zfCcie);
 
     /**
-     * 修改ZfCcie
+     * 修改个人的ZfCcie
      *
      * @param zfCcie ZfCcie
      * @return 结果
      */
     int updateOwnCcie(StudioCcieModel zfCcie);
+
+    /**
+     * 修改ZfCcie
+     *
+     * @param zfCcie ZfCcie
+     * @return 结果
+     */
+    int updateCcie(StudioCcieModel zfCcie);
 
     /**
      * 批量删除个人的Ccie
@@ -80,5 +88,16 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      * @return 结果
      */
     ResponseResult deleteZfCcieByCcieId(Long ccieId);
+
+    /**
+     * 修改收录状态
+     * @param id 证书id
+     * @param behavior 不同行为情况
+     *        情况1、behavior 为 1情况，【申请收录操作】修改状态为申请收录
+     *        情况2、behavior 为 2情况，【退回收录操作】修改状态为退出收录（未收录状态）
+     *        情况3、behavior 为 3情况，【审核通过收录操作】修改状态为通过收录（已收录状态）
+     * @return
+     */
+    public void updateInclusion(Long id, int behavior);
 
 }

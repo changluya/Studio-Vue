@@ -10,6 +10,7 @@
         <result property="ccieImg"    column="ccie_img"    />
         <result property="ccieGetTime"    column="ccie_get_time"    />
         <result property="userId"    column="user_id"    />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
         <result property="realName"    column="real_name"    />
         <result property="gradeNum"    column="grade_num"    />
         <result property="majorName"    column="major_name"    />
@@ -19,7 +20,7 @@
 
     <sql id="selectZfCcieModelVo">
         SELECT
-            t.ccie_id, t.ccie_name, t.ccie_img, t.ccie_get_time, t.type, t.type_name,
+            t.ccie_id, t.ccie_name, t.ccie_img, t.ccie_get_time, t.type, t.type_name, t.inclusion_flag,
             t1.real_name,
             t2.grade_num, t2.grade_id,
             t3.major_name, t3.major_id

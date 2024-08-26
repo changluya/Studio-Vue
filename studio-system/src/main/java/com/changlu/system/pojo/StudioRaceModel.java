@@ -66,5 +66,7 @@ public class StudioRaceModel extends BaseEntity {
     @ApiModelProperty(value = "修改时间")
     private Date updateTime;
 
+    /** 收录标志，0表示未收录，1为申请收录，2为收录打回，3为收录通过（可对外展示） */
+    private Integer inclusionFlag;
 
 }

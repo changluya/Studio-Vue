@@ -50,3 +50,21 @@ export function delRace(raceId) {
     method: 'delete'
   })
 }
+
+// 申请收录
+export function approvedInclusion(data) {
+  return request({
+    url: '/team/race/approved',
+    method: 'put',
+    data: data
+  })
+}
+
+// 取消收录
+export function cancelInclusion(data) {
+  return request({
+    url: '/team/race/cancel',
+    method: 'put',
+    data: data
+  })
+}

@@ -105,17 +105,17 @@
           >查看信息</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="竞赛开始时间" align="center" prop="raceBeginTime" width="200">
+      <el-table-column label="竞赛开始时间" align="center" prop="raceBeginTime" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.raceBeginTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="竞赛结束时间" align="center" prop="raceEndTime" width="200">
+      <el-table-column label="竞赛结束时间" align="center" prop="raceEndTime" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.raceEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="获奖证书图片" align="center" prop="raceCcie" width="200">
+      <el-table-column label="获奖证书图片" align="center" prop="raceCcie" width="150">
         <!--    挂载预览图片    -->
         <template slot-scope="scope">
           <image-preview :src="scope.row.raceCcie" :width="50" :height="50"/>
@@ -132,17 +132,22 @@
           >查看图片</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="经验总结" align="center" prop="raceSummarize" >
+      <el-table-column label="收录状态" align="center" prop="inclusionFlag" width="150">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-s-opportunity"
-            @click="previewThink(scope.row)"
-            v-hasRole="['member']"
-          >预览总结</el-button>
+          <span>{{ getInclusionFlagName(scope.row.inclusionFlag) }}</span>
         </template>
       </el-table-column>
+<!--      <el-table-column label="经验总结" align="center" prop="raceSummarize" >-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-s-opportunity"-->
+<!--            @click="previewThink(scope.row)"-->
+<!--            v-hasRole="['member']"-->
+<!--          >预览总结</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -222,6 +227,15 @@
                           placeholder="请选择竞赛结束时间">
           </el-date-picker>
         </el-form-item>
+        <!--    显示申请收录表单，若是已申请，那么此时会直接显示已申请    -->
+        <el-form-item v-if="showApply" label="申请收录" prop="chooseInclusion" label-width="120px">
+          <el-switch
+            v-model="chooseInclusion">
+          </el-switch>
+        </el-form-item>
+        <el-form-item v-else label="收录状态" prop="chooseInclusion" label-width="120px">
+          已收录
+        </el-form-item>
         <el-form-item label="获奖证书">
           <image-upload v-model="form.raceCcie" :limit="1" :fileSize="10"/>
         </el-form-item>
@@ -245,7 +259,7 @@
 
 <script>
 import { listRace, getRace, getRaceMembers , delRace, addRace, updateRace } from "@/api/own/race";
-import {isEmpty} from '@/utils/webtool'
+import {isEmpty, getInclusionFlagName} from '@/utils/webtool'
 
 export default {
   name: "Race",
@@ -311,6 +325,9 @@ export default {
       memberInfoOpen: false,
       //成员表格信息
       membersTable: [],
+      // 是否申请收录
+      showApply: true,
+      chooseInclusion: false
     };
   },
   created() {
@@ -354,6 +371,7 @@ export default {
         updateTime: null,
         userIds: null
       };
+      this.showApply = true
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -429,12 +447,22 @@ export default {
         })
         pics = pics.join(",")
         this.form.pics = pics
-      });
+        // 审核通过状态
+        if (response.data.inclusionFlag === 3) {
+          this.showApply = false
+        }
+        // 申请状态
+        if (response.data.inclusionFlag === 1) {  // 申请审核状态
+          this.chooseInclusion = true
+        }
+      })
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          // 对提交的表单进行处理
+          this.processForm()
           // console.log("this.form=>", this.form)
           //将多个图片合成的字符串来转为对象存储 "xxx.jpg,xxx.png" => [{resUrl:"xxx.jpg",resName:"xxx.jpg"},{...}]
           let formPics = []
@@ -465,6 +493,13 @@ export default {
           }
         }
       });
+    },
+    // 对要提交的表单进行处理
+    processForm() {
+      // 1、处理是否申请
+      if (this.showApply) {
+        this.form.inclusionFlag = this.chooseInclusion ? 1 : 0
+      }
     },
     /** 删除按钮操作 */
     handleDelete(row) {
@@ -501,7 +536,11 @@ export default {
     //   this.download('own/race/export', {
     //     ...this.queryParams
     //   }, `race_${new Date().getTime()}.xlsx`)
-    // }
+    // },
+    // 根据flag获取指定的收录状态
+    getInclusionFlagName(inclusionFlag) {
+      return getInclusionFlagName(inclusionFlag)
+    },
   }
 };
 </script>

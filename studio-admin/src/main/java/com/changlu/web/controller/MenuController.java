@@ -23,7 +23,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("/{type}")
-    public ResponseResult getCcieType(@PathVariable String type){
+    public ResponseResult getTypeMenu(@PathVariable String type){
         List<MenuOption> menuOptions = iMenuService.getMenuOptionsByDictData(type);
         return ResponseResult.success(menuOptions);
     }

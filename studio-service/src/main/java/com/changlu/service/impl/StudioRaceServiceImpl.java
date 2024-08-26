@@ -4,15 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.DateUtils;
+import com.changlu.enums.InclusionTypeEnum;
 import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.StudioRaceService;
 import com.changlu.service.StudioResourceService;
+import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.StudioRaceTypeEnum;
 import com.changlu.enums.StudioResourceEnum;
 import com.changlu.system.pojo.StudioRaceModel;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -107,8 +110,11 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
     @Override
     public boolean updateZfRaceModel(RaceVo raceVo) {
         raceVo.setUpdateTime(DateUtils.getNowDate());
+        // 构建更新对象
+        StudioRaceModel newStudioRaceModel = new StudioRaceModel();
+        BeanUtils.copyProperties(raceVo, newStudioRaceModel);
         //1、更新竞赛表
-        if (studioRaceMapper.updateZfRaceModel(raceVo) > 0){
+        if (studioRaceMapper.updateZfRaceModel(newStudioRaceModel) > 0){
             //2、删除相关竞赛的资源记录
             Long[] raceIds = {raceVo.getRaceId()};//将其设置为竞赛id数组传入（目的是直接复用接口）
             studioResourceService.deleteResources(StudioResourceEnum.RACE_FLAG, raceIds);
@@ -123,6 +129,11 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
             }
         }
         throw new ServiceException("修改竞赛失败");
+    }
+
+    @Override
+    public void updateZfRaceModel(StudioRaceModel studioRaceModel) {
+        studioRaceMapper.updateZfRaceModel(studioRaceModel);
     }
 
     /**
@@ -175,7 +186,20 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
         return false;
     }
 
-
-
+    @Override
+    public void updateInclusion(Long id, int behavior) {
+        StudioRaceModel updateRaceModel = new StudioRaceModel();
+        // 设置竞赛id
+        updateRaceModel.setRaceId(id);
+        if (behavior == 1) {
+            updateRaceModel.setInclusionFlag(InclusionTypeEnum.APPLY_INCLUSION.getVal());
+        }else if (behavior == 2) {
+            updateRaceModel.setInclusionFlag(InclusionTypeEnum.NO_INCLUSION.getVal());
+        }else if (behavior == 3) {
+            updateRaceModel.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal());
+        }
+        // 更新竞赛
+        this.updateZfRaceModel(updateRaceModel);
+    }
 
 }

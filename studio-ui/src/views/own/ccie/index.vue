@@ -362,6 +362,10 @@ export default {
         if (response.data.inclusionFlag === 3) {
           this.showApply = false
         }
+        // 申请状态
+        if (response.data.inclusionFlag === 1) {  // 申请审核状态
+          this.chooseInclusion = true
+        }
       });
       this.getCcieMenuOptions()
     },

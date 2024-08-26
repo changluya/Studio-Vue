@@ -42,7 +42,7 @@ CREATE TABLE `studio_ccie` (
    PRIMARY KEY (`ccie_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
--- 团队竞赛表
+-- 竞赛表（个人、团队）
 DROP TABLE IF EXISTS `studio_race`;
 CREATE TABLE `studio_race` (
    `race_id` bigint NOT NULL AUTO_INCREMENT COMMENT '竞赛主键id',
@@ -53,6 +53,7 @@ CREATE TABLE `studio_race` (
    `race_ccie` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '' COMMENT '获奖证书图片',
    `race_flag` tinyint(1) DEFAULT '1' COMMENT '标识个人还是团队(1是个人,2是团队)',
    `race_summarize` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '经验总结',
+   `inclusion_flag` TINYINT DEFAULT 0 COMMENT '收录标志，0表示未收录，1为申请收录，2为收录打回，3为收录通过（可对外展示）',
    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `update_time` datetime DEFAULT NULL COMMENT '修改时间',
    PRIMARY KEY (`race_id`) USING BTREE

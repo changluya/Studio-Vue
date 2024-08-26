@@ -20,3 +20,8 @@ const getTypeMenu = (type) => {
 export const getCcieTypeMenu = () => {
   return getTypeMenu('ccie')
 }
+
+// 获取收录类别菜单接口
+export const getInclusionMenu = () => {
+  return getTypeMenu('inclusionType')
+}

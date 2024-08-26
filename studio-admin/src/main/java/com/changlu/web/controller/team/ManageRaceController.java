@@ -1,18 +1,20 @@
 package com.changlu.web.controller.team;
 
 import com.changlu.common.domain.ResponseResult;
+import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.ExcelUtil;
 import com.changlu.mapper.StudioMUserMapper;
+import com.changlu.service.StudioCcieService;
 import com.changlu.service.StudioManageRaceService;
+import com.changlu.service.StudioRaceService;
+import com.changlu.system.pojo.StudioCcieModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,9 @@ public class ManageRaceController extends BaseController {
 
     @Resource
     private StudioMUserMapper studioMUserMapper;
+
+    @Autowired
+    private StudioRaceService raceService;
 
     /**
      * 查询ZfRace列表
@@ -73,6 +78,38 @@ public class ManageRaceController extends BaseController {
         List<RaceVo> list = studioManageRaceService.selectZfRaceModelList(raceVo);
         ExcelUtil<RaceVo> util = new ExcelUtil<>(RaceVo.class);
         util.exportExcel(response, list, "竞赛记录");
+    }
+
+    /**
+     * 审核通过收录
+     */
+//    @PreAuthorize("@ss.hasPerm('own:achievement:apply')")
+    @PutMapping("/approved")
+    public ResponseResult approvedInclusion(@RequestBody StudioRaceModel raceModel)
+    {
+        // 校验参数
+        Long id = raceModel.getRaceId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        raceService.updateInclusion(id, 3);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 取消收录
+     */
+//    @PreAuthorize("@ss.hasPerm('team:achievement:cancel')")
+    @PutMapping("/cancel")
+    public ResponseResult cancelInclusion(@RequestBody StudioRaceModel raceModel)
+    {
+        // 校验参数
+        Long id = raceModel.getRaceId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        raceService.updateInclusion(id, 2);
+        return ResponseResult.success();
     }
 
 

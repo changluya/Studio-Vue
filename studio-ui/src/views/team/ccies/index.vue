@@ -42,6 +42,12 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
+      <el-form-item label="收录状态" prop="inclusionFlag">
+        <el-select v-model="queryParams.inclusionFlag" clearable filterable placeholder="请选择">
+          <el-option v-for="(item, index) in inclusionTypeOptions" :key="index" :label="item.name"
+                     :value="item.val" :disabled="item.disabled"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -199,7 +205,7 @@
 <script>
 import { getCcie, delCcie, updateCcie } from "@/api/own/ccie";
 import { listCcie, approvedInclusion, cancelInclusion } from "@/api/team/ccie";
-import { getCcieTypeMenu } from "@/api/menu";
+import { getCcieTypeMenu, getInclusionMenu } from "@/api/menu";
 import infoApi from "@/api/own/info";
 import { getInclusionFlagName } from '@/utils/webtool.js'
 
@@ -249,6 +255,8 @@ export default {
       //提示信息
       name: "",
       ccieTypeOptions: [],
+      // 收录类别
+      inclusionTypeOptions: [],
       // 是否收录
       chooseInclusion: false,
     };
@@ -302,6 +310,8 @@ export default {
         this.gradeIdOptions = results.grades
         this.gradeIdOptions.forEach((grade)=>grade.gradeNum = grade.gradeNum + "级")
       }).catch(err => console.log(err))
+      // 获取收录类别菜单
+      this.getInclusionMenuOptions()
     },
     // 获取证书类别菜单
     getCcieMenuOptions() {
@@ -456,7 +466,15 @@ export default {
           this.getList()
         }).catch((err) => console.log(err))
       })
-    }
+    },
+    // 获取收录类别菜单
+    getInclusionMenuOptions() {
+      // 获取收录类别菜单
+      getInclusionMenu().then(data => {
+        // console.log('getInclusionMenu:', data)
+        this.inclusionTypeOptions = data.data
+      }).catch(err => console.log(err))
+    },
   }
 };
 </script>

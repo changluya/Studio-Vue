@@ -12,7 +12,7 @@
       <el-form-item label="收录状态" prop="title">
         <el-select v-model="queryParams.inclusionFlag" placeholder="请选择收录状态" filterable clearable
                    :style="{width: '100%'}" @keyup.enter.native="handleQuery">
-          <el-option v-for="(item, index) in inclusionFlagOptions" :key="index" :label="item.inclusionName"
+          <el-option v-for="(item, index) in inclusionTypeOptions" :key="index" :label="item.name"
                      :value="item.val" :disabled="item.disabled"></el-option>
         </el-select>
       </el-form-item>
@@ -198,6 +198,7 @@
 import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement, approvedInclusion, cancelInclusion } from '@/api/team/achievement'
 import { getPocsMenu } from '@/api/team/pocs'
 import { getMemberOptions } from "@/api/team/race";
+import { getInclusionMenu } from "@/api/menu";
 
 export default {
   name: 'Achievements',
@@ -251,28 +252,13 @@ export default {
       // 2、成员分类选项
       memberOptions: [],
       // 3、收录状态选项
-      inclusionFlagOptions: [
-        {
-          val: '0',
-          inclusionName: '未收录'
-        },
-        {
-          val: '1',
-          inclusionName: '申请收录'
-        },
-        {
-          val: '2',
-          inclusionName: '拒绝收录'
-        },
-        {
-          val: '3',
-          inclusionName: '已收录'
-        },
-      ]
+      inclusionTypeOptions: [],
     }
   },
   created() {
     this.getList()
+    // 获取收录菜单
+    this.getInclusionMenuOptions()
   },
   methods: {
     getMenu() {
@@ -460,7 +446,15 @@ export default {
           this.getList()
         }).catch((err) => console.log(err))
       })
-    }
+    },
+    // 获取证书类别菜单
+    getInclusionMenuOptions() {
+      // 获取收录类别菜单
+      getInclusionMenu().then(data => {
+        // console.log('getInclusionMenu:', data)
+        this.inclusionTypeOptions = data.data
+      }).catch(err => console.log(err))
+    },
   }
 }
 </script>

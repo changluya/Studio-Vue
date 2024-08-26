@@ -10,13 +10,7 @@
         />
       </el-form-item>
       <el-form-item label="竞赛成员" prop="raceMembers">
-<!--        <el-input-->
-<!--          v-model="queryParams.raceMembers"-->
-<!--          placeholder="请输入竞赛成员"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-        <el-select v-model="queryParams.raceMembers" filterable placeholder="请选择">
+        <el-select v-model="queryParams.raceMembers" clearable filterable placeholder="请选择">
           <el-option
             v-for="item in memberOptions"
             :key="item.value"
@@ -48,9 +42,15 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="竞赛类型" prop="raceFlag">
-        <el-select v-model="queryParams.raceFlag" filterable placeholder="请选择">
+        <el-select v-model="queryParams.raceFlag" clearable filterable placeholder="请选择">
           <el-option label="个人" value="1"></el-option>
           <el-option label="团队" value="2"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="收录状态" prop="inclusionFlag">
+        <el-select v-model="queryParams.inclusionFlag" clearable filterable placeholder="请选择">
+          <el-option v-for="(item, index) in inclusionTypeOptions" :key="index" :label="item.name"
+                     :value="item.val" :disabled="item.disabled"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -119,8 +119,8 @@
           <el-tag v-else type="danger">团队</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="竞赛成员" align="center" prop="teamMemberNames" />
-      <el-table-column label="成员信息" align="center" prop="raceFlag" >
+      <el-table-column label="竞赛成员" align="center" prop="teamMemberNames" width="120"/>
+      <el-table-column label="成员信息" align="center" prop="raceFlag" width="120">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -130,23 +130,23 @@
           >查看信息</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="竞赛开始时间" align="center" prop="raceBeginTime" width="180">
+      <el-table-column label="竞赛开始时间" align="center" prop="raceBeginTime" width="120">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.raceBeginTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="竞赛结束时间" align="center" prop="raceEndTime" width="180">
+      <el-table-column label="竞赛结束时间" align="center" prop="raceEndTime" width="120">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.raceEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="获奖证书图片" align="center" prop="raceCcie" width="200">
+      <el-table-column label="获奖证书图片" align="center" prop="raceCcie" width="150">
         <!--    挂载预览图片    -->
         <template slot-scope="scope">
           <image-preview :src="scope.row.raceCcie" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="参赛图片" align="center" prop="pics" >
+      <el-table-column label="参赛图片" align="center" prop="pics" width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -156,16 +156,21 @@
           >查看图片</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="经验总结" align="center" prop="raceSummarize" >
+      <el-table-column label="收录状态" align="center" prop="inclusionFlag" width="100">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-s-opportunity"
-            @click="previewThink(scope.row)"
-          >预览总结</el-button>
+          <span>{{ getInclusionFlagName(scope.row.inclusionFlag) }}</span>
         </template>
       </el-table-column>
+<!--      <el-table-column label="经验总结" align="center" prop="raceSummarize" >-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-s-opportunity"-->
+<!--            @click="previewThink(scope.row)"-->
+<!--          >预览总结</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -184,6 +189,20 @@
             @click="handleDelete(scope.row)"
             v-hasRole="['manage']"
           >删除</el-button>
+          <el-button
+            v-if="scope.row.inclusionFlag === 1"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleApprovedInclusion(scope.row)"
+          >审核通过</el-button>
+          <el-button
+            v-if="scope.row.inclusionFlag === 3"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleCancelInclusion(scope.row)"
+          >取消收录</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -243,6 +262,11 @@
           </el-select>
 <!--          <el-input v-model="form.raceMembers" placeholder="请输入竞赛成员" />-->
         </el-form-item>
+        <el-form-item label="是否收录" prop="chooseInclusion" label-width="120px">
+          <el-switch
+            v-model="chooseInclusion">
+          </el-switch>
+        </el-form-item>
         <el-form-item label="竞赛开始时间" prop="raceBeginTime">
           <el-date-picker clearable
                           v-model="form.raceBeginTime"
@@ -283,7 +307,9 @@
 
 <script>
 import { getRace, delRace,getRaceMembers, addRace, updateRace } from "@/api/own/race";
-import { listRace ,getMemberOptions } from "@/api/team/race";
+import { listRace ,getMemberOptions, approvedInclusion, cancelInclusion } from "@/api/team/race";
+import { getInclusionFlagName } from '@/utils/webtool.js'
+import { getInclusionMenu } from "@/api/menu";
 
 export default {
   name: "Race",
@@ -350,6 +376,8 @@ export default {
       curThinkHTML: '',
       //成员选项 [{label:'',value:''},{label:'',value:''}]
       memberOptions: [],
+      // 收录类别
+      inclusionTypeOptions: [],
       value1: '',
       //删除提示信息
       names: "",
@@ -357,12 +385,14 @@ export default {
       memberInfoOpen: false,
       //成员表格信息
       membersTable: [],
+      // 是否收录
+      chooseInclusion: false,
     };
   },
   created() {
     this.getList();
     //获取菜单选项信息
-    this.getOptions();
+    this.getOptions()
   },
   methods: {
     /** 查询ZfRace列表 */
@@ -383,9 +413,9 @@ export default {
         this.loading = false;
       });
     },
-    getOptions(){
+    getOptions() {
+      // 获取团队成员
       getMemberOptions().then(response => {
-        //构造选项数组
         const mOptions = []
         response.data.forEach((user)=>{
           mOptions.push({
@@ -395,6 +425,8 @@ export default {
         })
         this.memberOptions = mOptions
       });
+      // 获取收录菜单选项
+      this.getInclusionMenuOptions()
     },
     // 取消按钮
     cancel() {
@@ -496,6 +528,8 @@ export default {
         })
         pics = pics.join(",")
         this.form.pics = pics
+        // 是否收录
+        this.chooseInclusion = response.data.inclusionFlag === 3
       });
     },
     /** 提交按钮 */
@@ -536,6 +570,8 @@ export default {
         })
       })
       this.form.pics = formPics
+      // 3、处理是否申请
+      this.form.inclusionFlag = this.chooseInclusion ? 3 : 0
     },
     /** 删除按钮操作 */
     handleDelete(row) {
@@ -572,7 +608,48 @@ export default {
       this.download('team/race/export', {
         ...this.queryParams
       }, `竞赛_${new Date().getTime()}.xlsx`)
-    }
+    },
+    // 根据flag获取指定的收录状态
+    getInclusionFlagName(inclusionFlag) {
+      return getInclusionFlagName(inclusionFlag)
+    },
+    // 审核通过
+    handleApprovedInclusion(row) {
+      console.log("row=>", row)
+      this.$modal.confirm('是否审核通过竞赛名称为"' + row.raceName + '"，审核通过的竞赛将收录到系统网站展示！').then(() => {
+        const form = {
+          raceId: row.raceId
+        }
+        console.log("handleApprovedInclusion form=>", form)
+        // 发起申请请求
+        approvedInclusion(form).then(() => {
+          this.$modal.msgSuccess('审核通过！')
+          this.open = false
+          this.getList()
+        }).catch((err) => console.log(err))
+      })
+    },
+    // 取消收录
+    handleCancelInclusion(row) {
+      this.$modal.confirm('是否取消申请竞赛名称为"' + row.raceName + '"收录到系统网站展示？').then(() => {
+        const form = {
+          raceId: row.raceId
+        }
+        cancelInclusion(form).then(() => {
+          this.$modal.msgSuccess('取消成功！')
+          this.open = false
+          this.getList()
+        }).catch((err) => console.log(err))
+      })
+    },
+    // 获取收录类别菜单
+    getInclusionMenuOptions() {
+      // 获取收录类别菜单
+      getInclusionMenu().then(data => {
+        // console.log('getInclusionMenu:', data)
+        this.inclusionTypeOptions = data.data
+      }).catch(err => console.log(err))
+    },
   }
 };
 </script>

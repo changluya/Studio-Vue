@@ -34,6 +34,7 @@
     <select id="selectZfCcieModelList" parameterType="com.changlu.vo.manage.MCcieVo" resultMap="MCcieVoResult">
         <include refid="selectZfCcieModelVo"/>
         <where>
+            <if test="inclusionFlag != null "> and t.inclusion_flag = #{inclusionFlag}</if>
             <if test="ccieName != null  and ccieName != ''"> and t.ccie_name like concat('%', #{ccieName}, '%')</if>
             <if test="realName != null  and realName != ''"> and t1.real_name like concat('%', #{realName}, '%')</if>
             <if test="gradeId != null "> and t2.grade_id = #{gradeId}</if>

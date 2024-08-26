@@ -12,6 +12,7 @@
         <result column="race_end_time" property="raceEndTime" />
         <result column="race_flag" property="raceFlag" />
         <result column="race_summarize" property="raceSummarize" />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <!--   设置关联对象     -->
@@ -42,6 +43,7 @@
             r.race_end_time,
             r.race_flag,
             r.race_summarize,
+            r.inclusion_flag,
             r.create_time,
             r.update_time,
             rs.res_name,
@@ -75,6 +77,7 @@
             <if test="raceModel.raceMembers != null and raceModel.raceMembers != ''"> and FIND_IN_SET( #{raceModel.raceMembers} ,race_members)</if>
             <if test="raceModel.raceFlag != null and raceModel.raceFlag != ''"> and r.race_flag = #{raceModel.raceFlag} </if>
             <if test="raceModel.raceName != null  and raceModel.raceName != ''"> and r.race_name like concat('%', #{raceModel.raceName}, '%')</if>
+            <if test="raceModel.inclusionFlag != null"> and r.inclusion_flag = #{raceModel.inclusionFlag}</if>
             <if test="raceModel.params !=null and raceModel.params.beginRaceBeginTime != null and raceModel.params.beginRaceBeginTime != '' and raceModel.params.endRaceBeginTime != null and raceModel.params.endRaceBeginTime != ''"> and race_begin_time between #{raceModel.params.beginRaceBeginTime} and #{raceModel.params.endRaceBeginTime}</if>
             <if test="raceModel.params !=null and raceModel.params.beginRaceEndTime != null and raceModel.params.beginRaceEndTime != '' and raceModel.params.endRaceEndTime != null and raceModel.params.endRaceEndTime != ''"> and race_end_time between #{raceModel.params.beginRaceEndTime} and #{raceModel.params.endRaceEndTime}</if>
         </where>
@@ -117,6 +120,7 @@
             <if test="raceEndTime != null">race_end_time,</if>
             <if test="raceFlag != null">race_flag,</if>
             <if test="raceSummarize != null">race_summarize,</if>
+            <if test="inclusionFlag != null">inclusion_flag,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
         </trim>
@@ -129,6 +133,7 @@
             <if test="raceEndTime != null">#{raceEndTime},</if>
             <if test="raceFlag != null">#{raceFlag},</if>
             <if test="raceSummarize != null">#{raceSummarize},</if>
+            <if test="inclusionFlag != null">#{inclusionFlag},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
         </trim>
@@ -144,6 +149,7 @@
             <if test="raceEndTime != null">race_end_time = #{raceEndTime},</if>
             <if test="raceFlag != null">race_flag = #{raceFlag},</if>
             <if test="raceSummarize != null">race_summarize = #{raceSummarize},</if>
+            <if test="inclusionFlag != null">inclusion_flag = #{inclusionFlag},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>

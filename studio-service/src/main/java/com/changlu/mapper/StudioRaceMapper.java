@@ -79,10 +79,10 @@ public interface StudioRaceMapper extends BaseMapper<StudioRaceModel> {
     /**
      * 修改ZfRace
      *
-     * @param raceVo ZfRace
+     * @param studioRaceModel StudioRaceModel
      * @return 结果
      */
-    int updateZfRaceModel(RaceVo raceVo);
+    int updateZfRaceModel(StudioRaceModel studioRaceModel);
 
     /**
      * 批量删除ZfRace

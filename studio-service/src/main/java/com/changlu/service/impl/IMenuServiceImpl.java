@@ -2,7 +2,9 @@ package com.changlu.service.impl;
 
 import com.changlu.common.domain.MenuOption;
 import com.changlu.common.exception.ServiceException;
+import com.changlu.common.utils.StringUtils;
 import com.changlu.enums.DictTypeEnum;
+import com.changlu.enums.InclusionTypeEnum;
 import com.changlu.service.IMenuService;
 import com.changlu.system.pojo.SysDictData;
 import com.changlu.system.service.ISysDictDataService;
@@ -24,19 +26,24 @@ public class IMenuServiceImpl implements IMenuService {
 
     @Override
     public List<MenuOption> getMenuOptionsByDictData(String type) {
-        if (type == null) {
+        if (StringUtils.isEmpty(type)) {
             return Collections.emptyList();
         }
         List<MenuOption> res = new ArrayList<>();
         // 若是类别为ccie时
-        if (type.equals("ccie")) {
-            //  查询
-            res = this.getMenuOptions(DictTypeEnum.CCIE_TYPE.getDictType());
+        if ("ccie".equals(type)) {
+            // 查询dict_type
+            res = this.getMenuOptionsByDictType(DictTypeEnum.CCIE_TYPE.getDictType());
+        }else if ("inclusionType".equals(type)) {
+            // 查询收录枚举类
+            res = Arrays.stream(InclusionTypeEnum.values())
+                    .map(inclusionTypeEnum -> new MenuOption(inclusionTypeEnum.getInclusionName(), inclusionTypeEnum.getVal()))
+                    .collect(Collectors.toList());
         }
         return res;
     }
 
-    public List<MenuOption> getMenuOptions(String dictType) {
+    public List<MenuOption> getMenuOptionsByDictType(String dictType) {
         // 校验dictType类型
         List<String> dictTypes = Arrays.stream(DictTypeEnum.values())
                 .map(DictTypeEnum::getDictType)

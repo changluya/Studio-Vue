@@ -207,62 +207,47 @@
             <!-- 荣誉 -->
             <section id="honer" class="section-bg">
                 <div class="container" style="max-width: 1250px !important;">
-
                     <div class="section-header wow fadeInUp">
                         <h3>团队荣誉资质</h3>
                     </div>
 
-                    <div style="width: 600px; position: relative;left: 27%;">
-                        <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
-                            <el-tab-pane label="专利、论文、软著" name="first"></el-tab-pane>
-                            <el-tab-pane label="竞赛证书" name="second"></el-tab-pane>
+                    <div style="width: 600px; position: relative;left: 25%;">
+                        <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClickHonerTabs">
+                            <el-tab-pane label="竞赛证书" name="first"></el-tab-pane>
+                            <el-tab-pane label="专利" name="second"></el-tab-pane>
+                            <el-tab-pane label="论文" name="three"></el-tab-pane>
+                            <el-tab-pane label="软著" name="four"></el-tab-pane>
                         </el-tabs>
                     </div>
 
                     <div v-if="activeName === 'first'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
-                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
-                            <div class="honerDate">2024年7月</div>
-                            <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">
-                            <div class="honerType" >软著</div>
-                            <div class="honerDesc" >xxxxxxxxxxx软著</div>
+                        <div class="imgbox wow fadeInUp" v-for="(showRace, index) in showRaceArr" :key="index">
+                            <div class="honerDate" v-html="showRace.raceEndTime">2024年7月</div>
+                            <div :class="showRace.raceFlag == '1' ? 'honerOwnTag' : 'honerTeamTag'" v-html="showRace.raceFlag == '1' ? '个人' : '团队'">个人</div>
+                            <img class="honerImg" v-on:click="clickPreviewImg(showRace.raceCcie)" :src="showRace.raceCcie" alt="">
+                            <div class="honerType" v-html="showRace.raceName">xxxxx个人竞赛</div>
+                            <div class="honerDesc" v-html="showRace.teamMemberRealNames">获得者：xxxxxx</div>
                         </div>
 
-                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
+                        <!-- <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
                             <div class="honerDate">2024年7月</div>
+                            <div class="honerTeamTag">团队</div>
                             <img class="honerImg" src="@/assets/image/patents/patents.png" alt="">
-                            <div class="honerType" >软著</div>
-                            <div class="honerDesc" >xxxxxxxxxxx软著</div>
-                        </div>
-                        
-                        <!-- <div class="col-lg-4 col-md-6 wow fadeInUp">
-                        <div class="imgbox">
-                            <img src="@/assets/image/honers/honer.png" alt="">
-                        </div>
+                            <div class="honerType" >xxxxxx团队竞赛</div>
+                            <div class="honerDesc" >获得者：xxxxx</div>
                         </div> -->
                     </div>
-
-                    <div v-if="activeName === 'second'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
-                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
-                            <div class="honerDate">2024年7月</div>
-                            <img class="honerImg" src="@/assets/image/honers/honer.png" alt="">
-                            <div class="honerType" >个人竞赛</div>
-                            <div class="honerDesc" >xxxxxxxxxxx个人竞赛</div>
+                    <div v-if="activeName === 'second' || activeName === 'three' || activeName === 'four'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
+                        <div class="imgbox wow fadeInUp" v-for="(showCcie, index) in showCcieArr" :key="index">
+                            <div class="honerDate" v-html="showCcie.ccieGetTime">2024年7月</div>
+                            <div :class="showCcie.tagClass" v-html="showCcie.tagName">个人</div>
+                            <img class="honerImg" v-on:click="clickPreviewImg(showCcie.ccieImg)" :src="showCcie.ccieImg" alt=""></img>
+                            <div class="honerType" v-html="showCcie.ccieName">个人竞赛</div>
+                            <div class="honerDesc" v-html="'发表人：' + showCcie.userName">xxxxxxxxxxx个人竞赛</div>
                         </div>
-
-                        <div class="imgbox wow fadeInUp" v-for="index in [1,2,3,4,5]">
-                            <div class="honerDate">2024年7月</div>
-                            <img class="honerImg" src="@/assets/image/patents/patents.png" alt="">
-                            <div class="honerType" >团队竞赛</div>
-                            <div class="honerDesc" >xxxxxxxxxxx团队竞赛</div>
-                        </div>
-                        
-                        <!-- <div class="col-lg-4 col-md-6 wow fadeInUp">
-                        <div class="imgbox">
-                            <img src="@/assets/image/honers/honer.png" alt="">
-                        </div>
-                        </div> -->
                     </div>
                 </div>
+                <el-image ref="elImage" style="width: 0; height: 0;" :src="bigImageUrl" :preview-src-list="logicImageList"></el-image>
             </section><!-- #contact -->
 
             <!--==========================
@@ -319,6 +304,8 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { showAchievements } from '@/api/openAchievementApi.js'
 import { pocsList } from '@/api/openPocsApi.js'
+import { ccieList } from '@/api/openCcieApi.js'
+import { raceList } from '@/api/openRaceApi.js'
 
 export default {
     name: 'Index',
@@ -380,7 +367,13 @@ export default {
                     "id": 4,
                     "pocsName": "无人车"
                 }
-            ]
+            ],
+            // 展示证书列表
+            showCcieArr: [],
+            // 展示竞赛列表
+            showRaceArr: [],
+            bigImageUrl: '',
+            logicImageList: []
         }
     },
     created() {
@@ -398,7 +391,7 @@ export default {
             });
             // 获取成果分类信息
             pocsList().then((data) => {
-                console.log("pocsList=>", data.data)
+                // console.log("pocsList=>", data.data)
                 this.pocsArr = data.data
                 this.pocsArr.unshift({
                     id: 0,
@@ -407,6 +400,10 @@ export default {
             }).catch(err=>console.log(err))
             // 获取成果信息
             this.getShowAchievements()
+            // 获取竞赛信息
+            this.getShowRaces()
+            // 获取竞赛证书列表信息
+            // this.getShowCcies();
         },
         // 获取成果信息
         getShowAchievements() {
@@ -415,56 +412,191 @@ export default {
             if (this.curClickPocs != 0) {
                 achievementParams = { pocsId: this.curClickPocs }
             }
-            console.log("achievementParams=>", achievementParams)
+            // console.log("achievementParams=>", achievementParams)
             showAchievements(achievementParams).then((data) => {
                 // console.log("showAchievements=>", data)
                 this.showAchievementArr = data.data
-                console.log("showAchievementArr=>", this.showAchievementArr)
+                // console.log("showAchievementArr=>", this.showAchievementArr)
             }).catch(err=>console.log(err))
         },
-        handleClick() {
-            console.log("activeName=>", this.activeName)
+        // 获取竞赛证书列表
+        // type=1  => 专利
+        // type=2  => 论文
+        // type=3  => 软著
+        getShowCcies(type, tagClass) {
+            // 默认为1
+            let typeParam = 1;
+            if (type) {
+                typeParam = type.val;
+            }
+            let ccieParams = {
+                type: typeParam
+            }
+            // 调用查询证书接口
+            ccieList(ccieParams).then((data) => {
+                // console.log("showCcieArr=>", data)
+                this.showCcieArr = data.data
+                // 遍历所有的数组，填充指定的样式
+                if (this.showCcieArr) {
+                    for (let i = 0; i < this.showCcieArr.length; i++) {
+                        this.showCcieArr[i].tagClass = type.tagClass
+                        this.showCcieArr[i].tagName = type.name
+                    }
+                }
+
+            }).catch(err=>console.log(err))
+        },
+        getShowRaces() {
+            raceList().then((data) => {
+                // console.log("getShowRaces=>", data)
+                this.showRaceArr = data.data
+            }).catch(err=>console.log(err))
+        },
+        handleClickHonerTabs() {
+            // console.log("activeName=>", this.activeName)
+            let activeName = this.activeName
+            let type = {}
+            let tagClass = 'honerZhuanLiTag'
+            switch(activeName) {
+                case 'first':
+                    break;
+                case 'second':
+                    type = {
+                        val: 1,
+                        name: '专利',
+                        tagClass: 'honerZhuanLiTag'
+                    }
+                    break;
+                case 'three':
+                    type = {
+                        val: 2,
+                        name: '论文',
+                        tagClass: 'honerLunWenTag'
+                    }
+                    break;
+                case 'four':
+                    type = {
+                        val: 3,
+                        name: '软著',
+                        tagClass: 'honerRuanZhuTag'
+                    }
+            }
+            // 根据类型区分情况
+            if (activeName == 'first') {
+                this.getShowRaces()
+            }else if (activeName == 'second' || activeName == 'three' || activeName == 'four') {
+                this.getShowCcies(type, tagClass)
+            }
         },
         // 点击分类标签
         clickPocs(curClickPocs) {
             this.curClickPocs = curClickPocs
             // 获取成果信息
             this.getShowAchievements()
+        },
+        clickPreviewImg(image) {
+            this.$nextTick(() => {
+                let img = image
+                this.logicImageList = [ img ]
+                this.bigImageUrl = img
+                this.$refs.elImage.clickHandler()
+            })
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
+  %honerTagBase {
+    position: absolute;
+        right: 15px;
+        top: 15px;
+        font-size: 9px;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-weight: 330;
+  }
   .imgbox {
     width: 210px;
     height: 280px;
     position: relative;
     background: white;
     margin-right: 40px;
+    box-shadow: 0 0 1px 1px #cccccc91;
+    border-radius: 3px;
 
     .honerDate {
         position: absolute;
         left: 15px;
         top: 15px;
-        font-size: 14px;
+        font-size: 13px;
     }
 
+    .honerOwnTag {
+        @extend %honerTagBase;
+        border: 1px solid #C0A060;
+        color: #000000;
+        background-color: #FFD700;
+    }
+
+    .honerTeamTag {
+        @extend %honerTagBase;
+        border: 1px solid #CC8C00;
+        color: #FFFFFF;
+        background-color: #FFA500;
+    }
+
+    .honerZhuanLiTag {
+        @extend %honerTagBase;
+        border: 1px solid #0077CC;
+        color: #FFFFFF;
+        background-color: #00BFFF;
+    }
+
+    .honerLunWenTag {
+        @extend %honerTagBase;
+        border: 1px solid #808080;
+        color: #000000;
+        background-color: #A9A9A9;
+    }
+
+    .honerRuanZhuTag {
+        @extend %honerTagBase;
+        border: 1px solid #388E3C;
+        color: #FFFFFF;
+        background-color: #4CAF50;
+    }
+
+
+    // 原始
     .honerImg {
         width: auto;
         max-width: 80%;
         height: auto;
         max-height: 60%;
         position: absolute;
-        left: 50%;
+        left: 50%;  
         transform: translate(-50%, -42%);top: 43%;
+        border: 1px solid rgba(0, 0, 0, 0.126);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(207, 243, 4, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .honerImg:hover {
+        // transition: all 0.3s;
+        cursor: pointer;
+        // transform: scale(1.2);
+        border-color: #f13207; /* 鼠标悬停时改变边框颜色 */
     }
 
     .honerType {
+        width: 200px;
+        text-align: center;
         position: absolute;
         left: 5px;
-        bottom: 30px;
-        font-size: 14px;
+        bottom: 32px;
+        font-size: 13px;
         left: 50%;
         transform: translate(-50%, 0%);
         font-weight: bold;
@@ -475,7 +607,7 @@ export default {
         position: absolute;
         left: 5px;
         bottom: 10px;
-        font-size: 14px;
+        font-size: 12px;
         left: 50%;
         transform: translate(-50%, 0%);
         text-align: center;
@@ -497,12 +629,19 @@ export default {
 
   .teamTagBox {
     @extend %tagBoxBase;
-    background-color: rgba(129, 179, 55, 0.9);
+    // background-color: rgba(129, 179, 55, 0.9);
+    border: 1px solid #CC8C00;
+    color: #FFFFFF;
+    background-color: #FFA500;
   }
 
   .ownTagBox {
     @extend %tagBoxBase;
-    background-color: rgba(127, 131, 247, 0.9);
+    border: 1px solid #C0A060;
+    color: #000000;
+    background-color: #FFD700;
+    // background-color: rgba(127, 131, 247, 0.9);
+    // color: white;
   }
 
   .progressBox span{

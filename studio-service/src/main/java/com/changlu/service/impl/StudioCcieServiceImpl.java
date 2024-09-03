@@ -1,22 +1,23 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.changlu.common.domain.MenuOption;
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.enums.DictTypeEnum;
 import com.changlu.enums.InclusionTypeEnum;
 import com.changlu.mapper.StudioCcieMapper;
 import com.changlu.security.util.SecurityUtils;
+import com.changlu.service.ISysUserService;
 import com.changlu.service.StudioCcieService;
-import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.StudioCcieModel;
-import com.changlu.system.pojo.SysDictData;
-import com.changlu.system.service.ISysDictDataService;
+import com.changlu.system.pojo.SysUser;
+import com.changlu.vo.ccie.ShowCcieVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -31,11 +32,35 @@ public class StudioCcieServiceImpl extends ServiceImpl<StudioCcieMapper, StudioC
 
     @Resource
     private StudioCcieMapper studioCcieMapper;
+    @Autowired
+    private ISysUserService iSysUserService;
 
 
     @Override
-    public List<StudioCcieModel> selectZfCcieList(StudioCcieModel ccieModel) {
-        return studioCcieMapper.selectZfCcieList(ccieModel);
+    public List<StudioCcieModel> selectCcieList(StudioCcieModel ccieModel) {
+        return studioCcieMapper.selectCcieList(ccieModel);
+    }
+
+    @Override
+    public List<ShowCcieVo> selectShowCcieList(Integer type) {
+        // db查询证书列表
+        List<StudioCcieModel> studioCcieModels = studioCcieMapper.selectShowCcieList(type);
+        if (CollectionUtils.isEmpty(studioCcieModels)) {
+            return Collections.emptyList();
+        }
+        // 获取用户id的map集合
+        Set<Long> userIds = studioCcieModels.stream()
+                .map(StudioCcieModel::getUserId)
+                .collect(Collectors.toSet());
+        Map<Long, SysUser> userMap = iSysUserService.selectUserMap(userIds.toArray(new Long[0]));
+        // 构建证书vo集合响应
+        List<ShowCcieVo> showCcyVos = studioCcieModels.stream().map(studioCcieModel -> {
+            ShowCcieVo showCcieVo = new ShowCcieVo();
+            BeanUtils.copyProperties(studioCcieModel, showCcieVo);
+            showCcieVo.setUserName(userMap.get(studioCcieModel.getUserId()).getRealName());
+            return showCcieVo;
+        }).collect(Collectors.toList());
+        return showCcyVos;
     }
 
     @Override

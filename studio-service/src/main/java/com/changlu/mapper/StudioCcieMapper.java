@@ -23,7 +23,15 @@ public interface StudioCcieMapper extends BaseMapper<StudioCcieModel> {
      * @param zfCcie ZfCcie
      * @return ZfCcie集合
      */
-    public List<StudioCcieModel> selectZfCcieList(StudioCcieModel zfCcie);
+    public List<StudioCcieModel> selectCcieList(StudioCcieModel zfCcie);
+
+    /**
+     * 查询Ccie列表根据，获奖日期降序排序
+     *
+     * @param type 获奖类型
+     * @return Ccie集合
+     */
+    public List<StudioCcieModel> selectShowCcieList(Integer type);
 
     /**
      * 根据用户id查询ZfCcie列表

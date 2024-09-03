@@ -1,9 +1,9 @@
 package com.changlu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.changlu.common.domain.MenuOption;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.system.pojo.StudioCcieModel;
+import com.changlu.vo.ccie.ShowCcieVo;
 
 import java.util.List;
 
@@ -23,7 +23,15 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      * @param ccieModel
      * @return ZfCcie集合
      */
-    List<StudioCcieModel> selectZfCcieList(StudioCcieModel ccieModel);
+    List<StudioCcieModel> selectCcieList(StudioCcieModel ccieModel);
+
+    /**
+     * 查询证书列表，用于展示
+     *
+     * @param ccieModel
+     * @return Ccie集合
+     */
+    List<ShowCcieVo> selectShowCcieList(Integer type) ;
 
     /**
      * 查询ZfCcie列表根据用户id

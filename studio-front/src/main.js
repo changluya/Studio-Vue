@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueScrollTo from 'vue-scrollto'
 import scroll from 'vue-seamless-scroll'
+// 图片预览组件
+import ImagePreview from "@/components/ImagePreview/index.vue"
 // 引入公共方法
 import { getSiteConfig } from '@/utils/request'
 // 引入常量
@@ -16,6 +18,11 @@ import './permission'
  
 Vue.config.productionTip = false;
 Vue.use(ElementUI)
+
+
+// 全局组件挂载
+Vue.component('ImagePreview', ImagePreview)
+
 // 全局方法挂载
 Vue.prototype.$getSiteConfig = getSiteConfig
 // 全局常量挂载

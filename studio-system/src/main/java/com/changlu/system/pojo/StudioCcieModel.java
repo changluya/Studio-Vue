@@ -65,7 +65,7 @@ public class StudioCcieModel extends BaseEntity {
     @TableField("type_name")
     private String typeName;
 
-    @ApiModelProperty(value = "类型名称")
+    @ApiModelProperty(value = "收录状态")
     @TableField("inclusion_flag")
     private Integer inclusionFlag;
 

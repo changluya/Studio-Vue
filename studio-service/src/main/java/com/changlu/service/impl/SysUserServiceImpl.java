@@ -1,5 +1,6 @@
 package com.changlu.service.impl;
 
+import com.changlu.common.utils.StringUtils;
 import com.changlu.domain.LoginUser;
 //需要web的TokenService
 import com.changlu.security.service.TokenService;
@@ -7,15 +8,15 @@ import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ISysUserService;
 import com.changlu.system.mapper.SysMenuMapper;
 import com.changlu.system.mapper.SysUserMapper;
+import com.changlu.system.pojo.StudioRaceModel;
 import com.changlu.system.pojo.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName SysUserServiceImpl
@@ -88,5 +89,45 @@ public class SysUserServiceImpl implements ISysUserService {
     {
         return sysUserMapper.selectUnallocatedList(user);
     }
+
+    @Override
+    public Map<Long, SysUser> selectUserMap(Long[] userIds) {
+        // 去重用户id，查询用户集合
+        List<SysUser> users = sysUserMapper.selectUserByIds(Arrays.stream(userIds).distinct().toArray(Long[]::new));
+        // 构建用户map映射集合
+        Map<Long, SysUser> userMap = users.stream()
+                .collect(Collectors.toMap(SysUser::getUserId, user -> user));
+        return userMap;
+    }
+
+    @Override
+    public Map<String, String> selectpartUsersRealNameMap(String[] partUserStrArr) {
+        if (partUserStrArr == null || partUserStrArr.length == 0) {
+            return Collections.emptyMap();
+        }
+        // 收集所有参与用户包含的所有用户id
+        Long[] uids = Arrays.stream(partUserStrArr)
+                .filter(StringUtils::isNotEmpty)
+                .flatMap((partUserStr -> Arrays.stream(partUserStr.split(","))))
+                .map((Long::parseLong))
+                .toArray(Long[]::new);
+        // 构建用户map集合
+        Map<Long, SysUser> userMap = selectUserMap(uids);
+        // 结果集
+        Map<String, String> partUsersRealNameMap = new HashMap<>();
+        // 遍历所有的用户组字符串
+        for (String partUserStr : partUserStrArr) {
+            List<String> partUserIds = Arrays.asList(partUserStr.split(","));
+            String partUsersName = partUserIds.stream()
+                    .filter(StringUtils::isNotEmpty)
+                    .mapToLong(Long::parseLong)
+                    .mapToObj((uid) -> userMap.get(uid) != null ? userMap.get(uid).getRealName() : null)
+                    .filter(Objects::nonNull) // 过滤掉null值
+                    .collect(Collectors.joining(", "));
+            partUsersRealNameMap.put(partUserStr, partUsersName);
+        }
+        return partUsersRealNameMap;
+    }
+
 
 }

@@ -5,23 +5,31 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.DateUtils;
 import com.changlu.enums.InclusionTypeEnum;
+import com.changlu.mapper.StudioCcieMapper;
+import com.changlu.mapper.StudioMUserMapper;
 import com.changlu.mapper.StudioRaceMapper;
 import com.changlu.security.util.SecurityUtils;
+import com.changlu.service.ISysUserService;
 import com.changlu.service.StudioRaceService;
 import com.changlu.service.StudioResourceService;
 import com.changlu.system.pojo.StudioCcieModel;
+import com.changlu.system.pojo.SysUser;
+import com.changlu.vo.manage.MUserVo;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.vo.race.ResourceVo;
 import com.changlu.enums.StudioRaceTypeEnum;
 import com.changlu.enums.StudioResourceEnum;
 import com.changlu.system.pojo.StudioRaceModel;
+import com.changlu.vo.race.ShowRaceVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -40,9 +48,60 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
     @Resource
     private StudioResourceService studioResourceService;
 
+    @Resource
+    private StudioMUserMapper studioMUserMapper;
+
+    @Resource
+    private ISysUserService sysUserService;
+
     @Override
-    public List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel) {
-        return studioRaceMapper.selectZfRaceModelList(studioRaceModel);
+    public List<RaceVo> selectRaceModelList(StudioRaceModel raceModel) {
+        //1、查询到所有竞赛集合
+        Long[] raceIds = studioRaceMapper.selectZfRaceIds(); //  解决分页插件给我们查询记录总数问题，所以这里走一遍去查询对应页数的竞赛id
+        List<RaceVo> raceVos = new ArrayList<>(raceIds.length);
+        if (!ObjectUtils.isEmpty(raceIds)) {
+            raceVos = studioRaceMapper.selectZfRaceModelListByRaceIds(raceModel, raceIds);
+        }
+        //2、查询出所有的用户记录（id、真实姓名）
+        List<MUserVo> mUserVos = studioMUserMapper.selectSysUserIdAndRealName();
+        Map<Long, String> userMap = mUserVos.stream().collect(Collectors.toMap(MUserVo::getUserId, MUserVo::getRealName));
+        //3、遍历所有竞赛，根据对应member_ids来进行合成对应的姓名
+        raceVos.stream().forEach(raceVo -> {
+            String[] memIds = raceVo.getRaceMembers().split(",");
+            StringBuilder teamMemberNames = new StringBuilder("");
+            for (int i = 0; i < memIds.length; i++) {
+                Long id = Long.valueOf(memIds[i]);
+                teamMemberNames.append(userMap.get(id));
+                if (i != memIds.length -1 ){
+                    teamMemberNames.append(",");
+                }
+            }
+            //生成个人or团队的用户名单
+            raceVo.setTeamMemberNames(teamMemberNames.toString());
+        });
+        return raceVos;
+    }
+
+    @Override
+    public List<ShowRaceVo> selectShowRaceList() {
+        // 筛选竞赛列表
+        StudioRaceModel query = new StudioRaceModel();
+        query.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal());//选择已收录
+        List<StudioRaceModel> studioRaceModels = studioRaceMapper.selectRaceModelList(query);
+        // 查询竞赛列表中包含的所有参与者字符串
+        String[] partUserStrArr = studioRaceModels.stream().map(StudioRaceModel::getRaceMembers).toArray(String[]::new);
+        Map<String, String> partUsersRealNameMap = sysUserService.selectpartUsersRealNameMap(partUserStrArr);
+        // 构建展示竞赛列表记录
+        List<ShowRaceVo> showRaceVos = studioRaceModels.stream()
+                .map((raceModel -> {
+                    ShowRaceVo showRaceVo = new ShowRaceVo();
+                    BeanUtils.copyProperties(raceModel, showRaceVo);
+                    // 构建参与者姓名集合
+                    showRaceVo.setTeamMemberRealNames(partUsersRealNameMap.get(showRaceVo.getRaceMembers()));
+                    return showRaceVo;
+                }))
+                .collect(Collectors.toList());
+        return showRaceVos;
     }
 
     @Override

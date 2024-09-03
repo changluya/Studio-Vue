@@ -37,8 +37,8 @@ const site = {
 
   actions: {
     getSiteBasicConfig({ commit }) {
-      console.log('getSiteBasicConfig=>', commit)
-      console.log('MY_CONSTANT=>', MY_CONSTANT)
+      // console.log('getSiteBasicConfig=>', commit)
+      // console.log('MY_CONSTANT=>', MY_CONSTANT)
       const siteConfigParms =  {
         configKey: MY_CONSTANT.SITE_CONFIG.SITE_BASICCONFIG.configKey
       }

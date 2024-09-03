@@ -17,16 +17,32 @@
 
     <!-- 查询的vo对象   -->
     <sql id="selectZfCcieVo">
+        select ccie_id, ccie_name, ccie_img, ccie_get_time, user_id, inclusion_flag, type, type_name from studio_ccie
+    </sql>
+
+    <!-- 查询的show对象，不包含ccie_think，长文本   -->
+    <sql id="selectShowCcieVo">
         select ccie_id, ccie_name, ccie_img, ccie_get_time, ccie_think, user_id, inclusion_flag, type, type_name from studio_ccie
     </sql>
 
     <!--  列表查询  -->
-    <select id="selectZfCcieList" parameterType="com.changlu.system.pojo.StudioCcieModel" resultMap="StudioCcieResult">
+    <select id="selectCcieList" parameterType="com.changlu.system.pojo.StudioCcieModel" resultMap="StudioCcieResult">
         <include refid="selectZfCcieVo"/>
         <where>
             <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
+            <if test="type != null"> and type = #{type}</if>
             <if test="params.beginCcieGetTime != null and params.beginCcieGetTime != '' and params.endCcieGetTime != null and params.endCcieGetTime != ''"> and ccie_get_time between #{params.beginCcieGetTime} and #{params.endCcieGetTime}</if>
         </where>
+    </select>
+
+    <!--  展示列表查询，条件为已收录的  -->
+    <select id="selectShowCcieList" resultMap="StudioCcieResult">
+        <include refid="selectShowCcieVo"/>
+        <where>
+            inclusion_flag = 3
+            <if test="type != null"> and type = #{type}</if>
+        </where>
+        order by ccie_get_time desc
     </select>
 
     <!--  根据用户id进行列表查询  -->

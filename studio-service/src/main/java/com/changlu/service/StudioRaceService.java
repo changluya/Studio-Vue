@@ -3,6 +3,7 @@ package com.changlu.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.system.pojo.StudioRaceModel;
+import com.changlu.vo.race.ShowRaceVo;
 
 import java.util.List;
 
@@ -19,10 +20,16 @@ public interface StudioRaceService extends IService<StudioRaceModel> {
     /**
      * 查询ZfRace
      *
-     * @param studioRaceModel ZfRace主键
+     * @param raceModel ZfRace主键
      * @return ZfRace
      */
-    List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel);
+    List<RaceVo> selectRaceModelList(StudioRaceModel raceModel);
+
+    /**
+     * 查询展示竞赛列表
+     * @return 竞赛vo实体类
+     */
+    List<ShowRaceVo> selectShowRaceList();
 
     /**
      * 根据用户id查询ZfRace列表

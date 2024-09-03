@@ -18,12 +18,20 @@ import java.util.List;
 public interface StudioRaceMapper extends BaseMapper<StudioRaceModel> {
 
     /**
-     * 查询ZfRace列表
+     * 查询Race列表：带有竞赛资源列表
      *
      * @param studioRaceModel ZfRace
      * @return ZfRace集合
      */
-    public List<RaceVo> selectZfRaceModelList(StudioRaceModel studioRaceModel);
+    List<RaceVo> selectRaceVoList(StudioRaceModel studioRaceModel);
+
+    /**
+     * 查询Race列表
+     *
+     * @param studioRaceModel 竞赛模型
+     * @return Race集合
+     */
+    List<StudioRaceModel> selectRaceModelList(StudioRaceModel studioRaceModel);
 
     /**
      * 查询ZfRace

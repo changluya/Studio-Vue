@@ -2,8 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.changlu.mapper.StudioRaceMapper">
 
+    <resultMap id="StudioRaceModel" type="com.changlu.system.pojo.StudioRaceModel">
+        <id column="race_id" property="raceId" />
+        <result column="race_name" property="raceName" />
+        <result column="race_members" property="raceMembers" />
+        <result column="race_ccie" property="raceCcie" />
+        <result column="race_begin_time" property="raceBeginTime" />
+        <result column="race_end_time" property="raceEndTime" />
+        <result column="race_flag" property="raceFlag" />
+        <result column="race_summarize" property="raceSummarize" />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
     <!-- 通用查询映射结果 -->
-    <resultMap id="StudioRaceModel" type="com.changlu.vo.race.RaceVo">
+    <resultMap id="RaceVoModel" type="com.changlu.vo.race.RaceVo">
         <id column="race_id" property="raceId" />
         <result column="race_name" property="raceName" />
         <result column="race_members" property="raceMembers" />
@@ -33,7 +47,23 @@
         SELECT LAST_INSERT_ID();
     </select>
 
-    <sql id="selectZfRaceModelVo">
+    <sql id="selectRaceModel">
+        SELECT
+            r.race_id,
+            r.race_name,
+            r.race_members,
+            r.race_ccie,
+            r.race_begin_time,
+            r.race_end_time,
+            r.race_flag,
+            r.inclusion_flag,
+            r.create_time,
+            r.update_time
+        FROM
+            studio_race as r
+    </sql>
+
+    <sql id="selectRaceModelVo">
         SELECT
             r.race_id,
             r.race_name,
@@ -58,8 +88,8 @@
         FROM studio_race
     </select>
 
-    <select id="selectZfRaceModelList" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
-        <include refid="selectZfRaceModelVo"/>
+    <select id="selectRaceVoList" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
         <where>
             <if test="raceMembers != null and raceMembers != ''"> and FIND_IN_SET( #{raceMembers} ,race_members)</if>
             <if test="raceName != null  and raceName != ''"> and r.race_name like concat('%', #{raceName}, '%')</if>
@@ -68,8 +98,16 @@
         </where>
     </select>
 
-    <select id="selectZfRaceModelListByRaceIds" resultType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
-        <include refid="selectZfRaceModelVo"/>
+    <select id="selectRaceModelList" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
+        <include refid="selectRaceModel"/>
+        <where>
+            <if test="inclusionFlag != null"> and inclusion_flag = #{inclusionFlag}</if>
+        </where>
+        order by r.race_end_time desc
+    </select>
+
+    <select id="selectZfRaceModelListByRaceIds" resultType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
         <where>
             race_id in <foreach item="raceId" collection="raceIds" open="(" separator="," close=")">
                             #{raceId}
@@ -93,8 +131,8 @@
             race_members = #{userId}
     </select>
 
-    <select id="selectZfRaceModelListByUserId" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
-        <include refid="selectZfRaceModelVo"/>
+    <select id="selectZfRaceModelListByUserId" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
         <where>
             FIND_IN_SET( #{raceMembers} ,race_members)
             <if test="raceName != null  and raceName != ''"> and r.race_name like concat('%', #{raceName}, '%')</if>
@@ -104,8 +142,8 @@
     </select>
 
 
-    <select id="selectZfRaceModelByRaceId" parameterType="Long" resultMap="StudioRaceModel">
-        <include refid="selectZfRaceModelVo"/>
+    <select id="selectZfRaceModelByRaceId" parameterType="Long" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
         where race_id = #{raceId}
     </select>
 

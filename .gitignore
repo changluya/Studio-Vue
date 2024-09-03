@@ -18,6 +18,7 @@ upload/
 
 # studio-front
 studio-front/.vscode/
+studio-front/.vite/
 
 # 本地测试的yml文件
 application-localdev.yml

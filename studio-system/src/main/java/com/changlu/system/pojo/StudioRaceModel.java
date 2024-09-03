@@ -37,7 +37,7 @@ public class StudioRaceModel extends BaseEntity {
     private String raceName;
 
     @ApiModelProperty(value = "竞赛成员（存储参与成员的id，使用,分割）")
-    private String raceMembers;
+        private String raceMembers;
 
     @ApiModelProperty(value = "竞赛获奖证书")
     @Excel(name = "获奖证书",height = 50, cellType = Excel.ColumnType.IMAGE, sort = 4)

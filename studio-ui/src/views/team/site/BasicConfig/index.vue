@@ -25,8 +25,14 @@
     </el-col>
     <el-col :span="24">
       <el-form-item label="网站创建时间" prop="siteCreateTime">
-        <el-input v-model="basicFormData.configValue.siteCreateTime" placeholder="请输入网站创建时间" clearable :style="{width: '20%'}">
-        </el-input>
+<!--        <el-input v-model="basicFormData.configValue.siteCreateTime" placeholder="请输入网站创建时间" clearable :style="{width: '20%'}">-->
+<!--        </el-input>-->
+        <el-date-picker clearable
+                        v-model="basicFormData.configValue.siteCreateTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择网站创建时间">
+        </el-date-picker>
       </el-form-item>
     </el-col>
     <el-col :span="24">

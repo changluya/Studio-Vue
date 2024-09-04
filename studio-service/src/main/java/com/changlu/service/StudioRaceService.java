@@ -99,4 +99,10 @@ public interface StudioRaceService extends IService<StudioRaceModel> {
      * @return
      */
     public void updateInclusion(Long id, int behavior);
+
+    /**
+     * 统计已收录的竞赛
+     * @return 已收录的竞赛数量
+     */
+    public int countAlreadyInclusionRace();
 }

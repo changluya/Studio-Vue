@@ -101,4 +101,10 @@ public interface IStudioAchievementService {
      * @return 结果
      */
     public void deleteStudioAchievementByIds(Long[] ids);
+
+    /**
+     * 统计已收录的成果
+     * @return 已收录的成果数量
+     */
+    public int countAlreadyInclusionAchievement();
 }

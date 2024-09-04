@@ -185,6 +185,16 @@
         and (r.role_id != 1 or r.role_id is null) -- 排除掉管理员情况
     </select>
 
+    <select id="countUser" resultType="java.lang.Integer">
+        select count(*)
+        from sys_user
+        <where>
+            <if test="delFlag != null">
+                AND del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
     <update id="updateSysUser" parameterType="com.changlu.system.pojo.SysUser">
         update sys_user
         <trim prefix="SET" suffixOverrides=",">

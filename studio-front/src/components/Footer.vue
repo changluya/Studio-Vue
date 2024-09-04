@@ -66,7 +66,7 @@
         computed: {
             time() {
                 // 获取网站创建时间
-                let createYear = this.$store.state.site.siteCreateTime
+                let createYear = this.$store.state.site.siteCreateTime.substring(0, 4)
                 let curYear = new Date().getFullYear()
                 // 合并为最终网站的历史时间
                 return createYear + '-' + curYear

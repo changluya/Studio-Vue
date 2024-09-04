@@ -108,4 +108,10 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      */
     public void updateInclusion(Long id, int behavior);
 
+    /**
+     * 统计已收录的荣誉证书
+     * @return 已收录的荣誉证书数量
+     */
+    public int countAlreadyInclusionCcie();
+
 }

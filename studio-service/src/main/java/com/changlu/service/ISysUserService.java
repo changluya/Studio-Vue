@@ -51,4 +51,9 @@ public interface ISysUserService {
      */
     public Map<String, String> selectpartUsersRealNameMap(String[] partUserStrArr);
 
+    /**
+     * 统计团队所有人数
+     * @return 人数
+     */
+    public int countTeamUser();
 }

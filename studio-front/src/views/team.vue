@@ -36,7 +36,7 @@
                             </div>
                             <div class="descbox">
                             <div class="spanbox">
-                                <b>座右铭：</b> <span v-text="member.description"></span>
+                                <b>人生格言：</b> <span v-text="member.description"></span>
                             </div>
                             </div>
                         </div>
@@ -52,13 +52,13 @@
                                 <p>身份：<span v-text="member.roleName"></span></p>
                                 <p>专业：<span v-text="member.majorName"></span></p>
                                 <p>学业状态：
-                                <span v-text="member.directionType != '' ? member.directionType : '待业'"></span>
+                                <span v-text="member.directionTypeName"></span>
                                 </p>
                             </div>
                             </div>
                             <div class="descbox">
                             <div class="spanbox">
-                                <b>座右铭：</b> <span v-text="member.description"></span>
+                                <b>人生格言：</b> <span v-text="member.description"></span>
                             </div>
                             </div>
                             <!--  -->

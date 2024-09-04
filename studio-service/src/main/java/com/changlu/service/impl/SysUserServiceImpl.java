@@ -1,8 +1,10 @@
 package com.changlu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.utils.StringUtils;
 import com.changlu.domain.LoginUser;
 //需要web的TokenService
+import com.changlu.enums.UserStatusEnum;
 import com.changlu.security.service.TokenService;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ISysUserService;
@@ -129,5 +131,13 @@ public class SysUserServiceImpl implements ISysUserService {
         return partUsersRealNameMap;
     }
 
+    @Override
+    public int countTeamUser() {
+        LambdaQueryWrapper<SysUser> userWrapper = new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getStatus, UserStatusEnum.ACTIVE.value())
+                .ne(SysUser::getUserId, 1L);//系统管理员不计入总数
+        int userCount = sysUserMapper.selectCount(userWrapper);
+        return userCount;
+    }
 
 }

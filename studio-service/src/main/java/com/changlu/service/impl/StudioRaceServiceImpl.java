@@ -261,4 +261,12 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
         this.updateZfRaceModel(updateRaceModel);
     }
 
+    @Override
+    public int countAlreadyInclusionRace() {
+        LambdaQueryWrapper<StudioRaceModel> queryCcie = new LambdaQueryWrapper<StudioRaceModel>()
+                .eq(StudioRaceModel::getInclusionFlag, InclusionTypeEnum.ALREADY_INCLUSION.getVal());
+        int racesNum = this.studioRaceMapper.selectCount(queryCcie);
+        return racesNum;
+    }
+
 }

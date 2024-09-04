@@ -8,11 +8,11 @@
 
                 <nav id="nav-menu-container">
                 <ul class="nav-menu">
-                    <li class="menu-active"><a href="#intro">主页</a></li>
+                    <li :class="curRoutePath === '/index' ? 'menu-active': ''"><a href="/#/index">主页</a></li>
                     <li><a class="tab" v-scroll-to="'#about'">关于我们</a></li>
                     <li><a class="tab" v-scroll-to="'#portfolio'">作品</a></li>
-                    <li><a href="#time" target="_blank">时光轴</a></li>
-                    <li><a href="#team" target="_blank">团队</a></li>
+                    <li><a :class="curRoutePath === '/time' ? 'menu-active': ''" href="/#/time" target="_blank">时光轴</a></li>
+                    <li><a :class="curRoutePath === '/team' ? 'menu-active': ''" href="/#/team" target="_blank">团队</a></li>
                     <!-- <li class="menu-has-children"><a href="">Drop Down</a>
                     <ul>
                         <li><a href="#">Drop Down 1</a></li>
@@ -64,6 +64,8 @@
                 },
                 // 父组件传递值
                 localIsScrolled: this.isScrolled,
+                // 当前路径
+                curRoutePath: ''
             }
         },
         computed: {
@@ -72,6 +74,8 @@
             }
         },
         created() {
+            // console.log('当前路径：', this.$route.path);
+            this.curRoutePath = this.$route.path
         },
         methods: {
         },

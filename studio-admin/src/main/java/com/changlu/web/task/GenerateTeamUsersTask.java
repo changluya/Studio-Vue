@@ -71,12 +71,12 @@ public class GenerateTeamUsersTask {
             List<ShowUserVo> showUserVos = studioMUserMapper.selectShowUserVoList();
             //将集合中的null
             //3、构造响应对象
-            result = new ArrayList<>(showUserVos.size());
+            List<Map> teamUsersRes = new ArrayList<>(showUserVos.size());
             //构建老师
-            buildTeacherMembers(result, showUserVos);
+            buildTeacherMembers(teamUsersRes, showUserVos);
             //构建学生
-            buildStudentMembers(result, showUserVos);
-            return result;
+            buildStudentMembers(teamUsersRes, showUserVos);
+            return teamUsersRes;
         }
     }
 
@@ -122,6 +122,7 @@ public class GenerateTeamUsersTask {
                 })
                 .collect(Collectors.toList());
         for (ShowUserVo user: studentUserVo) {
+            // 若是角色为空
             if (ObjectUtils.isEmpty(user.getRoleName())) {
                 user.setRoleName("成员");
                 continue;

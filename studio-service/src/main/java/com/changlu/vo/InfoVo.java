@@ -59,7 +59,7 @@ public class InfoVo implements Serializable {
     @NoArgsConstructor
     public static class StudentExtra implements Serializable {
         private static final long serialVersionUID = 1L;
-        private String directionType;
+        private Integer directionType;
         private String directionName;
         private String logoImg;
     }

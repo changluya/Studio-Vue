@@ -2,8 +2,10 @@ package com.changlu.vo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.changlu.common.utils.JsonObjectUtil;
+import com.changlu.common.utils.StringUtils;
 import com.changlu.common.utils.reflect.ReflectUtils;
 import com.changlu.config.SysUserExtraConstant;
+import com.changlu.enums.DirectionTypeEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -77,17 +79,26 @@ public class ShowUserVo implements Serializable {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ShowStudentUserVo extends ShowUserVo implements Serializable {
-        private String directionType;
+        private String directionTypeName;
         private String directionName;
         private String logoImg;
 
         @Override
         protected void executeBuildUserVo(JSONObject extraJSONObject) {
             InfoVo.StudentExtra studentExtra = JsonObjectUtil.getJSONObjectByKey(extraJSONObject, SysUserExtraConstant.STUDENT_EXTRA, InfoVo.StudentExtra.class);
+            String directionTypeName = DirectionTypeEnum.ENROLLED.directionTypeName;
+            // 若是有额外字段表示当前已编辑过
             if (studentExtra != null){
-                this.setDirectionType(studentExtra.getDirectionType());
+                Integer directionType = studentExtra.getDirectionType();
+                if (directionType != null){
+                    directionTypeName = DirectionTypeEnum.getDirectionTypeName(directionType);
+                }
+                this.setDirectionTypeName(directionTypeName);
                 this.setDirectionName(studentExtra.getDirectionName());
                 this.setLogoImg(studentExtra.getLogoImg());
+            } else {
+                // 若是没有额外字段，默认设置去向为在校
+                this.setDirectionTypeName(directionTypeName);
             }
         }
     }

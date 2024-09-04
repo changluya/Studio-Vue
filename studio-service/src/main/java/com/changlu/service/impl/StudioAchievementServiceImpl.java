@@ -1,5 +1,6 @@
 package com.changlu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.StringUtils;
 import com.changlu.enums.InclusionTypeEnum;
@@ -223,5 +224,13 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
     public void deleteStudioAchievementByIds(Long[] ids)
     {
         studioAchievementMapper.deleteStudioAchievementByIds(ids, null);
+    }
+
+    @Override
+    public int countAlreadyInclusionAchievement() {
+        LambdaQueryWrapper<StudioAchievementModel> queryAchievement = new LambdaQueryWrapper<StudioAchievementModel>()
+                .eq(StudioAchievementModel::getInclusionFlag, InclusionTypeEnum.ALREADY_INCLUSION.getVal());
+        int achievementsNum = this.studioAchievementMapper.selectCount(queryAchievement);
+        return achievementsNum;
     }
 }

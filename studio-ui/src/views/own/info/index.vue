@@ -24,34 +24,43 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="24">
-            <el-row :gutter="15">
-              <el-col :span="9">
-                <el-form-item label="专业" prop="majorId">
-                  <el-select v-model="formData.majorId" placeholder="请选择专业" filterable clearable
-                             :style="{width: '100%'}">
-                    <el-option v-for="(item, index) in majorIdOptions" :key="index" :label="item.majorName"
-                               :value="item.majorId" :disabled="item.disabled"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24">
-            <el-row :gutter="15">
-              <el-col :span="9">
-                <el-form-item label="年级" prop="gradeId">
-                  <el-select v-model="formData.gradeId" placeholder="请选择年级" filterable clearable
-                             :style="{width: '100%'}">
-                    <el-option v-for="(item, index) in gradeIdOptions" :key="index" :label="item.gradeNum"
-                               :value="item.gradeId" :disabled="item.disabled"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-col>
+          <!-- 老师额外字段展示 -->
+          <div v-if="isTeacher">
+            <el-col :span="14">
+              <el-form-item label="导师主页链接" prop="teacherMainHref">
+                <el-input v-model="formData.teacherExtra.teacherMainHref" placeholder="请填写导师学校个人主页链接" clearable :style="{width: '55%'}">
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </div>
           <!-- 学生额外字段显示 -->
-          <div v-if="checkRole('member')">
+          <div v-else>
+            <el-col :span="24">
+              <el-row :gutter="15">
+                <el-col :span="9">
+                  <el-form-item label="专业" prop="majorId">
+                    <el-select v-model="formData.majorId" placeholder="请选择专业" filterable clearable
+                               :style="{width: '100%'}">
+                      <el-option v-for="(item, index) in majorIdOptions" :key="index" :label="item.majorName"
+                                 :value="item.majorId" :disabled="item.disabled"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24">
+              <el-row :gutter="15">
+                <el-col :span="9">
+                  <el-form-item label="年级" prop="gradeId">
+                    <el-select v-model="formData.gradeId" placeholder="请选择年级" filterable clearable
+                               :style="{width: '100%'}">
+                      <el-option v-for="(item, index) in gradeIdOptions" :key="index" :label="item.gradeNum"
+                                 :value="item.gradeId" :disabled="item.disabled"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
             <el-col :span="24">
               <el-row :gutter="15">
                 <el-col :span="9">
@@ -65,7 +74,7 @@
                 </el-col>
               </el-row>
             </el-col>
-            <el-col :span="20">
+            <el-col :span="20" v-show="formData.studentExtra.directionType !== 1">
               <el-row :gutter="20">
                 <el-col :span="10">
                   <el-form-item label="去向详情" prop="directionName">
@@ -92,19 +101,10 @@
               </el-row>
             </el-col>
           </div>
-          <!-- 老师额外字段展示 -->
-          <div v-else-if="checkRole('teacher')">
-            <el-col :span="14">
-              <el-form-item label="导师主页链接" prop="teacherMainHref">
-                <el-input v-model="formData.teacherExtra.teacherMainHref" placeholder="请填写导师学校个人主页链接" clearable :style="{width: '55%'}">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </div>
           <el-col :span="14">
-            <el-form-item label="个人介绍" prop="description">
+            <el-form-item label="人生格言" prop="description">
               <el-input v-model="formData.description" type="textarea"
-                        placeholder="简单描述下自己就行噢，可以写上自己的目标，想成为的人都可以，50-60主要用于官网-团队页展示" :maxlength="60" show-word-limit
+                        placeholder="简单描述下自己或者人生格言，至多50-60主要用于官网-团队页展示" :maxlength="60" show-word-limit
                         :autosize="{minRows: 4, maxRows: 4}" :style="{width: '65%'}"></el-input>
             </el-form-item>
           </el-col>
@@ -220,12 +220,12 @@ export default {
           directionType: '升学'
         },
         {
-          id: 2,
+          id: 3,
           directionType: '就业'
         }
       ],
-      // 当前角色
-      roleKey: '',
+      // 判断当前teacher角色
+      isTeacher: false,
       // 上传配置
       uploadConfig: {
         'perImgAction': '',
@@ -235,7 +235,16 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    // 选择去向
+    // 'formData.studentExtra.directionType': function(newVal, oldVal) {
+    //   // 若是选择 在校，那么清除去向信息以及logo
+    //   if (newVal === 1) {
+    //     this.formData.studentExtra.directionName = ''
+    //     this.logoImgFileList = []
+    //   }
+    // }
+  },
   created() {
     // 获取菜单信息：专业、年级
     this.getMenu()
@@ -253,19 +262,22 @@ export default {
   },
   mounted() {},
   methods: {
-    checkRole(role) {
-      if (role === 'teacher') {
-        return this.roleKey.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)
-      } else if (role === 'member') {
-        return this.roleKey === this.$MY_CONSTANT.Roles.ROLE_MEMBER.roleKey
-      }
-      return true
-    },
+    // checkRole(role) {
+    //   console.log('this.roleKey=>', this.roleKey)
+    //   if (role === 'teacher') {
+    //     return this.roleKey.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)
+    //   } else if (role === 'member') {
+    //     return this.roleKey.includes(this.$MY_CONSTANT.Roles.ROLE_MEMBER.roleKey)
+    //   }
+    //   return true
+    // },
     submitForm() {
       // console.log(this.formData)
       // this.$refs['elForm'].validate(valid => {
       //   if (!valid) return
       // 提交信息
+      // console.log('this.formData=>', this.formData)
+      this.processForm()
       infoApi.commitUserInfo(this.formData).then(data => {
         console.log(data)
         if (data.code === 200) {
@@ -273,7 +285,14 @@ export default {
           this.$modal.msgSuccess('更新成功！')
         }
       }).catch(err => console.log(err))
-      // })
+    },
+    processForm() {
+      // 若是为在校，去向、logo去除
+      if (this.formData.studentExtra.directionType === 1) {
+        // console.log('this.formData.studentExtra.directionType=>', this.formData.studentExtra.directionType)
+        this.formData.studentExtra.directionName = ''
+        this.logoImgFileList = []
+      }
     },
     resetForm() {
       this.$refs['elForm'].resetFields()
@@ -320,9 +339,11 @@ export default {
             // 老师额外字段：导师主页链接
             teacherExtra: results.teacherExtra == null ? {} : results.teacherExtra
         }
-        // 校验是否为老师
+        // 角色为老师情况
         const roleNames = results.roleNames
-        if (roleNames && !roleNames.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)) {
+        if (roleNames && roleNames.includes(this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleKey)) {
+          this.isTeacher = true
+        } else { // 学生情况
           // 去向logo图片处理
           if (results.studentExtra) {
             const logoImg = results.studentExtra.logoImg;
@@ -334,9 +355,7 @@ export default {
             }
           }
         }
-        // 获取到当前的角色信息
-        this.roleKey = roleNames
-        console.log('roleKey=>', this.roleKey)
+        // console.log('isTeacher=>', this.isTeacher)
         // 个人照片处理
         if (!isEmpty(results.perImg)){
           this.perImgfileList.push({

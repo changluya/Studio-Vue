@@ -8,3 +8,11 @@ export function querySiteConfig(params) {
         params: params
     })
 }
+
+// 查询网站基础数据统计
+export function getSiteStatistics() {
+    return request({
+        url: '/api/open/site/statistics',
+        method: 'get'
+    })
+}

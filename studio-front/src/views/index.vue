@@ -132,23 +132,28 @@
                 <div class="row counters">
 
                     <div class="col-lg-3 col-6 text-center">
-                    <span data-toggle="counter-up">1,364</span>
-                    <p>成立天数</p>
+                        <span data-toggle="counter-up" v-html="statisticsData.establishmentDaysNum">1,364</span>
+                        <p>成立天数</p>
+                    </div>
+
+                    <div class="col-lg-2 col-6 text-center">
+                        <span data-toggle="counter-up" v-html="statisticsData.teamMembersNum">18</span>
+                        <p>团队成员</p>
+                    </div>
+
+                    <div class="col-lg-2 col-6 text-center">
+                        <span data-toggle="counter-up" v-html="statisticsData.racesNum">4</span>
+                        <p>参与竞赛</p>
+                    </div>
+
+                    <div class="col-lg-2 col-6 text-center">
+                        <span data-toggle="counter-up" v-html="statisticsData.achievementsNum">10</span>
+                        <p>获取成果</p>
                     </div>
 
                     <div class="col-lg-3 col-6 text-center">
-                    <span data-toggle="counter-up">18</span>
-                    <p>成员</p>
-                    </div>
-
-                    <div class="col-lg-3 col-6 text-center">
-                    <span data-toggle="counter-up">10</span>
-                    <p>奖项</p>
-                    </div>
-
-                    <div class="col-lg-3 col-6 text-center">
-                    <span data-toggle="counter-up">4</span>
-                    <p>成果</p>
+                        <span data-toggle="counter-up" v-html="statisticsData.cciesNum">4</span>
+                        <p>奖项证书</p>
                     </div>
 
                 </div>
@@ -306,6 +311,7 @@ import { showAchievements } from '@/api/openAchievementApi.js'
 import { pocsList } from '@/api/openPocsApi.js'
 import { ccieList } from '@/api/openCcieApi.js'
 import { raceList } from '@/api/openRaceApi.js'
+import { getSiteStatistics } from '@/api/openSiteApi.js'
 
 export default {
     name: 'Index',
@@ -372,6 +378,9 @@ export default {
             showCcieArr: [],
             // 展示竞赛列表
             showRaceArr: [],
+            // 网站统计数据
+            statisticsData: {},
+            // 预览图片
             bigImageUrl: '',
             logicImageList: []
         }
@@ -404,6 +413,7 @@ export default {
             this.getShowRaces()
             // 获取竞赛证书列表信息
             // this.getShowCcies();
+            this.querySiteStatistics();
         },
         // 获取成果信息
         getShowAchievements() {
@@ -450,6 +460,12 @@ export default {
             raceList().then((data) => {
                 // console.log("getShowRaces=>", data)
                 this.showRaceArr = data.data
+            }).catch(err=>console.log(err))
+        },
+        querySiteStatistics() {
+            getSiteStatistics().then((data) => {
+                // console.log("getShowRaces=>", data)
+                this.statisticsData = data.data
             }).catch(err=>console.log(err))
         },
         handleClickHonerTabs() {

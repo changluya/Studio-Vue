@@ -1,6 +1,8 @@
 package com.changlu.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.changlu.system.pojo.StudioAchievementModel;
+import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +14,7 @@ import java.util.List;
  * @author changlu
  * @date 2024-08-18
  */
-public interface StudioAchievementMapper {
+public interface StudioAchievementMapper extends BaseMapper<StudioAchievementModel> {
     /**
      * 查询成果
      * 

@@ -1,5 +1,6 @@
 package com.changlu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.enums.InclusionTypeEnum;
@@ -141,6 +142,14 @@ public class StudioCcieServiceImpl extends ServiceImpl<StudioCcieMapper, StudioC
         }
         // 更新证书
         this.updateCcie(updateCcieModel);
+    }
+
+    @Override
+    public int countAlreadyInclusionCcie() {
+        LambdaQueryWrapper<StudioCcieModel> queryCcie = new LambdaQueryWrapper<StudioCcieModel>()
+                .eq(StudioCcieModel::getInclusionFlag, InclusionTypeEnum.ALREADY_INCLUSION.getVal());
+        int cciesNum = this.studioCcieMapper.selectCount(queryCcie);
+        return cciesNum;
     }
 
 }

@@ -2,21 +2,30 @@ package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.utils.DateUtils;
+import com.changlu.enums.ConfigTypeEnum;
+import com.changlu.enums.InclusionTypeEnum;
 import com.changlu.enums.UserStatusEnum;
 import com.changlu.enums.StudioRaceTypeEnum;
 import com.changlu.mapper.IndexCountMapper;
 import com.changlu.mapper.StudioCcieMapper;
 import com.changlu.mapper.SchoolMajorMapper;
 import com.changlu.mapper.StudioRaceMapper;
-import com.changlu.service.IndexService;
+import com.changlu.service.*;
+import com.changlu.system.mapper.StudioAchievementMapper;
 import com.changlu.system.mapper.SysUserMapper;
-import com.changlu.system.pojo.SysUser;
-import com.changlu.system.pojo.SchoolMajorModel;
-import com.changlu.system.pojo.StudioRaceModel;
+import com.changlu.system.pojo.*;
+import com.changlu.vo.config.BasicConfig;
+import com.changlu.vo.config.ConfigVo;
+import com.changlu.vo.site.BasicSiteStatisticsVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,10 +36,16 @@ import java.util.stream.Collectors;
  * @Description 首页展示业务层
  */
 @Service
-public class IndexServiceImpl implements IndexService {
+public class SiteServiceImpl implements SiteService {
+
+    @Autowired
+    private SiteConfigService siteConfigService;
 
     @Resource
     private SysUserMapper userMapper;
+
+    @Autowired
+    private ISysUserService sysUserService;
 
     @Resource
     private StudioRaceMapper studioRaceMapper;
@@ -43,6 +58,15 @@ public class IndexServiceImpl implements IndexService {
 
     @Resource
     private IndexCountMapper indexCountMapper;
+
+    @Resource
+    private IStudioAchievementService studioAchievementService;
+
+    @Autowired
+    private StudioCcieService studioCcieService;
+
+    @Autowired
+    private StudioRaceService studioRaceService;
 
 
     /**
@@ -67,6 +91,45 @@ public class IndexServiceImpl implements IndexService {
         Integer ccieCount = studioCcieMapper.selectCount(null);
         List<Integer> counts = Arrays.asList(userCount, projectCount, raceCount, ccieCount);
         return counts;
+    }
+
+    @Override
+    public BasicSiteStatisticsVo getBasicSiteStatistics() {
+        // 1、统计成立天数
+        long establishmentDays = getEstablishmentDays();
+        // 2、统计团队成员数
+        int temMembersNum = sysUserService.countTeamUser();
+        // 3、统计网站成果数（已收录）
+        int achievementsNum = studioAchievementService.countAlreadyInclusionAchievement();
+        // 4、统计荣誉证书数（已收录）
+        int cciesNum = studioCcieService.countAlreadyInclusionCcie();
+        // 5、统计竞赛（已收录）
+        int racesNum = studioRaceService.countAlreadyInclusionRace();
+        // 构建统计对象
+        BasicSiteStatisticsVo statisticsVo = BasicSiteStatisticsVo.builder()
+                .establishmentDaysNum(establishmentDays)
+                .teamMembersNum(temMembersNum)
+                .achievementsNum(achievementsNum)
+                .cciesNum(cciesNum)
+                .racesNum(racesNum).build();
+        return statisticsVo;
+    }
+
+    /**
+     * 获取成立天数，动态计算成立以来截止到今天的天数
+     * @return 成立天数
+     */
+    @Override
+    public long getEstablishmentDays() {
+        ConfigVo configVo = siteConfigService.selectConfigValueByConfigKey(ConfigTypeEnum.SITE_BASICCONFIG.getConfigKey());
+        BasicConfig configValue = (BasicConfig) configVo.getConfigValue();
+        // 获取网站配置中的成立时间 yyyy-MM-dd
+        String siteCreateTime = configValue.getSiteCreateTime();
+        LocalDate creationDate = LocalDate.parse(siteCreateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate today = LocalDate.now();
+        // 使用 ChronoUnit获取更精确的天数计算
+        long establishmentDays = ChronoUnit.DAYS.between(creationDate, today);
+        return  establishmentDays;
     }
 
     /**

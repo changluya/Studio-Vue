@@ -2,7 +2,9 @@ package com.changlu.web.controller.open;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.service.SiteConfigService;
+import com.changlu.service.SiteService;
 import com.changlu.vo.config.ConfigVo;
+import com.changlu.vo.site.BasicSiteStatisticsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,16 @@ public class OpenSiteController {
 
     @Autowired
     private SiteConfigService siteConfigService;
+
+    @Autowired
+    private SiteService siteService;
+
+    @GetMapping("/statistics")
+    public ResponseResult getSiteBasicStatistics(){
+        BasicSiteStatisticsVo basicSiteStatistics = siteService.getBasicSiteStatistics();
+        return ResponseResult.success(basicSiteStatistics);
+    }
+
 
     @GetMapping("/config")
     public ResponseResult getSiteConfig(@RequestParam("configKey") String configKey){

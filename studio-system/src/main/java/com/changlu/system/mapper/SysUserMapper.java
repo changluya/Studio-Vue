@@ -82,4 +82,11 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
 
+    /**
+     * 统计用户数量
+     * @param queryUser 查询用户对象
+     * @return 统计数量
+     */
+    public int countUser(SysUser queryUser);
+
 }

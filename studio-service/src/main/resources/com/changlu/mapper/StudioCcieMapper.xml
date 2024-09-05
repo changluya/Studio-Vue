@@ -41,6 +41,7 @@
         <where>
             inclusion_flag = 3
             <if test="type != null"> and type = #{type}</if>
+            <if test="searchYear != null and searchYear != ''"> and YEAR(ccie_get_time) = #{searchYear}</if>
         </where>
         order by ccie_get_time desc
     </select>

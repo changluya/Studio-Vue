@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.vo.ccie.ShowCcieVo;
+import com.changlu.vo.ccie.vo.CcieReqVo;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface StudioCcieService extends IService<StudioCcieModel> {
      * @param ccieModel
      * @return Ccie集合
      */
-    List<ShowCcieVo> selectShowCcieList(Integer type) ;
+    List<ShowCcieVo> selectShowCcieList(CcieReqVo ccieReqVo) ;
 
     /**
      * 查询ZfCcie列表根据用户id

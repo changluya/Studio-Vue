@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.changlu.vo.race.RaceVo;
 import com.changlu.system.pojo.StudioRaceModel;
 import com.changlu.vo.race.ShowRaceVo;
+import com.changlu.vo.race.req.RaceReqVo;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public interface StudioRaceService extends IService<StudioRaceModel> {
      * 查询展示竞赛列表
      * @return 竞赛vo实体类
      */
-    List<ShowRaceVo> selectShowRaceList();
+    List<ShowRaceVo> selectShowRaceList(RaceReqVo raceReqVo);
 
     /**
      * 根据用户id查询ZfRace列表

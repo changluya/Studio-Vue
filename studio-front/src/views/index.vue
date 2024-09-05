@@ -223,7 +223,21 @@
                             <el-tab-pane label="论文" name="three"></el-tab-pane>
                             <el-tab-pane label="软著" name="four"></el-tab-pane>
                         </el-tabs>
+                        <div class="selBox">
+                            <el-select v-model="queryParams.searchYear" placeholder="请选择年份" size="mini"
+                            @change="changeSearchYear"
+                            :popper-append-to-body="false" 
+                            style="width: 20%;">
+                            <el-option 
+                                v-for="item in yearOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
                     </div>
+
 
                     <div v-if="activeName === 'first'" class="row honer-imgs" style="margin-top: 30px;display: flex;flex-wrap: wrap; position: relative; left: 2%;">
                         <div class="imgbox wow fadeInUp" v-for="(showRace, index) in showRaceArr" :key="index">
@@ -382,7 +396,19 @@ export default {
             statisticsData: {},
             // 预览图片
             bigImageUrl: '',
-            logicImageList: []
+            logicImageList: [],
+            // 年份下拉选项
+            yearOptions: [],
+            // 搜索年份
+            queryParams: {
+                // searchYear: new Date().getFullYear()
+                searchYear: ''
+            }
+        }
+    },
+    computed: {
+        createTeamYear() {
+            return this.$store.state.site.siteCreateTime.substring(0, 4)
         }
     },
     created() {
@@ -414,6 +440,26 @@ export default {
             // 获取竞赛证书列表信息
             // this.getShowCcies();
             this.querySiteStatistics();
+            // 构造下拉年份选择器
+            let createYear = this.createTeamYear
+            if (createYear) {
+                let currentYear = new Date().getFullYear();
+                this.yearOptions.push(
+                    { 
+                        label: "全部",
+                        value: ""
+                    }
+                )
+                for (let year = currentYear; year >= parseInt(createYear); year--) {
+                    this.yearOptions.push(
+                        { 
+                          label: year + "年",
+                          value: year 
+                        }
+                    )
+                }
+            }
+            console.log('createYear=>', createYear)
         },
         // 获取成果信息
         getShowAchievements() {
@@ -440,7 +486,8 @@ export default {
                 typeParam = type.val;
             }
             let ccieParams = {
-                type: typeParam
+                type: typeParam,
+                searchYear: this.queryParams.searchYear
             }
             // 调用查询证书接口
             ccieList(ccieParams).then((data) => {
@@ -457,7 +504,7 @@ export default {
             }).catch(err=>console.log(err))
         },
         getShowRaces() {
-            raceList().then((data) => {
+            raceList(this.queryParams).then((data) => {
                 // console.log("getShowRaces=>", data)
                 this.showRaceArr = data.data
             }).catch(err=>console.log(err))
@@ -517,6 +564,11 @@ export default {
                 this.bigImageUrl = img
                 this.$refs.elImage.clickHandler()
             })
+        },
+        changeSearchYear() {
+            // console.log(this.queryParams.searchYear)
+            // this.getShowRaces()
+            this.handleClickHonerTabs()
         }
     }
 }
@@ -532,6 +584,21 @@ export default {
         border-radius: 3px;
         font-weight: 330;
   }
+
+    ::v-deep {
+        // 自定义下拉选项 【搭配select标签设置:popper-append-to-body="false"】
+        .el-select-dropdown__item {
+            height: 28px;
+            font-size: 10px;
+        }
+    }
+
+    .selBox {
+        position: relative;
+        left: -37%;
+        bottom: 6px
+    }
+
   .imgbox {
     width: 210px;
     height: 280px;
@@ -582,7 +649,6 @@ export default {
         color: #FFFFFF;
         background-color: #4CAF50;
     }
-
 
     // 原始
     .honerImg {

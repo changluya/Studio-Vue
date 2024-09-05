@@ -28,10 +28,10 @@ public interface StudioCcieMapper extends BaseMapper<StudioCcieModel> {
     /**
      * 查询Ccie列表根据，获奖日期降序排序
      *
-     * @param type 获奖类型
+     * @param ccie 获奖类型
      * @return Ccie集合
      */
-    public List<StudioCcieModel> selectShowCcieList(Integer type);
+    public List<StudioCcieModel> selectShowCcieList(@Param("type") Integer type,@Param("searchYear") String searchYear);
 
     /**
      * 根据用户id查询ZfCcie列表

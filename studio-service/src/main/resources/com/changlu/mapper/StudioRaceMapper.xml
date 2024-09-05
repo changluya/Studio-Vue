@@ -49,18 +49,18 @@
 
     <sql id="selectRaceModel">
         SELECT
-            r.race_id,
-            r.race_name,
-            r.race_members,
-            r.race_ccie,
-            r.race_begin_time,
-            r.race_end_time,
-            r.race_flag,
-            r.inclusion_flag,
-            r.create_time,
-            r.update_time
+            race_id,
+            race_name,
+            race_members,
+            race_ccie,
+            race_begin_time,
+            race_end_time,
+            race_flag,
+            inclusion_flag,
+            create_time,
+            update_time
         FROM
-            studio_race as r
+            studio_race
     </sql>
 
     <sql id="selectRaceModelVo">
@@ -102,8 +102,9 @@
         <include refid="selectRaceModel"/>
         <where>
             <if test="inclusionFlag != null"> and inclusion_flag = #{inclusionFlag}</if>
+            <if test="params.searchYear != null and params.searchYear != ''"> and YEAR(race_end_time) = #{params.searchYear}</if>
         </where>
-        order by r.race_end_time desc
+        order by race_end_time desc
     </select>
 
     <select id="selectZfRaceModelListByRaceIds" resultType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">

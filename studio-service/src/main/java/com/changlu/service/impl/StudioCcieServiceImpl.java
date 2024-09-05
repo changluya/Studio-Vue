@@ -11,6 +11,7 @@ import com.changlu.service.StudioCcieService;
 import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.vo.ccie.ShowCcieVo;
+import com.changlu.vo.ccie.vo.CcieReqVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,9 @@ public class StudioCcieServiceImpl extends ServiceImpl<StudioCcieMapper, StudioC
     }
 
     @Override
-    public List<ShowCcieVo> selectShowCcieList(Integer type) {
+    public List<ShowCcieVo> selectShowCcieList(CcieReqVo ccieReqVo) {
         // db查询证书列表
-        List<StudioCcieModel> studioCcieModels = studioCcieMapper.selectShowCcieList(type);
+        List<StudioCcieModel> studioCcieModels = studioCcieMapper.selectShowCcieList(ccieReqVo.getType(), ccieReqVo.getSearchYear());
         if (CollectionUtils.isEmpty(studioCcieModels)) {
             return Collections.emptyList();
         }

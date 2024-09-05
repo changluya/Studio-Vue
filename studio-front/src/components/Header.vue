@@ -10,7 +10,8 @@
                 <ul class="nav-menu">
                     <li :class="curRoutePath === '/index' ? 'menu-active': ''"><a href="/#/index">主页</a></li>
                     <li><a class="tab" v-scroll-to="'#about'">关于我们</a></li>
-                    <li><a class="tab" v-scroll-to="'#portfolio'">作品</a></li>
+                    <li><a class="tab" v-scroll-to="'#portfolio'">成果</a></li>
+                    <li><a class="tab" v-scroll-to="'#honer'">荣誉资质</a></li>
                     <li><a :class="curRoutePath === '/time' ? 'menu-active': ''" href="/#/time" target="_blank">时光轴</a></li>
                     <li><a :class="curRoutePath === '/team' ? 'menu-active': ''" href="/#/team" target="_blank">团队</a></li>
                     <!-- <li class="menu-has-children"><a href="">Drop Down</a>

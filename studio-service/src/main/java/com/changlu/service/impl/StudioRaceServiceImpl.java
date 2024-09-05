@@ -21,6 +21,7 @@ import com.changlu.enums.StudioRaceTypeEnum;
 import com.changlu.enums.StudioResourceEnum;
 import com.changlu.system.pojo.StudioRaceModel;
 import com.changlu.vo.race.ShowRaceVo;
+import com.changlu.vo.race.req.RaceReqVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,9 +84,13 @@ public class StudioRaceServiceImpl extends ServiceImpl<StudioRaceMapper, StudioR
     }
 
     @Override
-    public List<ShowRaceVo> selectShowRaceList() {
+    public List<ShowRaceVo> selectShowRaceList(RaceReqVo raceReqVo) {
         // 筛选竞赛列表
         StudioRaceModel query = new StudioRaceModel();
+        // 拷贝属性到查询vo中
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("searchYear", raceReqVo.getSearchYear());// 搜索年份
+        query.setParams(params);
         query.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal());//选择已收录
         List<StudioRaceModel> studioRaceModels = studioRaceMapper.selectRaceModelList(query);
         // 查询竞赛列表中包含的所有参与者字符串

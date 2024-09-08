@@ -184,6 +184,19 @@
                         <li >硬件</li> -->
                     </ul>
                     </div>
+                    <div class="achievementSelBox">
+                        <el-select v-model="searchAchievementYear" placeholder="请选择年份" size="mini"
+                        @change="changeAchievementSearchYear"
+                        :popper-append-to-body="false" 
+                        style="width: 60%;">
+                        <el-option 
+                            v-for="item in achievementYearOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
                 </div>
 
                 <div class="row portfolio-container" style="display: flex;flex-wrap: wrap;">
@@ -223,13 +236,13 @@
                             <el-tab-pane label="论文" name="three"></el-tab-pane>
                             <el-tab-pane label="软著" name="four"></el-tab-pane>
                         </el-tabs>
-                        <div class="selBox">
-                            <el-select v-model="queryParams.searchYear" placeholder="请选择年份" size="mini"
-                            @change="changeSearchYear"
+                        <div class="honerSelBox">
+                            <el-select v-model="searchHonerYear" placeholder="请选择年份" size="mini"
+                            @change="changeHonerSearchYear"
                             :popper-append-to-body="false" 
                             style="width: 20%;">
                             <el-option 
-                                v-for="item in yearOptions"
+                                v-for="item in honerYearOptions"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
@@ -397,13 +410,14 @@ export default {
             // 预览图片
             bigImageUrl: '',
             logicImageList: [],
-            // 年份下拉选项
-            yearOptions: [],
-            // 搜索年份
-            queryParams: {
-                // searchYear: new Date().getFullYear()
-                searchYear: ''
-            }
+            // 成果年份下拉选项
+            achievementYearOptions: [],
+            // 成果年份查询
+            searchAchievementYear: '',
+            // 荣誉资质年份下拉选项
+            honerYearOptions: [],
+            // 荣誉资质年份查询
+            searchHonerYear: ''
         }
     },
     computed: {
@@ -444,19 +458,19 @@ export default {
             let createYear = this.createTeamYear
             if (createYear) {
                 let currentYear = new Date().getFullYear();
-                this.yearOptions.push(
-                    { 
-                        label: "全部",
-                        value: ""
-                    }
-                )
+                let initAllOption =  { 
+                    label: "全部年份",
+                    value: ""
+                }
+                this.honerYearOptions.push(initAllOption)
+                this.achievementYearOptions.push(initAllOption)
                 for (let year = currentYear; year >= parseInt(createYear); year--) {
-                    this.yearOptions.push(
-                        { 
-                          label: year + "年",
-                          value: year 
-                        }
-                    )
+                    let option = { 
+                        label: year + "年",
+                        value: year 
+                    }
+                    this.honerYearOptions.push(option)
+                    this.achievementYearOptions.push(option)
                 }
             }
             console.log('createYear=>', createYear)
@@ -466,8 +480,12 @@ export default {
             // 构建请求对象
             let achievementParams = {}
             if (this.curClickPocs != 0) {
-                achievementParams = { pocsId: this.curClickPocs }
+                achievementParams = { 
+                    pocsId: this.curClickPocs
+                }
             }
+            // 添加年份搜索
+            achievementParams.searchYear = this.searchAchievementYear
             // console.log("achievementParams=>", achievementParams)
             showAchievements(achievementParams).then((data) => {
                 // console.log("showAchievements=>", data)
@@ -487,7 +505,7 @@ export default {
             }
             let ccieParams = {
                 type: typeParam,
-                searchYear: this.queryParams.searchYear
+                searchYear: this.searchHonerYear
             }
             // 调用查询证书接口
             ccieList(ccieParams).then((data) => {
@@ -504,7 +522,10 @@ export default {
             }).catch(err=>console.log(err))
         },
         getShowRaces() {
-            raceList(this.queryParams).then((data) => {
+            let queryParams =  {
+                searchYear: this.searchHonerYear
+            }
+            raceList(queryParams).then((data) => {
                 // console.log("getShowRaces=>", data)
                 this.showRaceArr = data.data
             }).catch(err=>console.log(err))
@@ -565,10 +586,13 @@ export default {
                 this.$refs.elImage.clickHandler()
             })
         },
-        changeSearchYear() {
+        changeHonerSearchYear() {
             // console.log(this.queryParams.searchYear)
             // this.getShowRaces()
             this.handleClickHonerTabs()
+        },
+        changeAchievementSearchYear() {
+            this.getShowAchievements()
         }
     }
 }
@@ -593,7 +617,13 @@ export default {
         }
     }
 
-    .selBox {
+    .achievementSelBox {
+        position: relative;
+        left: 5%;
+        bottom: 35px;
+    }
+
+    .honerSelBox {
         position: relative;
         left: -37%;
         bottom: 6px

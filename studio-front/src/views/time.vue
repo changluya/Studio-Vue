@@ -28,9 +28,9 @@
                     <li class="timeline-inverted">
                         <div class="timeline-image">
                         <h4>
-                            <span v-html="siteCon.siteCreateTime"/>
+                            <span v-html="siteCreateTime"/>
                             <br />
-                            <span v-html="siteCon.teamTitle"/>成立
+                            <span v-html="teamTitle"/>成立
                         </h4>
                         </div>
                     </li>
@@ -66,9 +66,7 @@
                         { year: '2021年', title:'初露锋芒', description: '参与了物联网省级技能竞赛，大学生创新创业大赛，人工智能技术服务技能大赛，互联网+等多项比赛。获取NB-IOT信号检测仪软著，江苏省大学生创新创业训练计划项目优秀奖等' },
                         { year: '2022年', title:'再下一城', description: '疫情打击，组织线上学习。参与了xxx省级技能竞赛，大学生创新创业大赛，江苏省大学生创新创业训练计划项目，互联网+等。获取荣誉有：全国大学生数学建模竞赛江苏省一等奖，后台web、app软著，多个研究性课题结题证书，江苏省大学生创新创业训练计划项目优秀结题等。' },
                         { year: '2023年', title:'冲劲十足', description: '一路高歌' }
-                    ],
-                    teamTitle: 'xx实验室',
-                    siteCreateTime: '2016年'
+                    ]
                 }
             }
         },
@@ -77,7 +75,7 @@
                 return this.$store.state.site.teamTitle
             },
             siteCreateTime() {
-                return this.$store.state.site.siteCreateTime + '年'
+                return this.$store.state.site.siteCreateTime.substring(0, 4) + '年'
             }
         },
         created() {

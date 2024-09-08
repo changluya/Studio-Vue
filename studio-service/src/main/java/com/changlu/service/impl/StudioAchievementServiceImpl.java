@@ -12,6 +12,7 @@ import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
 import com.changlu.vo.achievement.ShowAchievement;
+import com.changlu.vo.achievement.req.AchievementReqVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.compiler.ast.Variable;
 import org.springframework.beans.BeanUtils;
@@ -74,9 +75,18 @@ public class StudioAchievementServiceImpl implements IStudioAchievementService
     }
 
     @Override
-    public List<ShowAchievement> showAchievements(StudioAchievementModel query) {
+    public List<ShowAchievement> showAchievements(AchievementReqVo achievementReqVo) {
         // 查询出来基础成果列表
-        query.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal()); // 默认检索收录
+        StudioAchievementModel query = new StudioAchievementModel();
+        // 查询条件1：已收录
+        query.setInclusionFlag(InclusionTypeEnum.ALREADY_INCLUSION.getVal());
+        // 查询条件2：设置搜索年份
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("searchYear", achievementReqVo.getSearchYear());
+        query.setParams(params);
+        // 查询条件3：指定分类
+        query.setPocsId(achievementReqVo.getPocsId());
+        // 查询出检索过后的成果集合
         List<StudioAchievementDTO> achievementDTOS = selectStudioAchievementList(query);
         // 封装处理结果集
         List<ShowAchievement> res = achievementDTOS.stream()

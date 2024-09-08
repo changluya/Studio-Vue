@@ -6,6 +6,7 @@ import com.changlu.service.IStudioAchievementService;
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
 import com.changlu.vo.achievement.ShowAchievement;
+import com.changlu.vo.achievement.req.AchievementReqVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,8 @@ public class OpenAchievementController {
     private IStudioAchievementService studioAchievementService;
 
     @GetMapping("/show")
-    public ResponseResult showAchievements(StudioAchievementModel studioAchievementModel){
-        List<ShowAchievement> result = studioAchievementService.showAchievements(studioAchievementModel);
+    public ResponseResult showAchievements(AchievementReqVo achievementReqVo){
+        List<ShowAchievement> result = studioAchievementService.showAchievements(achievementReqVo);
         return ResponseResult.success(result);
     }
 

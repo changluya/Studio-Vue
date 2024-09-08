@@ -52,6 +52,15 @@
           @click="handleDelete"
         >删除</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="success"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="clickManagePocs"
+        >成果分类管理</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -72,7 +81,7 @@
       <el-table-column label="创建者" align="center" prop="createUserName" />
       <el-table-column label="综合成果" align="center" prop="title" >
         <template slot-scope="scope">
-          <span>{{scope.row.partUserNames ? '团队' : '个人'}}</span>
+          <span>{{scope.row.partUserNames.includes(',') ? '团队' : '个人'}}</span>
         </template>
       </el-table-column>
       <el-table-column label="预览图" align="center" prop="previewImg" width="100">
@@ -132,6 +141,11 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
+
+    <!-- 添加或修改成果对话框 -->
+    <el-dialog title="成果分类管理" :visible.sync="openPocs" width="1000px" append-to-body>
+      <Pocs/>
+    </el-dialog>
 
     <!-- 添加或修改成果对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="700px" append-to-body>
@@ -195,6 +209,7 @@
 </template>
 
 <script>
+import Pocs from "./pocs/index.vue";
 import { listAchievement, getAchievement, delAchievement, addAchievement, updateAchievement, approvedInclusion, cancelInclusion } from '@/api/team/achievement'
 import { getPocsMenu } from '@/api/team/pocs'
 import { getMemberOptions } from "@/api/team/race";
@@ -202,6 +217,7 @@ import { getInclusionMenu } from "@/api/menu";
 
 export default {
   name: 'Achievements',
+  components: { Pocs },
   data() {
     return {
       // 遮罩层
@@ -222,6 +238,8 @@ export default {
       title: '',
       // 是否显示弹出层
       open: false,
+      // 是否显示成果分类弹出层
+      openPocs: false,
       // 删除标志，0表示未删除，1表示删除时间范围
       daterangeStartTime: [],
       // 删除标志，0表示未删除，1表示删除时间范围
@@ -455,6 +473,10 @@ export default {
         this.inclusionTypeOptions = data.data
       }).catch(err => console.log(err))
     },
+    // 点击管理成果分类
+    clickManagePocs() {
+      this.openPocs = true
+    }
   }
 }
 </script>

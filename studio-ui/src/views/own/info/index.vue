@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <Live2d/>
-      <div class="grid-content bg-purple">
+      <div class="infoBox grid-content bg-purple">
         <!--    :rules="rules"    -->
         <el-form ref="elForm" :model="formData" size="medium" label-width="104px">
           <el-col :span="9">
@@ -122,13 +122,6 @@
                 accept="image/*"
                 :limit="1"
               >
-<!--                <el-image v-if="formData.perImg"-->
-<!--                  style="width: 150px; height: 150px"-->
-<!--                  :src="formData.perImg"-->
-<!--                 >-->
-<!--                </el-image>-->
-<!--&lt;!&ndash;                <img v-if="formData.perImg" :src="formData.perImg" class="avatar uploadImg" >&ndash;&gt;-->
-<!--                <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
                 <i class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -140,6 +133,13 @@
             </el-form-item>
           </el-col>
         </el-form>
+        <!--    插画展示    -->
+        <div class="imgBox">
+          <el-image
+            :fit="fit"
+            :src="require(`@/assets/images/manage/own/info/showInfo.png`)"
+          ></el-image>
+        </div>
       </div>
     </el-card>
   </div>
@@ -435,6 +435,16 @@ export default {
   width: 79%;
   padding: 45px 10px 10px 10px;
 }
+.infoBox {
+  position: relative;
+  .imgBox {
+    position: absolute;
+    width: 300px;
+    height: auto;
+    right: 40px;
+  }
+}
+
 /*logo图片控制ui大小*/
 .logoBox >>> .el-upload--picture-card {
   width: 100px;

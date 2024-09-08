@@ -75,7 +75,7 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 Vue.use(directive)  //使用指令插件
 
-//挂在加载效果   使用方式：const rLoading = this.openLoading()   rLoading = false
+// 挂在加载效果   使用方式：const rLoading = this.openLoading()   rLoading = false
 Vue.prototype.openLoading = function () {
   const loading = this.$loading({
     lock: true,

@@ -52,6 +52,7 @@
             <if test="inclusionFlag != null"> and inclusion_flag = #{inclusionFlag}</if>
             <if test="createUserId != null"> and create_user_id = #{createUserId}</if>
             <if test="pocsId != null"> and pocs_id = #{pocsId}</if>
+            <if test="params.searchYear != null and params.searchYear != ''"> and YEAR(end_time) = #{params.searchYear}</if>
         </where>
     </select>
 

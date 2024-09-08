@@ -3,6 +3,7 @@ package com.changlu.service;
 import com.changlu.system.pojo.StudioAchievementModel;
 import com.changlu.system.pojo.dto.StudioAchievementDTO;
 import com.changlu.vo.achievement.ShowAchievement;
+import com.changlu.vo.achievement.req.AchievementReqVo;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface IStudioAchievementService {
      * where inclusion_flag = 3
      * order by end_time desc
      */
-    public List<ShowAchievement> showAchievements(StudioAchievementModel studioAchievement);
+    public List<ShowAchievement> showAchievements(AchievementReqVo achievementReqVo);
 
     /**
      * 查询我的成果列表

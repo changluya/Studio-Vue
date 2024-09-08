@@ -42,6 +42,7 @@ import '@/assets/live2d/waifu-tips'
 import '@/assets/live2d/live2d'
 import '@/assets/live2d/waifu.css'
 import { initModel } from '@/assets/live2d/waifu-tips'
+import waifuTips from '@/assets/live2d/waifu-tips.json'
 
 export default {
     name: 'PhyLive2d',
@@ -55,7 +56,7 @@ export default {
       live2d_settings['modelId'] = 5;                  // 默认模型 ID
       live2d_settings['modelTexturesId'] = 1;          // 默认材质 ID
       /* 在 initModel 前添加 */
-      initModel(require("@/assets/live2d/waifu-tips.json"))
+      initModel(waifuTips)
     },
     methods: {
     }

@@ -144,9 +144,8 @@ export default {
 </script>
 
 <style scoped>
->>> .el-upload-list--picture-card .el-upload-list__item {
+::v-deep .el-upload-list--picture-card .el-upload-list__item {
   width: 100%;
-  //height: auto;0px
   min-width: 230px;
   min-height: 150px;
 }

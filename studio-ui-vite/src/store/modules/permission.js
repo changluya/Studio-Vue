@@ -5,6 +5,9 @@ import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView'
 import InnerLink from '@/layout/components/InnerLink'
 
+// 匹配views里面所有的.vue文件
+const modules = import.meta.glob('./../../views/**/*.vue')
+
 const permission = {
   state: {
     routes: [],
@@ -125,12 +128,14 @@ export function filterDynamicRoutes(routes) {
 }
 
 export const loadView = (view) => {
-  if (process.env.NODE_ENV === 'development') {
-    return (resolve) => require([`@/views/${view}`], resolve)
-  } else {
-    // 使用 import 实现生产环境的路由懒加载
-    return () => import(`@/views/${view}`)
+  let res;
+  for (const path in modules) {
+    const dir = path.split('views/')[1].split('.vue')[0];
+    if (dir === view) {
+      res = () => modules[path]();
+    }
   }
+  return res;
 }
 
 export default permission

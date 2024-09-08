@@ -135,10 +135,10 @@
         </el-form>
         <!--    插画展示    -->
         <div class="imgBox">
-          <el-image
-            :fit="fit"
-            :src="require(`@/assets/images/manage/own/info/showInfo.png`)"
-          ></el-image>
+          <img
+            fit="fit"
+            src="@/assets/images/manage/own/info/showInfo.png"
+          ></img>
         </div>
       </div>
     </el-card>
@@ -438,29 +438,31 @@ export default {
 .infoBox {
   position: relative;
   .imgBox {
-    position: absolute;
-    width: 300px;
-    height: auto;
-    right: 40px;
+    img {
+      position: absolute;
+      width: 300px;
+      height: auto;
+      right: 40px;
+    }
   }
 }
 
 /*logo图片控制ui大小*/
-.logoBox >>> .el-upload--picture-card {
+::v-deep .logoBox .el-upload--picture-card {
   width: 100px;
   height: 100px;
   margin-bottom: 20px;
 }
-.logoBox >>> .el-image {
+::v-deep .logoBox .el-image {
   width: 100px;
   height: 100px;
 }
-.logoBox >>> .el-upload-list--picture-card .el-upload-list__item {
+::v-deep .logoBox .el-upload-list--picture-card .el-upload-list__item {
   width: 100px;
   height: 100px;
 }
 
-.logoBox >>> .el-upload--picture-card i{
+::v-deep .logoBox .el-upload--picture-card i{
   position: relative;
   top: -21%;
 }

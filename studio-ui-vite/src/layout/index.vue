@@ -29,7 +29,7 @@ import ResizeMixin from './mixin/ResizeHandler'
 // vuex的辅助函数，借助其能够快速获取vuex中的数据
 import { mapState } from 'vuex'
 // 引入scss文件，都是提前定义好的一些颜色、主题
-import variables from '@/assets/styles/variables.scss'
+import variables from '@/assets/styles/variables.module.scss'
 
 //引入看板娘
 import Live2d from '@/components/live2d'
@@ -79,14 +79,17 @@ export default {
 
 <style lang="scss" scoped>
   //引入/assets/styles资源
-  @import "~@/assets/styles/mixin.scss";
-  @import "~@/assets/styles/variables.scss";
+  @import "@/assets/styles/mixin.scss";
+  @import "@/assets/styles/variables.scss";
 
   .app-wrapper {
-    @include clearfix;
     position: relative;
     height: 100%;
     width: 100%;
+
+    & {
+      @include clearfix;
+    }
 
     &.mobile.openSidebar {
       position: fixed;

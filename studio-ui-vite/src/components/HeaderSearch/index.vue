@@ -21,7 +21,7 @@
 // fuse is a lightweight fuzzy-search module
 // make search results more in line with expectations
 import Fuse from 'fuse.js/dist/fuse.min.js'
-import path from 'path'
+import { getNormalPath } from '@/utils/ruoyi'
 
 export default {
   name: 'HeaderSearch',
@@ -109,9 +109,9 @@ export default {
       for (const router of routes) {
         // skip hidden router
         if (router.hidden) { continue }
-
+        const p = router.path.length > 0 && router.path[0] === '/' ? router.path : '/' + router.path;
         const data = {
-          path: !this.ishttp(router.path) ? path.resolve(basePath, router.path) : router.path,
+          path: !this.ishttp(router.path) ? getNormalPath(basePath + p) : router.path,
           title: [...prefixTitle]
         }
 

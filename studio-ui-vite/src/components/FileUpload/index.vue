@@ -72,8 +72,8 @@ export default {
     return {
       number: 0,
       uploadList: [],
-      baseUrl: process.env.VUE_APP_BASE_API,
-      uploadFileUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
+      baseUrl: import.meta.env.VITE_API_URL,
+      uploadFileUrl: import.meta.env.VITE_API_URL + "/common/upload", // 上传的图片服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
       },

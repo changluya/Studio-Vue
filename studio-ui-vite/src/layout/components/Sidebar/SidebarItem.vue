@@ -3,14 +3,16 @@
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path, onlyOneChild.query)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+          <svg-icon :icon-class="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"/>
+          <template #title><span class="menu-title" :title="hasTitle(onlyOneChild.meta.title)">{{ onlyOneChild.meta.title }}</span></template>
         </el-menu-item>
       </app-link>
     </template>
 
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template slot="title">
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
+      <template v-if="item.meta" #title>
+        <svg-icon :icon-class="item.meta && item.meta.icon" />
+        <span class="menu-title" :title="hasTitle(item.meta.title)">{{ item.meta.title }}</span>
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -25,15 +27,14 @@
 </template>
 
 <script>
-import path from 'path'
 import { isExternal } from '@/utils/validate'
-import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
+import { getNormalPath } from '@/utils/ruoyi'
 
 export default {
   name: 'SidebarItem',
-  components: { Item, AppLink },
+  components: { AppLink },
   mixins: [FixiOSBug],
   props: {
     // route object
@@ -91,9 +92,16 @@ export default {
       }
       if (routeQuery) {
         let query = JSON.parse(routeQuery);
-        return { path: path.resolve(this.basePath, routePath), query: query }
+        return { path: getNormalPath(this.basePath + '/' + routePath), query: query }
       }
-      return path.resolve(this.basePath, routePath)
+      return getNormalPath(this.basePath + '/' + routePath)
+    },
+    hasTitle(title){
+      if (title.length > 5) {
+        return title;
+      } else {
+        return "";
+      }
     }
   }
 }

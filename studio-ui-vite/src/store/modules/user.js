@@ -56,7 +56,7 @@ const user = {
         getInfo().then(res => {
           res = res.data;
           const user = res.user
-          //原始拼接头像地址：process.env.VUE_APP_BASE_API + user.avatar
+          //原始拼接头像地址：import.meta.env.VITE_API_URL + user.avatar
           const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/images/profile.png") : user.avatar;
           if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', res.roles)

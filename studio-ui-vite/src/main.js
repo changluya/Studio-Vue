@@ -30,7 +30,9 @@ import { MY_CONSTANT } from '@/utils/constants'; // 引入常量
 
 // 头部标签组件
 import VueMeta from 'vue-meta'
-import './assets/icons' // 图标
+import 'virtual:svg-icons-register'
+import SvgIcon from '@/components/SvgIcon'// svg component
+
 import './permission' // 权限控制
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
@@ -72,6 +74,7 @@ Vue.use(Element, {
 Vue.use(plugins)
 Vue.use(VueMeta)
 Vue.use(directive)  //使用指令插件
+Vue.component('svg-icon', SvgIcon)
 
 // 挂在加载效果   使用方式：const rLoading = this.openLoading()   rLoading = false
 Vue.prototype.openLoading = function () {

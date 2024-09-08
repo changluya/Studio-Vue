@@ -1,13 +1,22 @@
-import { defineConfig } from 'vite'
-import vue2 from '@vitejs/plugin-vue2'
+import { defineConfig, loadEnv } from 'vite'
+import path from 'path'
+import createVitePlugins from './vite/plugins'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: './', // 打包的静态资源引用路径
-  plugins: [vue2()], // 放插件用的
-  resolve: {
-    alias: {
-      '@': '/src' // 配置@/提示符
+export default defineConfig(({ mode, command }) => {
+  const env = loadEnv(mode, process.cwd())
+  const { VITE_APP_ENV } = env
+  return {
+    base: './', // 打包的静态资源引用路径
+    plugins: createVitePlugins(env, command.includes('build')), // 放插件用的
+    resolve: {
+      alias: {
+        // 设置路径
+        '~': path.resolve(__dirname, './'),
+        // 设置别名
+        '@': path.resolve(__dirname, './src')
+      },
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
     }
-  },
+  }
 })

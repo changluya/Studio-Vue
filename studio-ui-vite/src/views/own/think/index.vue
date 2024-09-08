@@ -133,7 +133,6 @@
         <el-form-item label="感悟思考">
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
-        <Cherry/>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -144,12 +143,10 @@
 </template>
 
 <script>
-import Cherry from '@/components/cherry/index.vue'
 import { listThink, getThink, delThink, addThink, updateThink } from "@/api/own/think";
 
 export default {
   name: "Think",
-  components: { Cherry },
   data() {
     return {
       // 遮罩层

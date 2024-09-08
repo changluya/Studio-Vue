@@ -128,7 +128,7 @@ export default {
         userApi.uploadAvatar(formData).then(response => {
           this.open = false;
           //头像地址拼接
-          // this.options.img = process.env.VUE_APP_BASE_API + response.imgUrl;
+          // this.options.img = import.meta.env.VITE_API_URL + response.imgUrl;
           this.options.img = response.data
           store.commit('SET_AVATAR', this.options.img);
           this.$modal.msgSuccess("修改成功");

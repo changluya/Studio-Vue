@@ -34,7 +34,9 @@
 
         <div class="drawer-item">
           <span>主题颜色</span>
-          <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
+          <span class="comp-style">
+            <el-color-picker v-model="theme" :predefine="predefineColors" @change="themeChange"/>
+          </span>
         </div>
       </div>
 
@@ -76,14 +78,12 @@
 </template>
 
 <script>
-import ThemePicker from '@/components/ThemePicker'
-
 export default {
-  components: { ThemePicker },
   data() {
     return {
       theme: this.$store.state.settings.theme,
-      sideTheme: this.$store.state.settings.sideTheme
+      sideTheme: this.$store.state.settings.sideTheme,
+      predefineColors: ["#409EFF", "#ff4500", "#ff8c00", "#ffd700", "#90ee90", "#00ced1", "#1e90ff", "#c71585"]
     };
   },
   computed: {

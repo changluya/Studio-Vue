@@ -192,9 +192,12 @@ export default {
 <style lang="scss" scoped>
   .dashboard-container{
       padding: 20px 45px;
+      font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      color: #676a6c;
+      overflow-x: hidden;
 
       .box-card{
-
         border-radius: 11px;
 
         &.box1{
@@ -212,11 +215,6 @@ export default {
         font-size: 17.5px;
         border-left: 5px solid #eee;
       }
-
-      font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 13px;
-      color: #676a6c;
-      overflow-x: hidden;
   }
   @media (max-width:1300px){
     .majorslayout{

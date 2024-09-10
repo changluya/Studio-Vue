@@ -203,7 +203,7 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 ---
 
-## 本地运行（v1.2版本）
+## 本地运行（v1.2版本，release_1.2.x）
 
 > 本地环境
 
@@ -263,7 +263,7 @@ npm run dev
 
 + team.html中会发送请求到后台获取所有用户的数据。
 
-## Linux服务器部署（v1.2版本）
+## Linux服务器部署（v1.2版本，release_1.2.x）
 
 ### 准备工作
 

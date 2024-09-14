@@ -13,7 +13,9 @@ out/
 
 logs/
 
-# upload/
+# 备份目录
+backup/static.zip
+# 上传目录
 upload/
 
 # studio-front

@@ -201,7 +201,7 @@
 
                 <div class="row portfolio-container" style="display: flex;flex-wrap: wrap;">
                     <div v-for="(achievement, index) in showAchievementArr" :key="index" class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="portfolio-wrap">
+                        <div class="portfolio-wrap" style="position: relative;">
                             <figure>
                                 <!-- @/assets/image/portfolio/production.png -->
                                 <img :src="achievement.previewImg" class="img-fluid" alt="">
@@ -209,8 +209,8 @@
                                     :data-title="achievement.title" title="Preview"><i class="ion ion-eye"></i></a>
                                 <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                             </figure>
+                            <div :class="achievement.partUserNames.includes(',') ? 'teamTagBox' : 'ownTagBox'" v-html="achievement.partUserNames.includes(',') ? '团队' : '个人'">个人</div>
                             <div class="portfolio-info">
-                                <div :class="achievement.partUserNames.includes(',') ? 'teamTagBox' : 'ownTagBox'" v-html="achievement.partUserNames.includes(',') ? '团队' : '个人'">个人</div>
                                 <h4><a href="#" v-html="achievement.title">xx信号检测仪web</a></h4>
                                 <p style="font-size: 12px;font-weight: lighter;color: black;" v-html="achievement.procedureDate">2024年5月～2024年8月</p>
                                 <span style="font-size: 12px;">参与成员：<span v-html="achievement.partUserNames"></span></span>
@@ -347,6 +347,9 @@ export default {
     },
     data() {
         return {
+            // 全局动态配置
+            // 创建团队时间
+            createTeamYear: this.$store.state.site.siteCreateTime !== '' ? this.$store.state.site.siteCreateTime.substring(0, 4) : 2001,
             // 动态配置
             activeName: 'first',
             stretch: true,
@@ -420,11 +423,6 @@ export default {
             searchHonerYear: ''
         }
     },
-    computed: {
-        createTeamYear() {
-            return this.$store.state.site.siteCreateTime.substring(0, 4)
-        }
-    },
     created() {
         this.init()
         // console.log("index")
@@ -456,6 +454,8 @@ export default {
             this.querySiteStatistics();
             // 构造下拉年份选择器
             let createYear = this.createTeamYear
+            // console.log("createYear=>", createYear)
+            // console.log(this.$store.state.site.siteCreateTime)
             if (createYear) {
                 let currentYear = new Date().getFullYear();
                 let initAllOption =  { 
@@ -473,7 +473,7 @@ export default {
                     this.achievementYearOptions.push(option)
                 }
             }
-            console.log('createYear=>', createYear)
+            // console.log('createYear=>', createYear)
         },
         // 获取成果信息
         getShowAchievements() {
@@ -729,14 +729,15 @@ export default {
   // 定义一个基础类，包含共有的样式
   %tagBoxBase {
     font-size: 12px;
-    float: left;
-    position: relative;
+    position: absolute;
     font-weight: 330;
     color: black;
-    left: -3%;
-    top: -27%;
-    padding: 2px 5px;
+    left: 4%;
+    bottom: 21%;
+    padding: 0px 5px;
     border-radius: 3px;
+    width: 37px;
+    height: 20px;
   } 
 
   .teamTagBox {

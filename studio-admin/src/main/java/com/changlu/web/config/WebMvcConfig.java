@@ -22,6 +22,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         LocalUploadConfig localUploadConfig = fileUtil.buildUploadConfig();
         //映射上传资源的路径 如:/images/**  => file:D:/changlu/闲暇目录/upload/
         //注意：在指定的文件目录前一定要加file:表示使用文件访问协议
-        registry.addResourceHandler( localUploadConfig.visitPath+"/**").addResourceLocations("file:" + localUploadConfig.FILE_UPLOAD_DIR);
+        registry.addResourceHandler( localUploadConfig.visitPath+"/**").addResourceLocations("file:" + localUploadConfig.fileUploadDir);
     }
+
+
+
 }

@@ -30,19 +30,19 @@ const Roles = {
 
 // 网站配置参数key
 const siteConfigKeys = {
-  SITE_BASICCONFIG: {
+  SITE_BASIC_CONFIG: {
     configName: '网站基础配置',
     configKey: 'site.basicConfig'
   },
-  SITE_PAGE_MAINCONFIG: {
+  SITE_PAGE_MAIN_CONFIG: {
     configName: '网站主页配置',
     configKey: 'site.page.mainConfig'
   },
-  SITE_PAGE_FOOTERCONFIG: {
+  SITE_PAGE_FOOTER_CONFIG: {
     configName: '网站底部栏目配置',
     configKey: 'site.page.footerConfig'
   },
-  SITE_PAGE_TIMECONFIG: {
+  SITE_PAGE_TIME_CONFIG: {
     configName: '时光轴配置',
     configKey: 'site.page.timeConfig'
   },

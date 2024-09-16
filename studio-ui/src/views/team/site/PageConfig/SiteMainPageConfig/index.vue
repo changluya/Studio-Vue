@@ -77,7 +77,7 @@ export default {
       // 表单：simple1
       siteMainFormData: {
         configId: '',
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAINCONFIG.configKey,
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAIN_CONFIG.configKey,
         configValue: {
           teamDescription: '',
           bannerTableData: [{
@@ -101,7 +101,7 @@ export default {
       },
       // 查询参数
       queryParams: {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAINCONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAIN_CONFIG.configKey
       },
       // 编辑状态
       isEdit: false

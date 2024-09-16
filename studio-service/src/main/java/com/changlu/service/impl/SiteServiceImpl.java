@@ -121,7 +121,7 @@ public class SiteServiceImpl implements SiteService {
      */
     @Override
     public long getEstablishmentDays() {
-        ConfigVo configVo = siteConfigService.selectConfigValueByConfigKey(ConfigTypeEnum.SITE_BASICCONFIG.getConfigKey());
+        ConfigVo configVo = siteConfigService.selectConfigValueByConfigKey(ConfigTypeEnum.SITE_BASIC_CONFIG.getConfigKey());
         BasicConfig configValue = (BasicConfig) configVo.getConfigValue();
         // 获取网站配置中的成立时间 yyyy-MM-dd
         String siteCreateTime = configValue.getSiteCreateTime();

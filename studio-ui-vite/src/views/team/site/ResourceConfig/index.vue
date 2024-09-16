@@ -13,7 +13,12 @@
       <el-button type="primary" @click="submitForm">保存</el-button>
     </el-row>
     <el-tabs tab-position="left" @tab-click="handleClick">
-      <el-tab-pane lazy label="本地文件" :key="refresh.index0" style="padding: 20px">无需配置，即可上传到当前网站服务器！</el-tab-pane>
+      <el-tab-pane lazy label="本地文件" :key="refresh.index0" style="padding: 20px">
+        无需配置，默认即可上传到当前网站服务器！
+        <div style="margin: 40px 0 0 0">
+          <LocalResourceConfig />
+        </div>
+      </el-tab-pane>
       <el-tab-pane lazy label="OSS存储" :key="refresh.index1" style="height: 360px !important;">
         <OSSResourceConfig />
       </el-tab-pane>
@@ -23,6 +28,7 @@
 
 <script>
 import OSSResourceConfig from './OSSResourceConfig/index.vue'
+import LocalResourceConfig from './LocalResourceConfig/index.vue'
 
 import siteApi from '@/api/team/site'
 import { MY_CONSTANT } from '@/utils/constants'
@@ -30,7 +36,7 @@ import {ref} from "@vue/composition-api";
 
 export default {
   name: 'ResourceConfig',
-  components: { OSSResourceConfig },
+  components: { OSSResourceConfig, LocalResourceConfig },
   data() {
     return {
       // 当前上传模式

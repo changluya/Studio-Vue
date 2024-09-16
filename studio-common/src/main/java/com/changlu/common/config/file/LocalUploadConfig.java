@@ -10,7 +10,7 @@ public class LocalUploadConfig {
     public String visitPath;   //资源访问路径
 
     @Value("${file.upload.dir}")
-    public String FILE_UPLOAD_DIR;   //图片上传磁盘位置
+    public String fileUploadDir;   //图片上传磁盘位置
 
     @Value("${file.visit.ip}")
     public String ip;  //上传ip地址

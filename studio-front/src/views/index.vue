@@ -35,8 +35,6 @@
                 <header class="section-header">
                     <h3>关于我们</h3>
                     <p style="white-space: pre-wrap;" v-html="siteConfig.teamDescription"></p>
-                    <!-- <p style="margin: 0;">这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！</p>
-                    <p style="margin: 0;">工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。</p> -->
                 </header>
 
                 <div class="row about-cols">
@@ -48,8 +46,7 @@
                         <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
                         </div>
                         <h2 class="title"><a href="#">我们的使命</a></h2>
-                        <p>
-                        把我们的努力和知识，化身成有价值的产品，在未来物联网领域开拓出一片新的天地.
+                        <p v-html="siteConfig.teamMission">
                         </p>
                     </div>
                     </div>
@@ -61,8 +58,7 @@
                         <div class="icon"><i class="ion-ios-list-outline"></i></div>
                         </div>
                         <h2 class="title"><a href="#">我们的计划</a></h2>
-                        <p>
-                        多方位的扩展技术方面的人才，将想法进行落实.
+                        <p v-html="siteConfig.teamPlan">
                         </p>
                     </div>
                     </div>
@@ -74,8 +70,7 @@
                         <div class="icon"><i class="ion-ios-eye-outline"></i></div>
                         </div>
                         <h2 class="title"><a href="#">我们的愿景</a></h2>
-                        <p>
-                        期望所有的成员能够学有所成，在各自的领域发光发亮，取得优秀的成绩.
+                        <p v-html="siteConfig.teamVision">
                         </p>
                     </div>
                     </div>
@@ -93,15 +88,15 @@
 
                 <header class="section-header">
                     <h3>技术栈</h3>
-                    <p>工作室小组成员掌握的技术能力</p>
+                    <p>团队成员掌握的技术能力</p>
                 </header>
 
                 <div class="skills-content">
-                    <div class="progressBox">
-                        <el-progress  :text-inside="true" :stroke-width="40" :percentage="100" status="success"/>
-                        <span >物联网</span>
+                    <div class="progressBox" v-for="(skill, index) in skillConfig" :key="index">
+                        <el-progress  :text-inside="true" :stroke-width="40" :percentage="skill.skillPercentage" :color="customColors"/>
+                        <span v-html="skill.skillName">物联网</span>
                     </div>
-                    <div class="progressBox">
+                    <!-- <div class="progressBox">
                         <el-progress  :text-inside="true" :stroke-width="40" :percentage="80" status="warning"/>
                         <span >后端</span>
                     </div>
@@ -112,58 +107,50 @@
                     <div class="progressBox">
                         <el-progress  :text-inside="true" :stroke-width="40" :percentage="50" status="exception"/>
                         <span >平面设计</span>
-                    </div>
+                    </div> -->
                 </div>
 
                 </div>
             </section>
 
             <!--==========================
-                目标模块
+                数据模块
             ============================-->
             <section id="facts" class="wow fadeIn">
                 <div class="container">
+                    <header class="section-header">
+                        <h3>数据</h3>
+                        <!-- <p>我们的队伍在不断壮大，期待你在工作室放光放彩</p> -->
+                    </header>
 
-                <header class="section-header">
-                    <h3>数据</h3>
-                    <!-- <p>我们的队伍在不断壮大，期待你在工作室放光放彩</p> -->
-                </header>
+                    <div class="row counters" style="margin-bottom: 120px;">
+                        <div class="col-lg-3 col-6 text-center">
+                            <span data-toggle="counter-up" v-html="statisticsData.establishmentDaysNum">1,364</span>
+                            <p>成立天数</p>
+                        </div>
 
-                <div class="row counters">
+                        <div class="col-lg-2 col-6 text-center">
+                            <span data-toggle="counter-up" v-html="statisticsData.teamMembersNum">18</span>
+                            <p>团队成员</p>
+                        </div>
 
-                    <div class="col-lg-3 col-6 text-center">
-                        <span data-toggle="counter-up" v-html="statisticsData.establishmentDaysNum">1,364</span>
-                        <p>成立天数</p>
+                        <div class="col-lg-2 col-6 text-center">
+                            <span data-toggle="counter-up" v-html="statisticsData.racesNum">4</span>
+                            <p>参与竞赛</p>
+                        </div>
+
+                        <div class="col-lg-2 col-6 text-center">
+                            <span data-toggle="counter-up" v-html="statisticsData.achievementsNum">10</span>
+                            <p>获取成果</p>
+                        </div>
+
+                        <div class="col-lg-3 col-6 text-center">
+                            <span data-toggle="counter-up" v-html="statisticsData.cciesNum">4</span>
+                            <p>奖项证书</p>
+                        </div>
                     </div>
-
-                    <div class="col-lg-2 col-6 text-center">
-                        <span data-toggle="counter-up" v-html="statisticsData.teamMembersNum">18</span>
-                        <p>团队成员</p>
-                    </div>
-
-                    <div class="col-lg-2 col-6 text-center">
-                        <span data-toggle="counter-up" v-html="statisticsData.racesNum">4</span>
-                        <p>参与竞赛</p>
-                    </div>
-
-                    <div class="col-lg-2 col-6 text-center">
-                        <span data-toggle="counter-up" v-html="statisticsData.achievementsNum">10</span>
-                        <p>获取成果</p>
-                    </div>
-
-                    <div class="col-lg-3 col-6 text-center">
-                        <span data-toggle="counter-up" v-html="statisticsData.cciesNum">4</span>
-                        <p>奖项证书</p>
-                    </div>
-
                 </div>
-
-                <div class="facts-img">
-                    <img src="@/assets/image/bg.png" alt="" class="img-fluid">
-                </div>
-
-                </div>
-            </section><!-- #facts -->
+            </section>
 
             <!--==========================
                 作品模块 Section
@@ -354,10 +341,15 @@ export default {
             activeName: 'first',
             stretch: true,
             curClickPocs: 0,  // 当前选中的栏目
+            // 网站主页配置查询条件
             siteConfigParms: {
-                configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_MAINCONFIG.configKey
+                configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_MAIN_CONFIG.configKey
             },
-            // 动态响应数据
+            // 网站主页技术栈查询条件查询参数
+            siteSkillConfigParams: {
+                configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_SKILL_CONFIG.configKey
+            },
+            // 网站主页基础配置
             siteConfig: {
                 banners: [
                     {
@@ -381,8 +373,26 @@ export default {
                     "subTitle": "拍照只需要三秒，可锁住的是我们三年青春，感谢遇见！"
                     }
                 ],
-                teamDescription: "这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！\n工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。\n"
+                teamDescription: '这里是物联网工作室，在这里不仅有学习硬件，还有学习软件的小伙伴们，我们都在前进的路上，未来值得期待！\n工作室有着丰富的学习资源，有着可以帮助你解决问题的学长学姐们以及专业指导老师，让你不断在专业领域进行探索和挖掘知识宝藏。\n',
+                teamMission: '把我们的努力和知识，化身成有价值的产品，在未来物联网领域开拓出一片新的天地.',
+                teamPlan: '多方位的扩展技术方面的人才，将想法进行落实.',
+                teamVision: '期望所有的成员能够学有所成，在各自的领域发光发亮，取得优秀的成绩.'
             },
+            // 技术栈配置
+            skillConfig: [
+                { skillName: 'Java', skillPercentage: 10 },
+                { skillName: '网站开发', skillPercentage: 10 },
+                { skillName: '上位机', skillPercentage: 10 },
+                { skillName: 'openCV', skillPercentage: 10 },
+            ],
+            // 自定义进度条颜色
+            customColors: [
+                {color: '#f56c6c', percentage: 20},
+                {color: '#e6a23c', percentage: 40},
+                {color: '#5cb87a', percentage: 60},
+                {color: '#1989fa', percentage: 80},
+                {color: '#6f7ad3', percentage: 100}
+            ],
             // 展示成果数组
             showAchievementArr: [],
             // 成果分类列表
@@ -430,11 +440,20 @@ export default {
     methods: {
         init() {
             window.curPage = 'index'
-            // 获取网站banner信息
+            // 获取网站主页配置信息
             this.$getSiteConfig(this.siteConfigParms).then(configValue=>{
                 // console.log(configValue)
                 this.siteConfig.banners = configValue.bannerTableData
                 this.siteConfig.teamDescription = configValue.teamDescription.replace(/\n/g,'<br />')
+                this.siteConfig.teamMission = configValue.teamMission.replace(/\n/g,'<br />')
+                this.siteConfig.teamPlan = configValue.teamPlan.replace(/\n/g,'<br />')
+                this.siteConfig.teamVision = configValue.teamVision.replace(/\n/g,'<br />')
+            });
+            // console.log("this.$MY_CONSTANT => ", this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_SKILL_CONFIG.configKey)
+            // 获取网站技术栈信息
+            this.$getSiteConfig(this.siteSkillConfigParams).then(configValue=>{
+                // console.log("this.siteSkillConfigParams => ", configValue)
+                this.skillConfig = configValue
             });
             // 获取成果分类信息
             pocsList().then((data) => {

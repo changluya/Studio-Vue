@@ -9,6 +9,7 @@ import com.changlu.common.config.file.AliyunOssConfig;
 import com.changlu.common.exception.ServiceCallException;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.JsonObjectUtil;
+import com.changlu.common.utils.file.FileUtils;
 import com.changlu.enums.ConfigTypeEnum;
 import com.changlu.service.SiteConfigService;
 import com.changlu.vo.config.ConfigVo;
@@ -205,18 +206,18 @@ public class AliyunOssUtil extends AbsUploadExecutor {
      */
     @Override
     public boolean testConn(boolean defaultConfig, Object config) {
-        // 根据枚举类来进行单独转换，当前config可能是LinkedHashMap
-        if (config instanceof LinkedHashMap){
-            // 序列化为json之后，转为指定Enum的配置类
-            String configValue = JSONObject.toJSONString(config);
-            // 转为当前阿里OSS数据源的配置类
-            config = JsonObjectUtil.transferJsonToObject(configValue, ConfigTypeEnum.SITE_UPLOAD_OSS.getPojoClazz());
-        }
         AliyunOssConfig aliyunOssConfig = null;
         // 使用默认数据库中配置项
         if (defaultConfig) {
             aliyunOssConfig = this.buildUploadConfig();
         }else {
+            // 根据枚举类来进行单独转换，当前config可能是LinkedHashMap
+            if (config instanceof LinkedHashMap){
+                // 序列化为json之后，转为指定Enum的配置类
+                String configValue = JSONObject.toJSONString(config);
+                // 转为当前阿里OSS数据源的配置类
+                config = JsonObjectUtil.transferJsonToObject(configValue, ConfigTypeEnum.SITE_UPLOAD_OSS.getPojoClazz());
+            }
             // 若是根据传来的配置文件来进行测试连通性
             if (!(config instanceof AliyunOssConfig)) {
                 throw new ServiceException("配置项匹配有误，无法转换！");
@@ -226,7 +227,7 @@ public class AliyunOssUtil extends AbsUploadExecutor {
         // 验证是否能够通过测试连通
         try {
             // 创建临时文件
-            File tempFile = createTempFile();
+            File tempFile = FileUtils.createTempFile();
             // 上传oss文件
             Map<String, String> result = this.uploadFile(tempFile, aliyunOssConfig);
             String fileName = result.get("curFileName");
@@ -239,28 +240,5 @@ public class AliyunOssUtil extends AbsUploadExecutor {
         return true;
     }
 
-    // 创建临时文件
-    public File createTempFile(){
-        byte[] data = "Hello, World!".getBytes();
-        InputStream is = new ByteArrayInputStream(data);
-        File tempFile = null;
-        try {
-            tempFile = File.createTempFile("tempFile-" + UUID.randomUUID(), ".txt");
-        } catch (IOException e) {
-            log.error("createTempFile error！", e);
-            return null;
-        }
-        // 将字节数组写入临时文件中
-        try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-            byte[] buffer = new byte[data.length];
-            int bytesRead;
-            while ((bytesRead = is.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-        }catch (IOException ex) {
-            log.error("创建临时文件失败！", ex);
-        }
-        return tempFile;
-    }
 
 }

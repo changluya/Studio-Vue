@@ -50,10 +50,10 @@
         data() {
             return {
                 siteFooterConfigParms: {
-                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_FOOTERCONFIG.configKey
+                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_PAGE_FOOTER_CONFIG.configKey
                 },
                 siteBasicConfigParms: {
-                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASICCONFIG.configKey
+                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASIC_CONFIG.configKey
                 },
                 siteConfig: {
                     briefDescription: "去年在工作室偶然听到其他工作室要做一个官网，接着趁着一时兴起然后也找了个模板来做了一个自己的官网以及一个后台管理系统，当时的后台系统只有一个登录、注册还有一个提交个人信息的页面，主要为了方便展示动态汇总团队成员。该工作室系统主要面向校园工作室，可供个人及工作室团队学习使用。",

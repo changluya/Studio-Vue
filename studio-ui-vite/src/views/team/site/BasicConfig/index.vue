@@ -62,7 +62,7 @@ export default {
       // },
       basicFormData: {
         configId: '',
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASICCONFIG.configKey,
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASIC_CONFIG.configKey,
         configValue: {
           siteTitle: '',
           teamTitle: '',
@@ -74,7 +74,7 @@ export default {
       timeLogo: '',
       // 查询参数
       queryParams: {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASICCONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASIC_CONFIG.configKey
       }
     }
   },

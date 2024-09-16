@@ -40,7 +40,7 @@ const site = {
       // console.log('getSiteBasicConfig=>', commit)
       // console.log('MY_CONSTANT=>', MY_CONSTANT)
       const siteConfigParms =  {
-        configKey: MY_CONSTANT.SITE_CONFIG.SITE_BASICCONFIG.configKey
+        configKey: MY_CONSTANT.SITE_CONFIG.SITE_BASIC_CONFIG.configKey
       }
       return new Promise((resolve, reject) => {
         querySiteConfig(siteConfigParms).then(res => {

@@ -9,9 +9,8 @@
     <el-row>
       <el-button type="danger" size="small" icon="el-icon-edit" @click="editForm">编辑</el-button>
       <el-button type="success" size="small" icon="el-icon-check" :disabled="!isEdit" @click="submitForm">保存</el-button>
-      <el-tooltip class="item" effect="dark" content="鼠标按住下面栏目最左侧按钮可拖拽时间线，最顶部则表示的是最新时间" placement="right-start">
+      <el-tooltip class="item" effect="dark" content="鼠标按住下面栏目最左侧按钮可拖拽时间线，最顶部则表示的是最新时间" placement="top-start">
         <el-image
-          slot = error
           class="tipsImg"
           :src="tipsImg"
           fit="cover"></el-image>
@@ -82,18 +81,12 @@ import { MY_CONSTANT } from '@/utils/constants'
 export default {
   name: 'TimeLineConfig',
   components: { draggable },
-  props: {
-    questionList: {
-      type: Array,
-      default: () => []
-    }
-  },
   data() {
     return {
       drag: false,
       timeLineFormData: {
         configId: '',
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIMECONFIG.configKey,
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIME_CONFIG.configKey,
         configValue: [
           { year: '2015', title:'g', description: '' },
           { year: 'www.itxst.com', title:'g', description: '' },
@@ -111,7 +104,7 @@ export default {
       isEdit: false,
       // 查询参数
       queryParams: {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIMECONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIME_CONFIG.configKey
       },
     }
   },
@@ -124,7 +117,14 @@ export default {
       siteApi.selectConfigValueByConfigKey(this.queryParams).then(data => {
         if (data.code === 200) {
           this.timeLineFormData = data.data
-          console.log('this.timeLineFormData=>', this.timeLineFormData)
+          // console.log('this.timeLineFormData=>', this.timeLineFormData)
+          let timeLineArr = this.timeLineFormData.configValue
+          // 若是时光轴数组为空，默认补充1个
+          if (Array.isArray(timeLineArr) && timeLineArr.length === 0) {
+              this.timeLineFormData.configValue = [
+                { year: '', title: '', description: '' }
+              ]
+          }
         }
       }).catch(err => console.log(err))
     },
@@ -234,11 +234,11 @@ export default {
 }
 
 .tipsImg {
-  width: 26px;
-  height: 26px;
-  cursor: pointer;
-  position: relative;
-  top: 10px;
-  left: 5px;
-}
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    top: 5px;
+    left: 8px;
+  }
 </style>

@@ -69,7 +69,7 @@ public class SiteConfigServiceTest {
                 "        ISPN: '京公网安备11000002000001号', \n" +
                 "        siteCreateTime: '2017'\n" +
                 "      }";
-        String configKey = ConfigTypeEnum.SITE_BASICCONFIG.getConfigKey();
+        String configKey = ConfigTypeEnum.SITE_BASIC_CONFIG.getConfigKey();
         addOrUpdateSiteConfigTest(createJson, updateJson, configKey);
     }
 
@@ -116,7 +116,7 @@ public class SiteConfigServiceTest {
                 "          subTitle: '拍照只需要三秒，可锁住的是我们三年青春，感谢遇见！'\n" +
                 "        }]\n" +
                 "      }";
-        String configKey = ConfigTypeEnum.SITE_PAGE_MAINCONFIG.getConfigKey();
+        String configKey = ConfigTypeEnum.SITE_PAGE_MAIN_CONFIG.getConfigKey();
         addOrUpdateSiteConfigTest(createJson, updateJson, configKey);
     }
 

@@ -61,7 +61,7 @@
         data() {
             return {
                 siteConfigParms: {
-                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASICCONFIG.configKey
+                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASIC_CONFIG.configKey
                 },
                 // 父组件传递值
                 localIsScrolled: this.isScrolled,

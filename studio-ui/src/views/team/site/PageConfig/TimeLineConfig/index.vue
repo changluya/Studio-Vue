@@ -93,7 +93,7 @@ export default {
       drag: false,
       timeLineFormData: {
         configId: '',
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIMECONFIG.configKey,
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIME_CONFIG.configKey,
         configValue: [
           { year: '2015', title:'g', description: '' },
           { year: 'www.itxst.com', title:'g', description: '' },
@@ -111,7 +111,7 @@ export default {
       isEdit: false,
       // 查询参数
       queryParams: {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIMECONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_TIME_CONFIG.configKey
       },
     }
   },

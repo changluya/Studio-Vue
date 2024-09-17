@@ -63,7 +63,7 @@
       this.getLocalResourceConfig()
     },
     methods: {
-        getLocalResourceConfig() {
+      getLocalResourceConfig() {
         // console.log('this.queryParams=>', this.queryParams)
         siteApi.selectConfigValueByConfigKey(this.queryParams).then(data => {
           if (data.code === 200) {

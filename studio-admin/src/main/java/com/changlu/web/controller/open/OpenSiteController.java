@@ -37,6 +37,7 @@ public class OpenSiteController {
     @GetMapping("/config")
     public ResponseResult getSiteConfig(@RequestParam("configKey") String configKey){
         ConfigVo curConfigVo = siteConfigService.selectConfigValueByConfigKey(configKey);
+        // 针对敏感字段内容进行加密处理
         return ResponseResult.success(curConfigVo);
     }
 

@@ -1,7 +1,7 @@
 package com.changlu.common.config.file;
 
-import lombok.Data;
-import lombok.ToString;
+import com.changlu.common.annoation.SM2;
+import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +16,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "aliyun.oss")
 @Data
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AliyunOssConfig {
 
     private String endpoint;
+    @SM2(action = "encrypt,decrypt")
     private String accessKeyId;
+    @SM2(action = "encrypt,decrypt")
     private String accessKeySecret;
     private String bucketName;
     private String key;

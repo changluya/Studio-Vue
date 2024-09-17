@@ -3,6 +3,7 @@ package com.changlu.web.controller;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.RedisCache;
 import com.changlu.service.SiteService;
+import com.changlu.web.env.EnvironmentContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,9 @@ public class IndexController {
     @Autowired
     private SiteService siteService;
 
+    @Autowired
+    private EnvironmentContext env;
+
     @GetMapping("/counts")
 //    @PreAuthorize("@ss.hasRole('member')")
     public ResponseResult getCounts(){
@@ -40,6 +44,11 @@ public class IndexController {
     public ResponseResult getOptions(){
         Map<String, Object> options = siteService.getOptions();
         return ResponseResult.success(options);
+    }
+
+    @GetMapping("/getSM2PublicKeyQ")
+    public ResponseResult getSM2PublicKeyQ(){
+        return ResponseResult.success(env.getSM2PublicKeyQ());
     }
 
 }

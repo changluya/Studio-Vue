@@ -64,7 +64,7 @@ public class SiteConfigServiceImpl implements SiteConfigService{
         Long configId = configVo.getConfigId();
         String configKey = configVo.getConfigKey();
         // 对象转为json字符串
-        String configValue = JSONObject.toJSONString(configVo.getConfigValue());
+        String configValue = JsonObjectUtil.transferObjectToJson(configVo.getConfigValue());
         // 针对需要进行连通性测试的配置来进行测试
         if (needCheckConnTypes.contains(configKey)) {
             boolean testConRes = uploadService.testConn(false, configVo);

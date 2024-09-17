@@ -17,4 +17,12 @@ export function getOptions() {
   })
 }
 
+//获取sm2国密公钥Q
+export function getSM2PublicKeyQ() {
+  return request({
+    url: '/index/getSM2PublicKeyQ',
+    method: 'get'
+  })
+}
+
 

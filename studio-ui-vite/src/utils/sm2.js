@@ -6,9 +6,9 @@ import { isEmpty } from './webtool';
 const cipherMode = 1
 
 //加密
-export function doSM2Encrypt(str, publicKeyQ) {
+export function doSM2Encrypt(str, publicKey) {
     // 若是公钥为空，那么就不进行加密
-    if (isEmpty(publicKeyQ)) {
+    if (isEmpty(publicKey)) {
         return str;
     }
     // sm2加密处理
@@ -17,7 +17,7 @@ export function doSM2Encrypt(str, publicKeyQ) {
       msg = JSON.stringify(str)
     }
     // 加密结果
-    let encryptData = sm2.doEncrypt(msg, publicKeyQ, cipherMode)
+    let encryptData = sm2.doEncrypt(msg, publicKey, cipherMode)
     //Base64编码 自行选择是否使用
     //let baseEncode = Base64.encode(encryptData)
     // 加密后的密文前需要添加04，后端才能正常解密 (不添加04，后端处理也可以)

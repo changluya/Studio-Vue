@@ -23,7 +23,7 @@
                     </ul>
                 </li> -->
                     <li><a href="#contact">联系我们</a></li>
-                    <li><a class="loginbtn" href="http://localhost:8089" target="_blank">登陆/注册</a></li>
+                    <li><a class="loginbtn" :href="studioAdminUIHref" target="_blank">登陆/注册</a></li>
                 </ul>
                 </nav>
             </div>
@@ -66,7 +66,9 @@
                 // 父组件传递值
                 localIsScrolled: this.isScrolled,
                 // 当前路径
-                curRoutePath: ''
+                curRoutePath: '',
+                // 后台管理系统配置
+                studioAdminUIHref: import.meta.env.VITE_STUDIO_ADMIN_UI
             }
         },
         computed: {

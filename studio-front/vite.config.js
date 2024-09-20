@@ -10,4 +10,11 @@ export default defineConfig({
       '@': '/src' // 配置@/提示符
     }
   },
+  // vite 相关配置
+  // 配置服务端口地址
+  server: {
+    port: 80,
+    host: true,
+    open: true
+  },
 })

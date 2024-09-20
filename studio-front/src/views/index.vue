@@ -493,6 +493,7 @@ export default {
                 }
             }
             // console.log('createYear=>', createYear)
+            // console.log("STUDIO_ADMIN=>", import.meta.env)
         },
         // 获取成果信息
         getShowAchievements() {

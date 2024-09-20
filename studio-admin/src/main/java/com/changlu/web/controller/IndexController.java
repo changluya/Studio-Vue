@@ -46,9 +46,9 @@ public class IndexController {
         return ResponseResult.success(options);
     }
 
-    @GetMapping("/getSM2PublicKeyQ")
-    public ResponseResult getSM2PublicKeyQ(){
-        return ResponseResult.success(env.getSM2PublicKeyQ());
+    @GetMapping("/getSM2PublicKey")
+    public ResponseResult getSM2PublicKey(){
+        return ResponseResult.success(env.getSM2PublicKey());
     }
 
 }

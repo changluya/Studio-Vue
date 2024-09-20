@@ -31,7 +31,7 @@
 
 <script>
 import siteApi from '@/api/team/site'
-import { getSM2PublicKeyQ } from '@/api/index'
+import { getSM2PublicKey } from '@/api/index'
 import { MY_CONSTANT } from '@/utils/constants'
 import { doSM2Encrypt } from '@/utils/sm2'
 import { deepClone } from '@/utils/webtool'
@@ -91,17 +91,17 @@ export default {
     },
     async saveOssConfig() {
       // 获取到公钥Q
-      let publicKeyQ = ''
-      await getSM2PublicKeyQ().then(data => {
+      let publicKey = ''
+      await getSM2PublicKey().then(data => {
         if (data.code === 200) {
-          publicKeyQ = data.data
+          publicKey = data.data
         }
       }).catch(err => console.log(err))
       // 阻塞获取到公钥Q
-      // console.log("publicKeyQ=>", publicKeyQ)
+      console.log("publicKey=>", publicKey)
 
       // 构造请求对象
-      let saveFormData = this.buildSaveOssConfig(this.lastOSSUploadFormData, this.OSSUploadFormData.configValue, publicKeyQ)
+      let saveFormData = this.buildSaveOssConfig(this.lastOSSUploadFormData, this.OSSUploadFormData.configValue, publicKey)
 
       // 打印当前构造出来的表单
       // console.log("saveFormData=>", saveFormData)
@@ -115,7 +115,7 @@ export default {
       }).catch(err => console.log(err))
     },
     // 对比最新一次获取到
-    buildSaveOssConfig(lastOssData, curOssData, publicKeyQ) {
+    buildSaveOssConfig(lastOssData, curOssData, publicKey) {
       // console.log("lastOssData=>", lastOssData)
       // console.log("curOssData=>", curOssData)
       // 比较上次内容是否有过修改。如果没有修改，那么会进行sm2加密处理
@@ -129,10 +129,10 @@ export default {
       let saveFormData = deepClone(this.OSSUploadFormData)
       // 若是用户修改过、当前并没有sm2加密处理
       if (last_accessKeyId !== cur_accessKeyId || cur_accessKeyId.substring(0,2) !== '04') {
-        saveFormData.configValue.accessKeyId = doSM2Encrypt(cur_accessKeyId, publicKeyQ)
+        saveFormData.configValue.accessKeyId = doSM2Encrypt(cur_accessKeyId, publicKey)
       }
       if (last_accessKeySecret !== cur_accessKeySecret || cur_accessKeySecret.substring(0,2) !== '04') {
-        saveFormData.configValue.accessKeySecret = doSM2Encrypt(cur_accessKeySecret, publicKeyQ)
+        saveFormData.configValue.accessKeySecret = doSM2Encrypt(cur_accessKeySecret, publicKey)
       }
       return saveFormData
     },

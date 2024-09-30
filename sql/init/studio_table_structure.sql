@@ -76,7 +76,8 @@ DROP TABLE IF EXISTS `studio_think`;
 CREATE TABLE `studio_think` (
     `think_id` bigint NOT NULL AUTO_INCREMENT COMMENT '个人心得主键id',
     `think_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '思考标题',
-    `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '感悟思考',
+    `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '感悟思考',
+    `content_markdown` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '内容（markdown格式）',
     `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `user_id` bigint DEFAULT NULL COMMENT '用户主键id',

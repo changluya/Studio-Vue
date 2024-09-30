@@ -61,7 +61,7 @@ public class FileUtil extends AbsUploadExecutor {
             throw new ServiceException("本地文件上传失败");
         }
         //最终访问路径
-        String visitResourcePath = localUploadConfig.protocol + "://" + localUploadConfig.ip + ":" + localUploadConfig.port + localUploadConfig.visitPath + newFileName;
+        String visitResourcePath = localUploadConfig.protocol + "://" + localUploadConfig.ip + localUploadConfig.visitPath + newFileName;
         Map<String,String> result = new HashMap<>(2);
         //4、返回原文件名以及访问地址
         result.put("originName",originFileName);
@@ -90,7 +90,7 @@ public class FileUtil extends AbsUploadExecutor {
             throw new ServiceException("本地文件上传失败");
         }
         //最终访问路径
-        String visitResourcePath = localUploadConfig.protocol + "://" + localUploadConfig.ip + ":" + localUploadConfig.port + localUploadConfig.visitPath + newFileName;
+        String visitResourcePath = localUploadConfig.protocol + "://" + localUploadConfig.ip + localUploadConfig.visitPath + newFileName;
         Map<String,String> result = new HashMap<>(2);
         //4、返回原文件名以及访问地址
         result.put("originName",originFileName);

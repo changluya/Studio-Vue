@@ -35,6 +35,9 @@ public class StudioThinkModel extends BaseEntity {
     @ApiModelProperty(value = "感悟思考")
     private String content;
 
+    @ApiModelProperty(value = "感悟思考（markdown格式）")
+    private String contentMarkdown;
+
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 

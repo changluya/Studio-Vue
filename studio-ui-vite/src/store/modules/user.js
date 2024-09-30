@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
+import profileImg from '@/assets/images/profile.png'
 
 const user = {
   state: {

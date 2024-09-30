@@ -12,10 +12,6 @@
         <el-input :disabled="!isEdit" v-model="localUploadFormData.configValue.ip" placeholder="请输入服务器ip地址或域名，如：192.168.182.122" clearable :style="{width: '30%'}">
         </el-input>
       </el-form-item>
-      <el-form-item label="port" prop="port">
-        <el-input :disabled="!isEdit" v-model="localUploadFormData.configValue.port" placeholder="请输入studio服务的ip地址端口号，如：80" clearable :style="{width: '30%'}">
-        </el-input>
-      </el-form-item>
       <el-form-item label="protocol" prop="protocol">
         <el-input :disabled="!isEdit" v-model="localUploadFormData.configValue.protocol" placeholder="请输入请求协议，如：http 或 https" clearable :style="{width: '30%'}">
         </el-input>
@@ -44,7 +40,6 @@
             visitPath: '',
             fileUploadDir: '',
             ip: '',
-            port: '',
             protocol: ''
           }
         },

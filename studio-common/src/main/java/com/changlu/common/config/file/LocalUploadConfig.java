@@ -15,9 +15,6 @@ public class LocalUploadConfig {
     @Value("${file.visit.ip}")
     public String ip;  //上传ip地址
 
-    @Value("${server.port}")
-    public String port;  //服务器端口号
-
     @Value("${file.visit.protocol}")
     public String protocol;//请求协议
 

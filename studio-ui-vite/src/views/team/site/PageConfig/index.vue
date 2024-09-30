@@ -47,7 +47,7 @@ export default {
         const tabIndex = 'index' + tab.index
         this.refresh[tabIndex] = this.refresh[tabIndex] + Math.random()
       }
-    },
+    }
   }
 }
 </script>

@@ -318,7 +318,7 @@ export default {
       this.download('own/think/export', {
         ...this.queryParams
       }, `think_${new Date().getTime()}.xlsx`)
-    }
+    },
   }
 };
 </script>

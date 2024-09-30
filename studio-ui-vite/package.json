@@ -35,7 +35,8 @@
     "vue-meta": "2.4.0",
     "vue-router": "3.4.9",
     "vuedraggable": "^2.24.3",
-    "vuex": "3.6.0"
+    "vuex": "3.6.0",
+    "cherry-markdown": "0.8.47"
   },
   "devDependencies": {
     "@vitejs/plugin-vue2": "^2.3.1",

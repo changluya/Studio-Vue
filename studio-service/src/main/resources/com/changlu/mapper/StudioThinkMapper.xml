@@ -7,6 +7,7 @@
         <id column="think_id" property="thinkId" />
         <result column="think_title" property="thinkTitle" />
         <result column="content" property="content" />
+        <result column="content_markdown" property="contentMarkdown" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="user_id" property="userId" />
@@ -14,7 +15,7 @@
 
 
     <sql id="selectZfThinkModelVo">
-        select think_id, think_title, content, create_time, update_time, user_id from studio_think
+        select think_id, think_title, content, content_markdown, create_time, update_time, user_id from studio_think
     </sql>
 
     <select id="selectZfThinkModelList" parameterType="com.changlu.system.pojo.StudioThinkModel" resultMap="ZfThinkModelResult">
@@ -44,6 +45,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="thinkTitle != null and thinkTitle != ''">think_title,</if>
             <if test="content != null and content != ''">content,</if>
+            <if test="contentMarkdown != null and contentMarkdown != ''">content_markdown,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="userId != null">user_id,</if>
@@ -51,6 +53,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="thinkTitle != null and thinkTitle != ''">#{thinkTitle},</if>
             <if test="content != null and content != ''">#{content},</if>
+            <if test="contentMarkdown != null and contentMarkdown != ''">#{contentMarkdown},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="userId != null">#{userId},</if>
@@ -62,6 +65,7 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="thinkTitle != null and thinkTitle != ''">think_title = #{thinkTitle},</if>
             <if test="content != null and content != ''">content = #{content},</if>
+            <if test="contentMarkdown != null and contentMarkdown != ''">content_markdown = #{contentMarkdown},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="userId != null">user_id = #{userId},</if>

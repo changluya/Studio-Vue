@@ -68,7 +68,7 @@
                 // 当前路径
                 curRoutePath: '',
                 // 后台管理系统配置
-                studioAdminUIHref: import.meta.env.VITE_STUDIO_ADMIN_UI
+                studioAdminUIHref: import.meta.env.VITE_STUDIO_ADMIN
             }
         },
         computed: {

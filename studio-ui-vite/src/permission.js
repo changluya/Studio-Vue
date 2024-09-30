@@ -38,6 +38,7 @@ router.beforeEach((to, from, next) => {
               next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
             })
           }).catch(err => {
+            console.log("err=>", err)
             store.dispatch('LogOut').then(() => {
               Message.error(err)
               this.$router.push("/login")

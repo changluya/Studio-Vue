@@ -236,6 +236,13 @@
         <el-form-item label="用户昵称" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户昵称" />
         </el-form-item>
+        <el-form-item label="选择角色" prop="roleId">
+          <el-select v-model="form.roleId" placeholder="请选择角色" filterable clearable
+                             :style="{width: '100%'}">
+            <el-option v-for="(item, index) in createAccountRolesOptions" :key="index" :label="item.roleName"
+                        :value="item.id" ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="初始密码" prop="password">
           <el-input v-model="form.password" placeholder="请输入初始密码" />
         </el-form-item>
@@ -340,6 +347,9 @@ export default {
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" }
         ],
+        roleId: [
+          { required: true, message: "角色不能为空", trigger: "blur" }
+        ]
       },
       //菜单信息
       //[{},{}]格式
@@ -352,6 +362,17 @@ export default {
         gradeNum: '',
         realName: ''
       },
+      // 角色下拉选择列表
+      createAccountRolesOptions: [
+        {
+          id: this.$MY_CONSTANT.Roles.ROLE_MEMBER.roleId,
+          roleName: this.$MY_CONSTANT.Roles.ROLE_MEMBER.name
+        },
+        {
+          id: this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleId,
+          roleName: this.$MY_CONSTANT.Roles.ROLE_TEACHER.name
+        },
+      ],
     };
   },
   created() {
@@ -497,7 +518,8 @@ export default {
           } else {
             const addForm = {
               username: this.form.username,
-              password: loginPasswordEncrypt(this.form.password)
+              password: loginPasswordEncrypt(this.form.password),
+              roleId: this.form.roleId
             }
             addMember(addForm).then(response => {
               this.$modal.msgSuccess("新增成功");

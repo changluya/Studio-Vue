@@ -47,7 +47,6 @@ public class RsaUtil {
     /**
      * 私钥解密
      *
-     * @param privateKeyText
      * @param text
      * @return
      * @throws Exception
@@ -62,6 +61,10 @@ public class RsaUtil {
         return new String(result);
     }
 
+    public static String encrypt(String text) throws Exception {
+        return encryptByPublicKey(RsaUtil.publicKey, text);
+    }
+
     /**
      * 公钥加密
      *
@@ -69,7 +72,7 @@ public class RsaUtil {
      * @param text
      * @return
      */
-    public static String encryptByPublicKey(String publicKeyText, String text) throws Exception {
+    private static String encryptByPublicKey(String publicKeyText, String text) throws Exception {
         X509EncodedKeySpec x509EncodedKeySpec2 = new X509EncodedKeySpec(Base64.decodeBase64(publicKeyText));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec2);

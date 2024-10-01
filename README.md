@@ -217,7 +217,7 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 数据库：MySQL 5.7、Redis
 
-前端环境：Node.js、Npm
+前端环境：Node.js（v22.5.1）、Npm
 
 > 本地环境构建运行
 

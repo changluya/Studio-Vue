@@ -12,7 +12,7 @@
                     <p>这里都是我们实验室的团队小伙伴们</p>
                 </div>
                 <!-- 遍历所有年级 -->
-                <div :class="index === 0 ? 'grade teacher' : 'grade'" v-for="(gradeMembers, index) in gradesMembers" v-loading="loading">
+                <div :class="gradeMembers.grade === '指导老师' ? 'grade teacher' : 'grade'" v-for="(gradeMembers, index) in gradesMembers" v-loading="loading">
                     <div class="flag wow fadeInUp">
                         <span class="flag_name" v-text="gradeMembers.grade" ></span>
                     </div>
@@ -21,7 +21,7 @@
                         <!-- 遍历某个年级的所有学生 -->
                         <div class="col-lg-3 col-md-6 wow fadeInUp" v-for="member in gradeMembers.members">
                         <!-- 老师单个展示栏 -->
-                        <div v-if="index === 0" class="memberbox">
+                        <div v-if="gradeMembers.grade === '指导老师'" class="memberbox">
                             <div class="imginfobox">
                             <div class="imgbox">
                                 <img :src="member.perImg" alt="">
@@ -62,18 +62,18 @@
                             </div>
                             </div>
                             <!--  -->
-                            <div v-show="index != 0" class="directionbox">
-                            <div class="descbox">
-                                <!-- 毕业去向：<span>南京航空航天大学11111111111111111</span> -->
-                                <b>毕业去向：
-                                <span v-if="member.directionName != ''" v-text="member.directionName">杭州玳数科技有限公司</span>
-                                <span v-else>暂未填写</span>
-                                </b>
-                            </div>
-                            <div class="logobox">
-                                <img v-if="member.logoImg != ''" :src="member.logoImg" alt="">
-                                <img v-else src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/image-20240714220851751.png" alt="">
-                            </div>
+                            <div v-show="gradeMembers.grade !== '指导老师'" class="directionbox">
+                                <div class="descbox">
+                                    <!-- 毕业去向：<span>南京航空航天大学11111111111111111</span> -->
+                                    <b>毕业去向：
+                                    <span v-if="member.directionName != ''" v-text="member.directionName">杭州玳数科技有限公司</span>
+                                    <span v-else>暂未填写</span>
+                                    </b>
+                                </div>
+                                <div class="logobox">
+                                    <img v-if="member.logoImg != ''" :src="member.logoImg" alt="">
+                                    <img v-else src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/image-20240714220851751.png" alt="">
+                                </div>
                             </div>
                         </div>
                         </div>

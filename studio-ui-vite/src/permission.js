@@ -17,6 +17,7 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   // 首先获取到基础配置之后开始执行下面逻辑
   store.dispatch('getSiteBasicConfig').then(() => {
+    console.log("getToken()=>", getToken())
     // next()
     if (getToken()) {
       // 若是当前有token
@@ -38,7 +39,7 @@ router.beforeEach((to, from, next) => {
               next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
             })
           }).catch(err => {
-            console.log("err=>", err)
+            console.log("666=>", err)
             store.dispatch('LogOut').then(() => {
               Message.error(err)
               this.$router.push("/login")
@@ -63,7 +64,7 @@ router.beforeEach((to, from, next) => {
     }
   }).catch((error) => {
     // 处理错误情况
-    console.error(error);
+    console.error("error777=>", error);
     next(false); // 阻止导航
   });
 })

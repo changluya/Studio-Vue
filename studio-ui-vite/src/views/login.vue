@@ -181,16 +181,16 @@ export default {
       //对登录密码进行非对称加密
       const loginObj = JSON.parse(JSON.stringify(this.loginForm)) //进行深拷贝
       loginObj.password = loginPasswordEncrypt(loginObj.password) //非对称加密对密码
-      console.log("loginform=>",loginObj)
+      // console.log("loginform=>",loginObj)
       this.$store.dispatch('Login', loginObj).then(() => {
-        // console.log("跳转")
         Message({
           message: '登录成功！',
           type: 'success',
           duration: 1500
         })
         this.$router.push({ path: this.redirect || "/" }).catch(()=>  {});
-      }).catch(() => {
+      }).catch((err) => {
+        console.log("dispatch login error => ", err)
         this.loading = false
         if (this.captchaOnOff) {
           this.getCode()

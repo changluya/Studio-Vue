@@ -351,7 +351,7 @@ export default {
       transferTarget: {
         gradeNum: '',
         realName: ''
-      }
+      },
     };
   },
   created() {

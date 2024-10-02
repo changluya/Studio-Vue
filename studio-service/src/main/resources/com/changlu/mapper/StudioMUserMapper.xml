@@ -18,10 +18,11 @@
         <result property="roleName"    column="role_name"    />
         <result property="majorName"    column="major_name"    />
         <result property="userName"    column="user_name"    />
+        <result property="showSort"    column="show_sort"    />
     </resultMap>
 
     <!--  -->
-    <resultMap type="ShowUserVo" id="ShowUserVoResult">
+    <resultMap type="com.changlu.vo.ShowUserVo" id="ShowUserVoResult">
         <result property="realName"    column="real_name"    />
         <result property="gradeNum"    column="grade_num"    />
         <result property="majorName"    column="major_name"    />
@@ -29,12 +30,13 @@
         <result property="roleName"    column="role_name"    />
         <result property="perImg"    column="per_img"    />
         <result property="description"    column="description"    />
+        <result property="showSort"    column="show_sort"    />
     </resultMap>
 
     <!--  查询用户的基本信息：真实姓名、图片、角色名、年级、专业名  -->
     <sql id="selectShowUserVo">
         SELECT
-            t.real_name, t.description, t.per_img, t.extra,
+            t.real_name, t.description, t.per_img, t.show_sort, t.extra,
             GROUP_CONCAT( t2.role_name ) AS role_name,
             t3.grade_num,
             t4.major_name,
@@ -119,7 +121,7 @@
 
     <select id="selectSysUserByUserId" parameterType="Long" resultMap="SysUserResult">
         SELECT
-            user_id, real_name, grade_id, major_id, sex
+            user_id, real_name, grade_id, major_id, sex, show_sort
         from sys_user
         where user_id = #{userId}
     </select>

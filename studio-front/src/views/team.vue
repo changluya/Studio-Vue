@@ -27,7 +27,7 @@
                                 <img :src="member.perImg" alt="">
                             </div>
                             <div class="infobox">
-                                <p v-text="member.realName"></p>
+                                <p v-text="member.realName === '' ? '': member.realName"></p>
                                 <p>学院：<span v-text="member.academyName"></span></p>
                                 <p>身份：<span v-text="member.roleName"></span></p>
                                 <p>专业：<span v-text="member.majorName"></span></p>
@@ -67,7 +67,7 @@
                                     <!-- 毕业去向：<span>南京航空航天大学11111111111111111</span> -->
                                     <b>毕业去向：
                                     <span v-if="member.directionName != ''" v-text="member.directionName">杭州玳数科技有限公司</span>
-                                    <span v-else>暂未填写</span>
+                                    <span v-else>暂未知状态</span>
                                     </b>
                                 </div>
                                 <div class="logobox">

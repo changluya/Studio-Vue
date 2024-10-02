@@ -192,6 +192,7 @@ CREATE TABLE `sys_role_menu` (
 
 -- 系统用户表
 DROP TABLE IF EXISTS `sys_user`;
+DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
     `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
     `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户账号',
@@ -218,8 +219,9 @@ CREATE TABLE `sys_user` (
     `grade_id` bigint DEFAULT NULL COMMENT '年级id',
     `academy_id` bigint DEFAULT NULL COMMENT '学院id',
     `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '额外字段，详情可见模型',
+    `show_sort` int NOT NULL DEFAULT '0' COMMENT '展示优先级排名（根据组内成员展示排序），默认为0，数字越大优先级越高',
     PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
 
 -- 系统用户角色表
 DROP TABLE IF EXISTS `sys_user_role`;

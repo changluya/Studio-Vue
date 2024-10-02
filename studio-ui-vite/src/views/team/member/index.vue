@@ -256,7 +256,7 @@
 
     <!-- 修改User对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" :close-on-click-modal="false" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="姓名" prop="majorName">
           <el-input v-model="form.realName" placeholder="请输入真实姓名" />
         </el-form-item>
@@ -282,6 +282,9 @@
             <el-option v-for="(item, index) in majorIdOptions" :key="index" :label="item.majorName"
                        :value="item.majorId" :disabled="item.disabled"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="展示优先级" prop="showSort">
+          <el-input v-model="form.showSort" placeholder="请输入优先级数字（优先级越高展示越靠前）" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -349,6 +352,9 @@ export default {
         ],
         roleId: [
           { required: true, message: "角色不能为空", trigger: "blur" }
+        ],
+        showSort: [
+          { required: true, message: "展示优先级不能为空", trigger: "blur" }
         ]
       },
       //菜单信息

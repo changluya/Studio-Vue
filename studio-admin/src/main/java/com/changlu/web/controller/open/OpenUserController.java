@@ -32,7 +32,7 @@ public class OpenUserController {
     @GetMapping("/teamMembers")
     public ResponseResult getMembersInfo(){
         //1、走缓存
-        List<Map> result = redisCache.getCacheObject(StudioConstant.REDIS_MEMBERS_DATA);
+        List<Map<String, Object>> result = redisCache.getCacheObject(StudioConstant.REDIS_MEMBERS_DATA);
         if (result == null) {
             //2、若是没有缓存走数据库
             result = genTeamUsersTask.doGenerateTeamUsers();

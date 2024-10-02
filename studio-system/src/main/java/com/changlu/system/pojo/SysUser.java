@@ -1,6 +1,7 @@
 package com.changlu.system.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.changlu.common.domain.BaseEntity;
@@ -111,6 +112,10 @@ public class SysUser extends BaseEntity
 
     /** 额外字段名称，Json字符串 */
     private String extra;
+
+    /** 团队展示排名 */
+    @TableField("show_sort")
+    private Integer showSort;
 
     public SysUser(String username,String nickName, String password){
         this.userName = username;

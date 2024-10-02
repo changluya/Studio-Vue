@@ -13,9 +13,9 @@
     -->
     <!-- 日志文件根目录 -->
     <!-- 本地服务器配置   -->
-    <property name="log_dir" value="${user.dir}/logs"/>
+<!--    <property name="log_dir" value="${user.dir}/logs"/>-->
     <!-- 服务器配置 -->
-<!--    <property name="log_dir"  value="/tmp/logs"/>-->
+    <property name="log_dir"  value="/tmp/logs"/>
     <!-- 日志打印格式配置   -->
 <!--    <property name="pattern"  value="%-5level %d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n"/>-->
     <property name="pattern"  value="[%d{'yy-MM-dd HH:mm:ss,SSS',GMT+8:00}] %-5p [%.10t][%X{CU}] %logger{36}[%L] - %m%n"/>

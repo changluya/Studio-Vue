@@ -8,8 +8,8 @@
             <section id="team" style="min-height: 500px">
                 <div class="container">
                 <div class="section-header wow fadeInUp">
-                    <h3>团队</h3>
-                    <p>这里都是我们实验室的团队小伙伴们</p>
+                    <h3>团队展示</h3>
+                    <p>这里是<span v-text="unitName"></span>的<span v-text="teamTitle"></span>小伙伴们</p>
                 </div>
                 <!-- 遍历所有年级 -->
                 <div :class="gradeMembers.grade === '指导老师' ? 'grade teacher' : 'grade'" v-for="(gradeMembers, index) in gradesMembers" v-loading="loading">
@@ -48,9 +48,15 @@
                             </div>
                             <div class="infobox">
                                 <p v-text="member.realName"></p>
-                                <p>学院：<span v-text="member.academyName"></span></p>
+                                <el-tooltip placement="top">
+                                    <div slot="content" v-text="member.academyName"></div>
+                                    <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">学院：<span v-text="member.academyName"></span></p>
+                                </el-tooltip>
                                 <p>身份：<span v-text="member.roleName"></span></p>
-                                <p>专业：<span v-text="member.majorName"></span></p>
+                                <el-tooltip placement="top">
+                                    <div slot="content" v-text="member.majorName"></div>
+                                    <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">专业：<span v-text="member.majorName"></span></p>
+                                </el-tooltip>
                                 <p>学业状态：
                                 <span v-text="member.directionTypeName"></span>
                                 </p>
@@ -61,18 +67,31 @@
                                 <b>人生格言：</b> <span v-text="member.description"></span>
                             </div>
                             </div>
-                            <!--  -->
+                            <!-- 非指导老师显示该区域 -->
                             <div v-show="gradeMembers.grade !== '指导老师'" class="directionbox">
-                                <div class="descbox">
-                                    <!-- 毕业去向：<span>南京航空航天大学11111111111111111</span> -->
-                                    <b>毕业去向：
-                                    <span v-if="member.directionName != ''" v-text="member.directionName">杭州玳数科技有限公司</span>
-                                    <span v-else>暂未知状态</span>
-                                    </b>
+                                <div v-if="member.directionTypeName === '在校'">
+                                    <div class="descbox">
+                                        <b>当前所在：
+                                            <span v-if="unitName" v-text="unitName"></span>
+                                            <span v-else>暂未知状态</span>
+                                        </b>
+                                    </div>
+                                    <div class="logobox">
+                                        <img v-if="unitLogo" :src="unitLogo" alt="">
+                                        <img v-else src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/image-20240714220851751.png" alt="">
+                                    </div>
                                 </div>
-                                <div class="logobox">
-                                    <img v-if="member.logoImg != ''" :src="member.logoImg" alt="">
-                                    <img v-else src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/image-20240714220851751.png" alt="">
+                                <div v-else>
+                                    <div class="descbox">
+                                        <b>毕业去向：
+                                            <span v-if="member.directionName != ''" v-text="member.directionName"></span>
+                                            <span v-else>暂未知状态</span>
+                                        </b>
+                                    </div>
+                                    <div class="logobox">
+                                        <img v-if="member.logoImg != ''" :src="member.logoImg" alt="">
+                                        <img v-else src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/image-20240714220851751.png" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -99,6 +118,11 @@
         },
         data() {
             return {
+                // 全局配置获取
+                unitLogo: this.$store.state.site.unitLogo,
+                unitName: this.$store.state.site.unitName,
+                teamTitle: this.$store.state.site.teamTitle,
+                // 当前vue属性配置
                 gradesMembers: [],
                 loading: true
             }

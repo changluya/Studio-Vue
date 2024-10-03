@@ -7,7 +7,9 @@ const site = {
     teamTitle: '',
     siteTitle: '',
     ISPN: '',
-    siteCreateTime: ''
+    siteCreateTime: '',
+    unitName: '',
+    unitLogo: ''
   },
 
   mutations: {
@@ -33,6 +35,12 @@ const site = {
     SET_SITE_CREATE_TIME: (state, siteCreateTime) => {
       state.siteCreateTime = siteCreateTime
     },
+    SET_UNIT_NAME: (state, unitName) => {
+      state.unitName = unitName
+    },
+    SET_UNIT_LOGO: (state, unitLogo) => {
+      state.unitLogo = unitLogo
+    },
   },
 
   actions: {
@@ -48,6 +56,8 @@ const site = {
           const configValue = res.data.configValue
           commit('SET_TEAM_LOGO', configValue.teamLogo)
           commit('SET_TEAM_TITLE', configValue.teamTitle)
+          commit('SET_UNIT_NAME', configValue.unitName)
+          commit('SET_UNIT_LOGO', configValue.unitLogo)
           commit('SET_SITE_TITLE', configValue.siteTitle)
           commit('SET_ISPN', configValue.ispn)
           // console.log('SET_SITE_CREATE_TIME=>', configValue.siteCreateTime)

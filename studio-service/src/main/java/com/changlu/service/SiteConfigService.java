@@ -13,4 +13,6 @@ public interface SiteConfigService {
 
     ConfigVo selectConfigValueByConfigKey(String configKey);
 
+    ConfigVo getOpenSiteConfig(String configKey);
+
 }

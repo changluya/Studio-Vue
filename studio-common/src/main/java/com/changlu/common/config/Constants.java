@@ -44,4 +44,8 @@ public class Constants {
      */
     public static final String SYS_CONFIG_KEY = "sys_config:";
 
+    public static final String Y = "Y";
+
+    public static final String N = "N";
+
 }

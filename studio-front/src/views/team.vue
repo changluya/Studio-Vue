@@ -83,9 +83,12 @@
                                 </div>
                                 <div v-else>
                                     <div class="descbox">
-                                        <b>毕业去向：
-                                            <span v-if="member.directionName != ''" v-text="member.directionName"></span>
-                                            <span v-else>暂未知状态</span>
+                                        <b style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">毕业去向：
+                                            <el-tooltip placement="top">
+                                                <div slot="content" v-text="member.directionName"></div>
+                                                <span v-if="member.directionName != ''" v-text="member.directionName"></span>
+                                                <span v-else>暂未知状态</span>
+                                            </el-tooltip>
                                         </b>
                                     </div>
                                     <div class="logobox">

@@ -1,6 +1,5 @@
 <template>
   <div :class="classObj" class="app-wrapper" :style="{'--current-color': theme}">
-    <Live2d/>
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <!--  引入sidebar侧边栏组件  -->
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
@@ -17,6 +16,7 @@
         <settings />
       </right-panel>
     </div>
+    <Live2d/>
   </div>
 </template>
 
@@ -30,9 +30,8 @@ import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 // 引入scss文件，都是提前定义好的一些颜色、主题
 import variables from '@/assets/styles/variables.module.scss'
-
-//引入看板娘
-import Live2d from '@/components/live2d'
+// 引入live2d看板娘
+import Live2d from '../components/live2d/index.vue'
 
 export default {
   name: 'Layout',

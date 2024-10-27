@@ -6,6 +6,7 @@
  */
 package com.changlu.vo.config;
 
+import com.changlu.common.annoation.SM2;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

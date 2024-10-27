@@ -23,7 +23,7 @@
                     </ul>
                 </li> -->
                     <li><a href="#contact">联系我们</a></li>
-                    <li><a class="loginbtn" href="http://localhost:8089" target="_blank">登陆/注册</a></li>
+                    <li><a class="loginbtn" :href="studioAdminUIHref" target="_blank">登陆/注册</a></li>
                 </ul>
                 </nav>
             </div>
@@ -61,12 +61,14 @@
         data() {
             return {
                 siteConfigParms: {
-                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASICCONFIG.configKey
+                    configKey: this.$MY_CONSTANT.SITE_CONFIG.SITE_BASIC_CONFIG.configKey
                 },
                 // 父组件传递值
                 localIsScrolled: this.isScrolled,
                 // 当前路径
-                curRoutePath: ''
+                curRoutePath: '',
+                // 后台管理系统配置
+                studioAdminUIHref: import.meta.env.VITE_STUDIO_ADMIN
             }
         },
         computed: {

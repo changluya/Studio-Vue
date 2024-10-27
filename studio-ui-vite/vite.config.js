@@ -17,6 +17,13 @@ export default defineConfig(({ mode, command }) => {
         '@': path.resolve(__dirname, './src')
       },
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
-    }
+    },
+    // vite 相关配置
+    // 配置服务端口地址
+    server: {
+      port: 81,
+      host: true,
+      open: true
+    },
   }
 })

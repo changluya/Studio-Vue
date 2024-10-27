@@ -56,15 +56,6 @@
           @click="handleDelete"
         >删除</el-button>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--        >导出</el-button>-->
-<!--      </el-col>-->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -75,7 +66,11 @@
         type="index"
         width="50">
       </el-table-column>
-<!--      <el-table-column label="个人心得主键id" align="center" prop="thinkId" />-->
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="标题" align="center" prop="thinkTitle" />
       <el-table-column label="感悟思考" align="center" prop="content" >
         <template slot-scope="scope">
@@ -86,11 +81,6 @@
             @click="previewThink(scope.row)"
           >预览心得</el-button>
           <el-button
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -121,18 +111,24 @@
 
     <!-- 预览总结对话框-->
     <el-dialog class="previewDialog" title="感悟思考" :visible.sync="previewOpen" :before-close="handlePreviewClose" width="1000px" append-to-body>
-      <Editor v-model="curThinkHTML" :minHeight="200" :readOnly="true"></Editor>
+      <!-- <Editor v-model="curThinkHTML" :minHeight="200" :readOnly="true"></Editor> -->
+      <CherryMarkdown v-if="previewOpen" v-model='curThinkMarkdown' :defaultModel="'previewOnly'"></CherryMarkdown>
     </el-dialog>
 
     <!-- 添加或修改ZfThink对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="1000px" :close-on-click-modal="false" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="1200px" :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="思考标题" prop="thinkTitle">
           <el-input v-model="form.thinkTitle" placeholder="请输入思考标题" />
         </el-form-item>
         <el-form-item label="感悟思考">
-          <editor v-model="form.content" :min-height="192"/>
+          <el-row>
+            <el-col>
+              <CherryMarkdown v-if="open" ref="CherryMarkdown" :height='400' v-model='form.contentMarkdown' ></CherryMarkdown>
+            </el-col>
+          </el-row>
         </el-form-item>
+        <Cherry/>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -143,10 +139,23 @@
 </template>
 
 <script>
+<<<<<<<< HEAD:studio-ui/src/views/own/think/index.vue
+import Cherry from '@/components/cherry/index.vue'
 import { listThink, getThink, delThink, addThink, updateThink } from "@/api/own/think";
 
 export default {
   name: "Think",
+  components: { Cherry },
+========
+import { listThink, getThink, delThink, addThink, updateThink } from "@/api/own/think"
+import CherryMarkdown from '@/components/CherryMarkdown'
+
+export default {
+  name: "Think",
+  components: {
+    CherryMarkdown
+  },
+>>>>>>>> refs/remotes/origin/release_1.3.x:studio-ui-vite/src/views/own/think/index.vue
   data() {
     return {
       // 遮罩层
@@ -190,7 +199,7 @@ export default {
       //是否打开预览感悟思考窗口
       previewOpen: false,
       //思考内容
-      curThinkHTML: '',
+      curThinkMarkdown: '',
       //删除提示信息
       names: ""
     };
@@ -271,10 +280,14 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改个人心得";
+        // console.log("this.form=>", this.form)
       });
     },
     /** 提交按钮 */
     submitForm() {
+      this.setFormContent()
+
+      // console.log("submitForm=>", this.form)
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.thinkId != null) {
@@ -307,18 +320,21 @@ export default {
     //预览思考总结
     previewThink(row){
       this.previewOpen = true;
-      this.curThinkHTML = row.content
+      this.curThinkMarkdown = row.contentMarkdown
     },
     //关闭预览窗口
     handlePreviewClose(){
-      this.previewOpen = false;
+      this.previewOpen = false
     },
     /** 导出按钮操作 */
     handleExport() {
       this.download('own/think/export', {
         ...this.queryParams
       }, `think_${new Date().getTime()}.xlsx`)
-    }
+    },
+    setFormContent(){
+      this.form.content = this.$refs.CherryMarkdown.getCherryHtml()
+    },
   }
 };
 </script>

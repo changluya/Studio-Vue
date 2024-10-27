@@ -76,7 +76,8 @@ DROP TABLE IF EXISTS `studio_think`;
 CREATE TABLE `studio_think` (
     `think_id` bigint NOT NULL AUTO_INCREMENT COMMENT '个人心得主键id',
     `think_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '思考标题',
-    `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '感悟思考',
+    `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '感悟思考',
+    `content_markdown` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '内容（markdown格式）',
     `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `user_id` bigint DEFAULT NULL COMMENT '用户主键id',
@@ -191,6 +192,7 @@ CREATE TABLE `sys_role_menu` (
 
 -- 系统用户表
 DROP TABLE IF EXISTS `sys_user`;
+DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
     `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
     `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户账号',
@@ -217,8 +219,9 @@ CREATE TABLE `sys_user` (
     `grade_id` bigint DEFAULT NULL COMMENT '年级id',
     `academy_id` bigint DEFAULT NULL COMMENT '学院id',
     `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '额外字段，详情可见模型',
+    `show_sort` int NOT NULL DEFAULT '0' COMMENT '展示优先级排名（根据组内成员展示排序），默认为0，数字越大优先级越高',
     PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
 
 -- 系统用户角色表
 DROP TABLE IF EXISTS `sys_user_role`;

@@ -1,7 +1,7 @@
 package com.changlu.service;
 
 import com.changlu.common.domain.LoginBody;
-import com.changlu.common.domain.ResponseResult;
+import com.changlu.vo.user.req.UserAccountReqVo;
 
 import java.util.Map;
 
@@ -28,9 +28,16 @@ public interface LoginService {
     void verifyCaptcha(String code, String uuid);
 
     /**
-     * 注册用户
+     * 注册用户（对外注册）
      * @param loginBody 用户主体
      * @return
      */
     boolean registerUser(LoginBody loginBody);
+
+    /**
+     * 创建账号
+     * @param userAccountReqVo
+     * @return
+     */
+    boolean createAccount(UserAccountReqVo userAccountReqVo);
 }

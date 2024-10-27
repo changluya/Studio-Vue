@@ -2,17 +2,18 @@ package com.changlu.common.utils.file;
 import com.changlu.common.config.RuoYiConfig;
 import com.changlu.common.utils.DateUtils;
 import com.changlu.common.utils.uuid.IdUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.UUID;
 
 /**
  * 文件处理工具类
  *
  * @author ruoyi
  */
+@Slf4j
 public class FileUtils
 {
 
@@ -100,4 +101,39 @@ public class FileUtils
         int index = Math.max(lastUnixPos, lastWindowsPos);
         return fileName.substring(index + 1);
     }
+
+    /**
+     * 拷贝文件
+     * @param srcFile 目标文件
+     * @param destFile 目标文件
+     * @throws IOException
+     */
+    public static void copyFile(File srcFile, File destFile) throws IOException {
+        org.apache.commons.io.FileUtils.copyFile(srcFile, destFile);
+    }
+
+    // 创建临时文件
+    public static File createTempFile(){
+        byte[] data = "Hello, World!".getBytes();
+        InputStream is = new ByteArrayInputStream(data);
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile("tempFile-" + UUID.randomUUID(), ".txt");
+        } catch (IOException e) {
+            log.error("createTempFile error！", e);
+            return null;
+        }
+        // 将字节数组写入临时文件中
+        try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+            byte[] buffer = new byte[data.length];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        }catch (IOException ex) {
+            log.error("创建临时文件失败！", ex);
+        }
+        return tempFile;
+    }
+
 }

@@ -63,6 +63,11 @@ public class ShowUserVo implements Serializable {
     @JsonIgnore
     private String extra;
 
+    /**
+     * 团队展示排名
+     */
+    private Integer showSort;
+
     public void buildUserVo(){
         //其他字段处理
         //填充null为""，处理两层

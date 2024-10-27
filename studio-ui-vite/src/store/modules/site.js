@@ -25,13 +25,13 @@ const site = {
 
   actions: {
     getSiteBasicConfig({ commit }) {
-      console.log('MY_CONSTANT=>', MY_CONSTANT)
+      // console.log('MY_CONSTANT=>', MY_CONSTANT)
       const siteConfigParms =  {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASICCONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASIC_CONFIG.configKey
       }
       return new Promise((resolve, reject) => {
         querySiteConfig(siteConfigParms).then(res => {
-          console.log('querySiteConfig=>', querySiteConfig)
+          // console.log('querySiteConfig=>', querySiteConfig)
           const configValue = res.data.configValue
           commit('SET_TEAM_LOGO', configValue.teamLogo)
           commit('SET_TEAM_TITLE', configValue.teamTitle)

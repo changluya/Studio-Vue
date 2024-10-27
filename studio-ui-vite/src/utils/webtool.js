@@ -25,4 +25,26 @@ const getInclusionFlagName = function(inclusionFlag) {
   return name
 }
 
-export { isEmpty, getInclusionFlagName }
+//深克隆(数组、对象、其他类型)
+const deepClone = function (o) {
+  //判断是否是数组(数组类型实际就是object，所有需要提前进行判断)
+  if (Array.isArray(o)) {
+      var result = [];
+      //数组
+      for (let i = 0; i < o.length; i++) {
+          result.push(deepClone(o[i]));//进行递归调用
+      }
+  } else if (typeof o == "object") {
+      //需要克隆的是对象
+      var result = {};
+      for (let key in o) {
+          result[key] = deepClone(o[key]);//进行递归调用
+      }
+  } else {
+      //其他类型
+      var result = o;
+  }
+  return result;
+}
+
+export { isEmpty, getInclusionFlagName, deepClone }

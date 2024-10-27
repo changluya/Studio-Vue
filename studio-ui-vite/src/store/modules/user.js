@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
+import profileImg from '@/assets/images/profile.png'
 
 const user = {
   state: {
@@ -40,6 +41,7 @@ const user = {
         login(username, password, code, uuid).then(res => {
           // console.log("login:",res)
           res = res.data
+          // console.log("res.token:",res.token)
           // 将token存储到cookie中
           setToken(res.token)
           commit('SET_TOKEN', res.token)
@@ -57,7 +59,7 @@ const user = {
           res = res.data;
           const user = res.user
           //原始拼接头像地址：import.meta.env.VITE_API_URL + user.avatar
-          const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/images/profile.png") : user.avatar;
+          const avatar = (user.avatar == "" || user.avatar == null) ? profileImg : user.avatar;
           if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', res.roles)
             commit('SET_PERMISSIONS', res.permissions)
@@ -68,6 +70,7 @@ const user = {
           commit('SET_AVATAR', avatar)
           resolve(res)
         }).catch(error => {
+          console.log("error=999>", error)
           reject(error)
         })
       })

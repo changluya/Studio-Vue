@@ -49,6 +49,8 @@
         <commonsio.version>2.11.0</commonsio.version>
         <poi.version>4.1.2</poi.version>
         <aliyun.sdk.version>3.14.0</aliyun.sdk.version>
+        <hutool.version>5.8.20</hutool.version>
+        <bcpkix-jdk18on.version>1.78.1</bcpkix-jdk18on.version>
     </properties>
 
     <dependencyManagement>
@@ -223,6 +225,23 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.sdk.version}</version>
+            </dependency>
+
+            <!--   Hutool工具类库         -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <!-- 注意这里是import -->
+                <scope>import</scope>
+            </dependency>
+
+            <!--    sm2国密    -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${bcpkix-jdk18on.version}</version>
             </dependency>
 
             <!--     模块依赖       -->

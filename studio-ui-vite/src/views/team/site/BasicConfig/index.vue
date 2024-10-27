@@ -18,6 +18,17 @@
       </el-form-item>
     </el-col>
     <el-col :span="24">
+      <el-form-item label="所属单位名称" prop="unitName">
+        <el-input v-model="basicFormData.configValue.unitName" placeholder="请输入单位名称" clearable :style="{width: '20%'}">
+        </el-input>
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
+      <el-form-item label="单位logo" prop="unitLogo">
+        <image-upload v-model="basicFormData.configValue.unitLogo" :limit="1" :fileSize="10"/>
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
       <el-form-item label="ICP备案号" prop="ispn">
         <el-input v-model="basicFormData.configValue.ispn" placeholder="请输入ICP备案号" clearable :style="{width: '20%'}">
         </el-input>
@@ -59,14 +70,18 @@ export default {
       //   teamLogo: 'http://pictured-bedtest.oss-cn-beijing.aliyuncs.com/test/studio/8c44b79e-cd18-40ae-8d5a-5e2a0df303b7.png', //团队logo
       //   ISPN: '京公网安备11000002000001号',  // Internet Standard Publish Number：互联网出版备案号
       //   siteCreateTime: '2016'  //网站创建时间
+      //   unitName: '南京工程学院', //所属单位
+      //   unitLogo: ''  //单位logo
       // },
       basicFormData: {
         configId: '',
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASICCONFIG.configKey,
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASIC_CONFIG.configKey,
         configValue: {
           siteTitle: '',
           teamTitle: '',
           teamLogo: '',
+          unitName: '',
+          unitLogo: '',
           ispn: '',
           siteCreateTime: ''
         }
@@ -74,7 +89,7 @@ export default {
       timeLogo: '',
       // 查询参数
       queryParams: {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASICCONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_BASIC_CONFIG.configKey
       }
     }
   },

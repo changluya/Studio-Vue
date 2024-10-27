@@ -28,6 +28,15 @@ public class MainConfig implements Serializable {
     //团队描述
     private String teamDescription;
 
+    // 我们的使命
+    private String teamMission;
+
+    // 我们的计划
+    private String teamPlan;
+
+    // 我们的愿景
+    private String teamVision;
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

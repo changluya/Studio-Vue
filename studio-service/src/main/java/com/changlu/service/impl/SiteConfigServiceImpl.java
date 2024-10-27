@@ -2,6 +2,7 @@ package com.changlu.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.changlu.common.config.Constants;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.Base64Util;
 import com.changlu.common.utils.JsonObjectUtil;
@@ -18,12 +19,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @description  网站配置业务类
@@ -64,7 +65,7 @@ public class SiteConfigServiceImpl implements SiteConfigService{
         Long configId = configVo.getConfigId();
         String configKey = configVo.getConfigKey();
         // 对象转为json字符串
-        String configValue = JSONObject.toJSONString(configVo.getConfigValue());
+        String configValue = JsonObjectUtil.transferObjectToJson(configVo.getConfigValue());
         // 针对需要进行连通性测试的配置来进行测试
         if (needCheckConnTypes.contains(configKey)) {
             boolean testConRes = uploadService.testConn(false, configVo);
@@ -135,6 +136,20 @@ public class SiteConfigServiceImpl implements SiteConfigService{
         return configVo;
     }
 
+    @Override
+    public ConfigVo getOpenSiteConfig(String configKey) {
+        List<String> supportOpenConfigs = Arrays.stream(ConfigTypeEnum.values())
+                .filter(configTypeEnum -> Constants.N.equals(configTypeEnum.getConfigType()))
+                .map(ConfigTypeEnum::getConfigKey)
+                .collect(Collectors.toList());
+        // 若是想要获取的key为非内置的，那么就不对外开发
+        if (!CollectionUtils.isEmpty(supportOpenConfigs) && !supportOpenConfigs.contains(configKey)) {
+            log.error(String.format("禁止对外接口中获取内置配置，configKey => %s", configKey));
+            throw new ServiceException("禁止对外接口中获取内置配置,已被拦截！");
+        }
+        // 获取配置参数
+        return selectConfigValueByConfigKey(configKey);
+    }
 
 
 }

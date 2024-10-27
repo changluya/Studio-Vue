@@ -108,4 +108,9 @@ public class MUserVo extends BaseEntity {
     /** 个人描述 */
     private String description;
 
+    /**
+     * 团队展示排名
+     */
+    private Integer showSort;
+
 }

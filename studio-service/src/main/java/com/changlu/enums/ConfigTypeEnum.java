@@ -6,12 +6,10 @@
  */
 package com.changlu.enums;
 
+import com.changlu.common.config.Constants;
 import com.changlu.common.config.file.AliyunOssConfig;
 import com.changlu.common.config.file.LocalUploadConfig;
-import com.changlu.vo.config.BasicConfig;
-import com.changlu.vo.config.FooterConfig;
-import com.changlu.vo.config.MainConfig;
-import com.changlu.vo.config.TimeConfig;
+import com.changlu.vo.config.*;
 import lombok.Data;
 import org.apache.poi.ss.formula.functions.T;
 
@@ -22,13 +20,14 @@ import org.apache.poi.ss.formula.functions.T;
  */
 public enum ConfigTypeEnum {
 
-    SITE_BASICCONFIG("网站基础配置", "site.basicConfig", "N", BasicConfig.class),
-    SITE_PAGE_MAINCONFIG("网站主页配置", "site.page.mainConfig", "N", MainConfig.class),
-    SITE_PAGE_FOOTERCONFIG("网站底部栏目配置", "site.page.footerConfig", "N", FooterConfig.class),
-    SITE_PAGE_TIMECONFIG("时光轴配置", "site.page.timeConfig", "N", TimeConfig.class),
-    SITE_UPLOAD_OPTION("文件上传配置选项", "site.upload.option", "N", String.class),
-    SITE_UPLOAD_FILE("本地文件上传配置", "site.upload.file", "N", LocalUploadConfig.class),
-    SITE_UPLOAD_OSS("OSS资源上传配置", "site.upload.oss", "N", AliyunOssConfig.class);
+    SITE_BASIC_CONFIG("网站基础配置", "site.basicConfig", Constants.N, BasicConfig.class),
+    SITE_PAGE_MAIN_CONFIG("网站主页配置", "site.page.mainConfig", Constants.N, MainConfig.class),
+    SITE_PAGE_FOOTER_CONFIG("网站底部栏目配置", "site.page.footerConfig", Constants.N, FooterConfig.class),
+    SITE_PAGE_TIME_CONFIG("时光轴配置", "site.page.timeConfig", Constants.N, TimeConfig.class),
+    SITE_PAGE_SKILL_CONFIG("技术栈配置", "site.page.skillConfig", Constants.N, SkillConfig.class),
+    SITE_UPLOAD_OPTION("文件上传配置选项", "site.upload.option", Constants.Y, String.class),
+    SITE_UPLOAD_FILE("本地文件上传配置", "site.upload.file", Constants.Y, LocalUploadConfig.class),
+    SITE_UPLOAD_OSS("OSS资源上传配置", "site.upload.oss", Constants.Y, AliyunOssConfig.class);
 
     private final String configName;
     private final String configKey;

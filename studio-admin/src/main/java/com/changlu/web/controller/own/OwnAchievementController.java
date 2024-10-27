@@ -36,7 +36,7 @@ public class OwnAchievementController extends BaseController
     /**
      * 查询成果列表
      */
-    @PreAuthorize("@ss.hasPerm('own:achievement:list')")
+    @PreAuthorize("@ss.hasPerm('own:achievement:query')")
     @GetMapping("/list")
     public TableDataInfo list(StudioAchievementModel studioAchievement)
     {

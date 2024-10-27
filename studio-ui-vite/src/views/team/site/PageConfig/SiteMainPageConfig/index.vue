@@ -10,9 +10,45 @@
           type="textarea"
           :rows="3"
           placeholder="请输入关于我们的介绍..."
-          :style="{width: '30%'}"
+          :style="{width: '60%'}"
           :disabled="!isEdit"
           v-model="siteMainFormData.configValue.teamDescription">
+        </el-input>
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
+      <el-form-item label="我们的使命" prop="teamMission">
+        <el-input
+          type="textarea"
+          :rows="3"
+          placeholder="请输入关于我们的使命..."
+          :style="{width: '60%'}"
+          :disabled="!isEdit"
+          v-model="siteMainFormData.configValue.teamMission">
+        </el-input>
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
+      <el-form-item label="我们的计划" prop="teamPlan">
+        <el-input
+          type="textarea"
+          :rows="3"
+          placeholder="请输入关于我们的计划..."
+          :style="{width: '60%'}"
+          :disabled="!isEdit"
+          v-model="siteMainFormData.configValue.teamPlan">
+        </el-input>
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
+      <el-form-item label="我们的愿景" prop="teamVision">
+        <el-input
+          type="textarea"
+          :rows="3"
+          placeholder="请输入关于我们的愿景..."
+          :style="{width: '60%'}"
+          :disabled="!isEdit"
+          v-model="siteMainFormData.configValue.teamVision">
         </el-input>
       </el-form-item>
     </el-col>
@@ -77,9 +113,12 @@ export default {
       // 表单：simple1
       siteMainFormData: {
         configId: '',
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAINCONFIG.configKey,
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAIN_CONFIG.configKey,
         configValue: {
           teamDescription: '',
+          teamMission: '', 
+          teamPlan: '',
+          teamVision: '',
           bannerTableData: [{
             bannerImg: '',
             mainTitle: '',
@@ -101,7 +140,7 @@ export default {
       },
       // 查询参数
       queryParams: {
-        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAINCONFIG.configKey
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PAGE_MAIN_CONFIG.configKey
       },
       // 编辑状态
       isEdit: false

@@ -223,6 +223,7 @@
             <if test="gradeId != null">grade_id = #{gradeId},</if>
             <if test="academyId != null">academy_id = #{academyId},</if>
             <if test="extra != null">extra = #{extra},</if>
+            <if test="showSort != null">show_sort = #{showSort},</if>
         </trim>
         where user_id = #{userId}
     </update>

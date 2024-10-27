@@ -154,7 +154,7 @@
                     <!--远程Docker的地址
                         本地centos测试：192.168.1.109
                     -->
-                    <dockerHost>http://150.158.142.63:2375</dockerHost>
+                    <dockerHost>http://101.43.92.236:2375</dockerHost>
                     <!--镜像名称，前缀/项目名-->
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <!-- 我们自己配置编写的docker目录，也就是dockerfile：指定位置在src/main/docker中    -->

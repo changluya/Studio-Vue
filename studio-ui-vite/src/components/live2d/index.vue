@@ -1,70 +1,44 @@
 <template>
-  <div class="index">
-    <div class="waifu">
-
-      <!-- 提示框 -->
-      <div class="waifu-tips"></div>
-
-      <!-- 看板娘画布 -->
-      <canvas id="live2d" class="live2d"/>
-
-      <!-- 工具栏 -->
-      <div class="waifu-tool">
-        <p class="fui-home">
-          <i class="el-icon-s-home"/>
-        </p>
-        <p class="fui-chat">
-          <i class="el-icon-upload"/>
-        </p>
-        <p class="fui-eye">
-          <i class="el-icon-share"/>
-        </p>
-        <p class="fui-user">
-          <i class="el-icon-warning"/>
-        </p>
-        <p class="fui-photo">
-          <i class="el-icon-camera-solid"/>
-        </p>
-        <p class="fui-info-circle">
-          <i class="el-icon-s-comment"/>
-        </p>
-        <p class="fui-cross">
-          <i class="el-icon-error"/>
-        </p>
-      </div>
-
-    </div>
+  <div>
+    <live2d
+      :style="style"
+      :model="['Potion-Maker/Pio', 'school-2017-costume-yellow']"
+      :direction="direction"
+      :size="size"
+    ></live2d>
   </div>
 </template>
 
 <script>
-import '@/assets/live2d/waifu-tips'
-import '@/assets/live2d/live2d'
-import '@/assets/live2d/waifu.css'
-import { initModel } from '@/assets/live2d/waifu-tips'
-import waifuTips from '@/assets/live2d/waifu-tips.json'
+import live2d from 'vue-live2d'
 
 export default {
-    name: 'PhyLive2d',
+    name: 'Live2d',
     components: {
+      live2d
     },
-    data() {
+    data () {
       return {
+        direction: 'right',
+        style: 'position: fixed;bottom: 0;right: 20px;z-index: 1;font-size: 0;-webkit-transform: translateY(3px);transform: translateY(3px);',
+        width: 500,
+        height: 500,
+        size: 260,
+        tips: {
+          mouseover: [{
+            selector: '.vue-live2d',
+            texts: ['这样可以修改默认语句']
+          }]
+        }
       }
     },
-    mounted () {
-      live2d_settings['modelId'] = 5;                  // 默认模型 ID
-      live2d_settings['modelTexturesId'] = 1;          // 默认材质 ID
-      /* 在 initModel 前添加 */
-      initModel(waifuTips)
+    created() {
     },
     methods: {
     }
-  }
+}
 </script>
 
-<style  scoped>
-  .waifu-tool p i {
-    cursor: pointer;
-  }
+<style scoped>
+
 </style>

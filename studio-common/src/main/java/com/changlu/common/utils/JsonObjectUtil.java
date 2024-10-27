@@ -97,6 +97,13 @@ public class JsonObjectUtil {
         return obj;
     }
 
+    /**
+     * 将对象转为json字符串
+     */
+    public static String transferObjectToJson(Object obj) {
+        return JSON.toJSONString(obj);
+    }
+
 
 
 }

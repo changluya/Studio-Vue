@@ -26,6 +26,8 @@ public class BasicConfig implements Serializable {
     private String siteTitle;
     private String teamTitle;
     private String teamLogo;
+    private String unitName;
+    private String unitLogo;
     private String ISPN;
     private String siteCreateTime;
 

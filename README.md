@@ -30,7 +30,7 @@
 - 感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
 - 感谢项目logo：[来源网站地址](https://www.flaticon.com/search?word=deer)、作者[Hery Mery](https://www.flaticon.com/authors/hery-mery)
 
-**Studio-Vue演示地址**：https://www.codercl.cn/
+**Studio-Vue演示地址**：https://www.codercl.cn/ （域名已过期，使用右侧）、http://150.158.142.63/
 
 + 用户名：admin  密码：123
 
@@ -217,7 +217,7 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 数据库：MySQL 5.7、Redis
 
-前端环境：Node.js、Npm
+前端环境：Node.js（v22.5.1）、Npm
 
 > 本地环境构建运行
 

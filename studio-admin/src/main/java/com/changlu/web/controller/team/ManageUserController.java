@@ -1,11 +1,11 @@
 package com.changlu.web.controller.team;
 
-import com.changlu.common.domain.LoginBody;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.ExcelUtil;
 import com.changlu.service.LoginService;
 import com.changlu.service.StudioManageUserService;
+import com.changlu.vo.user.req.UserAccountReqVo;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.manage.MUserVo;
 import com.changlu.web.task.GenerateTeamUsersTask;
@@ -69,8 +69,8 @@ public class ManageUserController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('team:member:add')")
-    public ResponseResult addUser(@RequestBody LoginBody loginBody){
-        return ResponseResult.success(loginService.registerUser(loginBody));
+    public ResponseResult addUser(@RequestBody UserAccountReqVo userAccountReqVo){
+        return ResponseResult.success(loginService.createAccount(userAccountReqVo));
     }
 
 

@@ -104,6 +104,7 @@ public class StudioManageUserServiceImpl implements StudioManageUserService {
         sysUser.setRealName(userVo.getRealName());
         sysUser.setGradeId(userVo.getGradeId());
         sysUser.setMajorId(userVo.getMajorId());
+        sysUser.setShowSort(userVo.getShowSort());
         int res = sysUserService.updateSysUser(sysUser, false);
         //删缓存
         redisCache.deleteObject(StudioConstant.REDIS_MEMBERS_DATA);

@@ -236,6 +236,13 @@
         <el-form-item label="用户昵称" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户昵称" />
         </el-form-item>
+        <el-form-item label="选择角色" prop="roleId">
+          <el-select v-model="form.roleId" placeholder="请选择角色" filterable clearable
+                             :style="{width: '100%'}">
+            <el-option v-for="(item, index) in createAccountRolesOptions" :key="index" :label="item.roleName"
+                        :value="item.id" ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="初始密码" prop="password">
           <el-input v-model="form.password" placeholder="请输入初始密码" />
         </el-form-item>
@@ -249,7 +256,7 @@
 
     <!-- 修改User对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" :close-on-click-modal="false" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="姓名" prop="majorName">
           <el-input v-model="form.realName" placeholder="请输入真实姓名" />
         </el-form-item>
@@ -275,6 +282,9 @@
             <el-option v-for="(item, index) in majorIdOptions" :key="index" :label="item.majorName"
                        :value="item.majorId" :disabled="item.disabled"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="展示优先级" prop="showSort">
+          <el-input v-model="form.showSort" placeholder="请输入优先级数字（优先级越高展示越靠前）" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -340,6 +350,12 @@ export default {
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" }
         ],
+        roleId: [
+          { required: true, message: "角色不能为空", trigger: "blur" }
+        ],
+        showSort: [
+          { required: true, message: "展示优先级不能为空", trigger: "blur" }
+        ]
       },
       //菜单信息
       //[{},{}]格式
@@ -351,7 +367,18 @@ export default {
       transferTarget: {
         gradeNum: '',
         realName: ''
-      }
+      },
+      // 角色下拉选择列表
+      createAccountRolesOptions: [
+        {
+          id: this.$MY_CONSTANT.Roles.ROLE_MEMBER.roleId,
+          roleName: this.$MY_CONSTANT.Roles.ROLE_MEMBER.name
+        },
+        {
+          id: this.$MY_CONSTANT.Roles.ROLE_TEACHER.roleId,
+          roleName: this.$MY_CONSTANT.Roles.ROLE_TEACHER.name
+        },
+      ],
     };
   },
   created() {
@@ -497,7 +524,8 @@ export default {
           } else {
             const addForm = {
               username: this.form.username,
-              password: loginPasswordEncrypt(this.form.password)
+              password: loginPasswordEncrypt(this.form.password),
+              roleId: this.form.roleId
             }
             addMember(addForm).then(response => {
               this.$modal.msgSuccess("新增成功");

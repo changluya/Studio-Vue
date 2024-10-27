@@ -3,11 +3,11 @@ package com.changlu.web.controller.common.file;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.exception.ServiceCallException;
+import com.changlu.service.UploadService;
 import com.changlu.utils.file.FileUpload;
+import com.changlu.vo.config.ConfigVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,10 +27,24 @@ import java.util.Map;
 @RequestMapping("/api/zf/api")
 public class UploadController {
 
-    //在com.changlu.web.config.file.UploadConfiguration中根据配置项使用对应的上传工具类
-    @Qualifier("fileUpload")
     @Autowired
-    private FileUpload fileUploadUtil;
+    private UploadService uploadService;
+
+    /**
+     * 测试指定上传模式的连通性
+     * @param configVo
+     * @return
+     */
+    @PostMapping("/testConn")
+    public ResponseResult testConn(@RequestBody ConfigVo configVo) {
+        boolean res = uploadService.testConn(false, configVo);
+        if (res) {
+            return ResponseResult.success("测试连通成功！");
+        }else {
+            return ResponseResult.error("测试连通失败，请检查配置！");
+        }
+    }
+
 
     /**
      * 上传图片
@@ -39,9 +53,10 @@ public class UploadController {
      */
     @PostMapping("/upload")
     public ResponseResult uploadFile(@RequestParam("file") MultipartFile file){
+        FileUpload fileUpload = uploadService.getDefaultFileUpload();
         Map<String,String> visitUrl = null;
         try {
-            visitUrl = fileUploadUtil.uploadFile(file);
+            visitUrl = fileUpload.uploadFile(file);
         }catch (ServiceCallException e){
             throw new ServiceException("上传失败！",e);
         }
@@ -55,10 +70,11 @@ public class UploadController {
      */
     @PostMapping("/upload/files")
     public ResponseResult uploadFiles(@RequestParam("file")MultipartFile[] files){
+        FileUpload fileUpload = uploadService.getDefaultFileUpload();
         List<Map<String,String>> visitUrls = new ArrayList<>(files.length);
         try {
             for (MultipartFile file : files) {
-                Map<String,String> visitUrl = fileUploadUtil.uploadFile(file);
+                Map<String,String> visitUrl = fileUpload.uploadFile(file);
                 visitUrls.add(visitUrl);
             }
         }catch (ServiceCallException e){
@@ -74,10 +90,11 @@ public class UploadController {
      */
     @DeleteMapping("/deleFile/{fileName}")
     public ResponseResult deleteFile(@PathVariable("fileName")String fileName){
+        FileUpload fileUpload = uploadService.getDefaultFileUpload();
         //若是url地址，那么进行筛选
         if (!ObjectUtils.isEmpty(fileName)) {
             try {
-                fileUploadUtil.deleteFile(fileName);
+                fileUpload.deleteFile(fileName);
             } catch (ServiceCallException e) {
                 throw new ServiceException("删除失败！",e);
             }

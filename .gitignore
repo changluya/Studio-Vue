@@ -1,22 +1,61 @@
-# vue
-node_modules/
+# ----- 前端常用过滤目录 -----
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+node_modules
+dist
+dist-ssr
+*.local
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# java
+# ----- java常用过滤目录 -----
 .idea/
 target/
 out/
-
 .mvn/
 *.iml
 *.ipr
 *.iws
 
+# ----- studio-admin -----
 # 本地测试的yml文件
 application-localdev.yml
 # 本地虚拟机centos测试的yml文件
 application-localdev-centos.yml
 # 测试服务器的yml文件
 application-localpro.yml
+# 仿生实验室的yml配置文件
+application-fsstudio.yml
+# mac的本地配置文件
+application-macdev.yml
 
+# 备份目录
+backup/static.zip
+# 上传目录
+upload/
+# 日志文件
+logs/
+
+
+# ----- studio-front -----
+studio-front/.vscode/
+studio-front/.vite/
 # 官网的index主页面（部署测试服务器）
 index(pro).html
+
+# ----- studio-ui-vite -----
+./studio-ui-vite/.vscode

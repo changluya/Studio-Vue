@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.SchoolGradeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="StudioGradeModelResult" type="com.changlu.system.pojo.SchoolGradeModel">
+        <id column="grade_id" property="gradeId" />
+        <result column="grade_num" property="gradeNum" />
+    </resultMap>
+
+    <sql id="selectZfGradeModelVo">
+        select grade_id, grade_num from school_grade
+    </sql>
+
+    <select id="selectZfGradeModelList" parameterType="com.changlu.system.pojo.SchoolGradeModel" resultMap="StudioGradeModelResult">
+        <include refid="selectZfGradeModelVo"/>
+        <where>
+            <if test="gradeNum != null "> and grade_num like concat('%', #{gradeNum}, '%')</if>
+        </where>
+        order by grade_num desc
+    </select>
+
+    <select id="selectZfGradeModelByGradeId" parameterType="Long" resultMap="StudioGradeModelResult">
+        <include refid="selectZfGradeModelVo"/>
+        where grade_id = #{gradeId}
+    </select>
+
+    <insert id="insertZfGradeModel" parameterType="com.changlu.system.pojo.SchoolGradeModel" useGeneratedKeys="true" keyProperty="gradeId">
+        insert into school_grade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gradeNum != null">grade_num,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gradeNum != null">#{gradeNum},</if>
+        </trim>
+    </insert>
+
+    <update id="updateZfGradeModel" parameterType="com.changlu.system.pojo.SchoolGradeModel">
+        update school_grade
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="gradeNum != null">grade_num = #{gradeNum},</if>
+        </trim>
+        where grade_id = #{gradeId}
+    </update>
+
+    <delete id="deleteZfGradeModelByGradeIds" parameterType="String">
+        delete from school_grade where grade_id in
+        <foreach item="gradeId" collection="array" open="(" separator="," close=")">
+            #{gradeId}
+        </foreach>
+    </delete>
+
+</mapper>

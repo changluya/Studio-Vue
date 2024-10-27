@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.StudioRaceMapper">
+
+    <resultMap id="StudioRaceModel" type="com.changlu.system.pojo.StudioRaceModel">
+        <id column="race_id" property="raceId" />
+        <result column="race_name" property="raceName" />
+        <result column="race_members" property="raceMembers" />
+        <result column="race_ccie" property="raceCcie" />
+        <result column="race_begin_time" property="raceBeginTime" />
+        <result column="race_end_time" property="raceEndTime" />
+        <result column="race_flag" property="raceFlag" />
+        <result column="race_summarize" property="raceSummarize" />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="RaceVoModel" type="com.changlu.vo.race.RaceVo">
+        <id column="race_id" property="raceId" />
+        <result column="race_name" property="raceName" />
+        <result column="race_members" property="raceMembers" />
+        <result column="race_ccie" property="raceCcie" />
+        <result column="race_begin_time" property="raceBeginTime" />
+        <result column="race_end_time" property="raceEndTime" />
+        <result column="race_flag" property="raceFlag" />
+        <result column="race_summarize" property="raceSummarize" />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <!--   设置关联对象     -->
+        <collection property="pics" ofType="com.changlu.vo.race.ResourceVo">
+            <result column="res_url" property="resUrl" />
+            <result column="res_name" property="resName" />
+        </collection>
+    </resultMap>
+
+    <resultMap type="com.changlu.system.pojo.SysUser" id="SysUserResult">
+        <id property="userId"    column="user_id"    />
+        <result property="realName"    column="real_name"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="gradeNum"    column="grade_num"    />
+    </resultMap>
+
+    <select id="getLastInsertId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+    <sql id="selectRaceModel">
+        SELECT
+            race_id,
+            race_name,
+            race_members,
+            race_ccie,
+            race_begin_time,
+            race_end_time,
+            race_flag,
+            inclusion_flag,
+            create_time,
+            update_time
+        FROM
+            studio_race
+    </sql>
+
+    <sql id="selectRaceModelVo">
+        SELECT
+            r.race_id,
+            r.race_name,
+            r.race_members,
+            r.race_ccie,
+            r.race_begin_time,
+            r.race_end_time,
+            r.race_flag,
+            r.race_summarize,
+            r.inclusion_flag,
+            r.create_time,
+            r.update_time,
+            rs.res_name,
+            rs.res_url
+        FROM
+            studio_race r
+         LEFT JOIN studio_resource rs ON rs.table_id = r.race_id
+    </sql>
+
+    <select id="selectZfRaceIds" resultType="java.lang.Long">
+        SELECT race_id
+        FROM studio_race
+    </select>
+
+    <select id="selectRaceVoList" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
+        <where>
+            <if test="raceMembers != null and raceMembers != ''"> and FIND_IN_SET( #{raceMembers} ,race_members)</if>
+            <if test="raceName != null  and raceName != ''"> and r.race_name like concat('%', #{raceName}, '%')</if>
+            <if test="params.beginRaceBeginTime != null and params.beginRaceBeginTime != '' and params.endRaceBeginTime != null and params.endRaceBeginTime != ''"> and race_begin_time between #{params.beginRaceBeginTime} and #{params.endRaceBeginTime}</if>
+            <if test="params.beginRaceEndTime != null and params.beginRaceEndTime != '' and params.endRaceEndTime != null and params.endRaceEndTime != ''"> and race_end_time between #{params.beginRaceEndTime} and #{params.endRaceEndTime}</if>
+        </where>
+    </select>
+
+    <select id="selectRaceModelList" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="StudioRaceModel">
+        <include refid="selectRaceModel"/>
+        <where>
+            <if test="inclusionFlag != null"> and inclusion_flag = #{inclusionFlag}</if>
+            <if test="params.searchYear != null and params.searchYear != ''"> and YEAR(race_end_time) = #{params.searchYear}</if>
+        </where>
+        order by race_end_time desc
+    </select>
+
+    <select id="selectZfRaceModelListByRaceIds" resultType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
+        <where>
+            race_id in <foreach item="raceId" collection="raceIds" open="(" separator="," close=")">
+                            #{raceId}
+                        </foreach>
+            <if test="raceModel.raceMembers != null and raceModel.raceMembers != ''"> and FIND_IN_SET( #{raceModel.raceMembers} ,race_members)</if>
+            <if test="raceModel.raceFlag != null and raceModel.raceFlag != ''"> and r.race_flag = #{raceModel.raceFlag} </if>
+            <if test="raceModel.raceName != null  and raceModel.raceName != ''"> and r.race_name like concat('%', #{raceModel.raceName}, '%')</if>
+            <if test="raceModel.inclusionFlag != null"> and r.inclusion_flag = #{raceModel.inclusionFlag}</if>
+            <if test="raceModel.params !=null and raceModel.params.beginRaceBeginTime != null and raceModel.params.beginRaceBeginTime != '' and raceModel.params.endRaceBeginTime != null and raceModel.params.endRaceBeginTime != ''"> and race_begin_time between #{raceModel.params.beginRaceBeginTime} and #{raceModel.params.endRaceBeginTime}</if>
+            <if test="raceModel.params !=null and raceModel.params.beginRaceEndTime != null and raceModel.params.beginRaceEndTime != '' and raceModel.params.endRaceEndTime != null and raceModel.params.endRaceEndTime != ''"> and race_end_time between #{raceModel.params.beginRaceEndTime} and #{raceModel.params.endRaceEndTime}</if>
+        </where>
+        order by r.race_end_time desc
+    </select>
+
+    <select id="selectRaceIdsByUserId" parameterType="Long" resultType="java.lang.Long">
+        SELECT
+            race_id
+        FROM
+            studio_race
+        WHERE
+            race_members = #{userId}
+    </select>
+
+    <select id="selectZfRaceModelListByUserId" parameterType="com.changlu.system.pojo.StudioRaceModel" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
+        <where>
+            FIND_IN_SET( #{raceMembers} ,race_members)
+            <if test="raceName != null  and raceName != ''"> and r.race_name like concat('%', #{raceName}, '%')</if>
+            <if test="params.beginRaceBeginTime != null and params.beginRaceBeginTime != '' and params.endRaceBeginTime != null and params.endRaceBeginTime != ''"> and race_begin_time between #{params.beginRaceBeginTime} and #{params.endRaceBeginTime}</if>
+            <if test="params.beginRaceEndTime != null and params.beginRaceEndTime != '' and params.endRaceEndTime != null and params.endRaceEndTime != ''"> and race_end_time between #{params.beginRaceEndTime} and #{params.endRaceEndTime}</if>
+        </where>
+    </select>
+
+
+    <select id="selectZfRaceModelByRaceId" parameterType="Long" resultMap="RaceVoModel">
+        <include refid="selectRaceModelVo"/>
+        where race_id = #{raceId}
+    </select>
+
+    <insert id="insertZfRaceModel" parameterType="com.changlu.system.pojo.StudioRaceModel">
+        insert into studio_race
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="raceId != null">race_id,</if>
+            <if test="raceName != null and raceName != ''">race_name,</if>
+            <if test="raceMembers != null">race_members,</if>
+            <if test="raceCcie != null">race_ccie,</if>
+            <if test="raceBeginTime != null">race_begin_time,</if>
+            <if test="raceEndTime != null">race_end_time,</if>
+            <if test="raceFlag != null">race_flag,</if>
+            <if test="raceSummarize != null">race_summarize,</if>
+            <if test="inclusionFlag != null">inclusion_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="raceId != null">#{raceId},</if>
+            <if test="raceName != null and raceName != ''">#{raceName},</if>
+            <if test="raceMembers != null">#{raceMembers},</if>
+            <if test="raceCcie != null">#{raceCcie},</if>
+            <if test="raceBeginTime != null">#{raceBeginTime},</if>
+            <if test="raceEndTime != null">#{raceEndTime},</if>
+            <if test="raceFlag != null">#{raceFlag},</if>
+            <if test="raceSummarize != null">#{raceSummarize},</if>
+            <if test="inclusionFlag != null">#{inclusionFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateZfRaceModel" parameterType="com.changlu.system.pojo.StudioRaceModel">
+        update studio_race
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="raceName != null and raceName != ''">race_name = #{raceName},</if>
+            <if test="raceMembers != null">race_members = #{raceMembers},</if>
+            <if test="raceCcie != null">race_ccie = #{raceCcie},</if>
+            <if test="raceBeginTime != null">race_begin_time = #{raceBeginTime},</if>
+            <if test="raceEndTime != null">race_end_time = #{raceEndTime},</if>
+            <if test="raceFlag != null">race_flag = #{raceFlag},</if>
+            <if test="raceSummarize != null">race_summarize = #{raceSummarize},</if>
+            <if test="inclusionFlag != null">inclusion_flag = #{inclusionFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where race_id = #{raceId}
+    </update>
+
+    <delete id="deleteZfRaceModelByRaceIds">
+        delete from studio_race where race_id in
+        <foreach item="raceId" collection="array" open="(" separator="," close=")">
+            #{raceId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteZfRaceModelByUserId" parameterType="Long">
+        DELETE
+        FROM
+            studio_race
+        WHERE
+            race_flag = 1
+          AND user_id = #{userId}
+    </delete>
+
+</mapper>

@@ -3,15 +3,13 @@ package com.changlu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.changlu.common.config.Constants;
 import com.changlu.common.domain.LoginBody;
-import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.JwtUtil;
-import com.changlu.common.utils.MapUtil;
 import com.changlu.common.utils.RedisCache;
 import com.changlu.common.utils.RsaUtil;
 import com.changlu.common.utils.uuid.IdUtils;
 import com.changlu.domain.LoginUser;
-import com.changlu.enums.ZfRoleEnum;
+import com.changlu.enums.StudioRoleEnum;
 import com.changlu.security.service.TokenService;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.LoginService;
@@ -19,6 +17,8 @@ import com.changlu.system.mapper.SysUserMapper;
 import com.changlu.system.mapper.SysUserRoleMapper;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.system.pojo.SysUserRole;
+import com.changlu.vo.user.req.UserAccountReqVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,10 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName LoginServiceImpl
@@ -41,6 +39,7 @@ import java.util.Map;
  * @Description 登录业务处理器
  */
 @Service
+@Slf4j
 public class LoginServiceImpl implements LoginService {
 
     @Resource
@@ -63,18 +62,14 @@ public class LoginServiceImpl implements LoginService {
         //1、校验验证码
         verifyCaptcha(loginBody.getCode(),loginBody.getUuid());
         //2、非对称解密密码
-        try {
-            loginBody.setPassword(RsaUtil.decryptByPrivateKey(loginBody.getPassword()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceException("请不要尝试篡改加密密码！");
-        }
+        loginBody.setPassword(decrypt(loginBody.getPassword()));
         //3、进行用户认证
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginBody.getUsername(), loginBody.getPassword());
         Authentication authenticate = null;
         try {
             authenticate = authenticationManager.authenticate(authenticationToken);
         }catch (Exception e){  //注意在这里可以捕捉到BadCredentialsException异常
+            log.error(String.format("用户认证异常，此次用户登陆用户名为：%s", loginBody.getUsername()), e);
             if (e instanceof BadCredentialsException){
                 throw new ServiceException("您的密码有误，请重新输入");  //抛出密码错误异常
             }else{
@@ -118,33 +113,100 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public boolean registerUser(LoginBody loginBody) {
         //对密码进行非对称解密
-        try {
-            loginBody.setPassword(RsaUtil.decryptByPrivateKey(loginBody.getPassword()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceException("请不要尝试篡改加密密码！");
-        }
+        loginBody.setPassword(decrypt(loginBody.getPassword()));
         //1、查询用户名是否存在
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUserName, loginBody.getUsername());    // WHERE (user_name = xx);
-        if (sysUserMapper.selectCount(queryWrapper) > 0){
+        if (checkUserNameIsExist(loginBody.getUsername())) {
             throw new ServiceException("用户名已存在，请重新输入！");
         }
-        //2、注册用户
+        //2、注册用户（对外注册，目前只提供成员角色）
         String username = loginBody.getUsername();
         String password = loginBody.getPassword();
+        List<Long> userRoleIds = new ArrayList<>(1);
+        userRoleIds.add(
+                StudioRoleEnum.ROLE_MEMBER.value()
+        );
+        return coreCreateAccount(username, password, userRoleIds);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean createAccount(UserAccountReqVo userAccountReqVo) {
+        //1、查询用户名是否存在
+        if (checkUserNameIsExist(userAccountReqVo.getUsername())) {
+            throw new ServiceException("用户名已存在，请重新输入！");
+        }
+        // 2、过滤非授权角色
+        // 目前提供创建账号的角色仅仅只有成员、老师角色账号
+        List<Long> supportCreateRoleIds = Arrays.asList(
+                StudioRoleEnum.ROLE_MEMBER.value(),
+                StudioRoleEnum.ROLE_TEACHER.value()
+        );
+        // 构建基础信息
+        String username = userAccountReqVo.getUsername(); // 用户名
+        String password = decrypt(userAccountReqVo.getPassword()); // 密码
+        List<Long> userRoleIds = new ArrayList<>(1); // 构建角色列表
+        Long roleId = userAccountReqVo.getRoleId();
+        if (!supportCreateRoleIds.contains(roleId)) {
+            log.error(String.format("不支持创建非成员、老师角色的账号，当前创建的角色id为：%s，目前仅支持创建的角色id为：%s", roleId, supportCreateRoleIds));
+            return false;
+        }
+        // 针对老师角色 =》 成员、老师角色
+        if (StudioRoleEnum.ROLE_TEACHER.value().equals(roleId)) {
+            userRoleIds.add(StudioRoleEnum.ROLE_MEMBER.value());
+            userRoleIds.add(roleId);
+        }else { // 针对成员角色 =》 成员角色
+            userRoleIds.add(roleId);
+        }
+        // 3、创建账号
+        return coreCreateAccount(username, password, userRoleIds);
+    }
+
+    /**
+     * 检查用户名是否存在
+     * @param username 用户名
+     * @return
+     */
+    private boolean checkUserNameIsExist(String username) {
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUserName, username);    // WHERE (user_name = xx);
+        if (sysUserMapper.selectCount(queryWrapper) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 创建用户账号以及给予的角色权限
+     * @param username 用户名（明文）
+     * @param password 密码（明文）
+     * @param roleIds 角色id列表
+     * @return
+     */
+    private boolean coreCreateAccount(String username, String password, List<Long> roleIds) {
+        // 密码加密存储到数据库
         String bcryptPasswd = SecurityUtils.bCryptPasswordEncoder.encode(password);
         SysUser registerUser = new SysUser(username, username, "{bcrypt}" + bcryptPasswd);
+        // 1、注册用户
         if (sysUserMapper.insertUser(registerUser) > 0){
-            //3、获取到刚刚自增的id
+            // 获取到注册的用户id
             Long userId = sysUserMapper.getLastInsertId();
-            //4、分配用户角色（默认注册时是普通成员）
-            List<SysUserRole> userRoles = new ArrayList<>(1);
-            userRoles.add(new SysUserRole(userId, ZfRoleEnum.ROLE_MEMBER.value()));
+            // 2、用户授权角色
+            HashSet<Long> roleIdSet = new HashSet<>(roleIds);
+            List<SysUserRole> userRoles = roleIdSet.stream()
+                    .map((roleId) -> new SysUserRole(userId, roleId))
+                    .collect(Collectors.toList());
             return sysUserRoleMapper.batchUserRole(userRoles) > 0;
         }
         throw new ServiceException("注册失败！");
     }
 
+    private String decrypt(String rsaPasswd) {
+        try {
+            return RsaUtil.decryptByPrivateKey(rsaPasswd);
+        } catch (Exception e) {
+            log.error(String.format("非对称解密密码异常！传输的加密密码为：%s", rsaPasswd), e);
+            throw new ServiceException("请不要尝试篡改加密密码！");
+        }
+    }
 
 }

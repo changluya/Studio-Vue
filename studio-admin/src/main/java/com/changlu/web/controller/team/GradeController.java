@@ -1,9 +1,9 @@
 package com.changlu.web.controller.team;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.service.ZfGradeService;
+import com.changlu.service.SchoolGradeService;
 import com.changlu.web.controller.BaseController;
-import com.changlu.system.pojo.ZfGradeModel;
+import com.changlu.system.pojo.SchoolGradeModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,17 +22,17 @@ import java.util.List;
 public class GradeController extends BaseController {
 
     @Autowired
-    private ZfGradeService gradeService;
+    private SchoolGradeService gradeService;
 
     /**
      * 查询ZfGrade列表
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('team:grade:list')")
-    public TableDataInfo list(ZfGradeModel zfGradeModel)
+    public TableDataInfo list(SchoolGradeModel schoolGradeModel)
     {
         startPage();
-        List<ZfGradeModel> list = gradeService.selectZfGradeModelList(zfGradeModel);
+        List<SchoolGradeModel> list = gradeService.selectZfGradeModelList(schoolGradeModel);
         return getDataTable(list);
     }
 
@@ -51,9 +51,9 @@ public class GradeController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("@ss.hasPerm('team:grade:add')")
-    public ResponseResult add(@RequestBody ZfGradeModel zfGradeModel)
+    public ResponseResult add(@RequestBody SchoolGradeModel schoolGradeModel)
     {
-        return ResponseResult.toResponse(gradeService.insertZfGradeModel(zfGradeModel));
+        return ResponseResult.toResponse(gradeService.insertZfGradeModel(schoolGradeModel));
     }
 
     /**
@@ -61,9 +61,9 @@ public class GradeController extends BaseController {
      */
     @PutMapping
     @PreAuthorize("@ss.hasPerm('team:grade:edit')")
-    public ResponseResult edit(@RequestBody ZfGradeModel zfGradeModel)
+    public ResponseResult edit(@RequestBody SchoolGradeModel schoolGradeModel)
     {
-        return ResponseResult.toResponse(gradeService.updateZfGradeModel(zfGradeModel));
+        return ResponseResult.toResponse(gradeService.updateZfGradeModel(schoolGradeModel));
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.changlu.vo.race;
 
 import com.changlu.common.annoation.Excel;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaceVo extends ZfRaceModel {
+public class RaceVo extends StudioRaceModel {
 
     /**
      * 竞赛图片（多张，关联zf_resources）

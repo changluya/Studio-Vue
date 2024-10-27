@@ -1,8 +1,10 @@
 package com.changlu.service;
 
 import com.changlu.system.pojo.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName ISysUserService
@@ -35,4 +37,23 @@ public interface ISysUserService {
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
 
+    /***
+     * 根据用户id来构建用户map集合，key为用户id、value为用户实体
+     * @param userIds 用户ids集合 {1, 2, 3, 4, 5}
+     * @return
+     */
+    public Map<Long, SysUser> selectUserMap(Long[] userIds);
+
+    /***
+     * 根据用户参与者字符串来构建用户map集合
+     * @param partUserStrArr 参与用户组字符串 {"1,2,3", "4,5,6"}
+     * @return key为"1,2,3" => "茅津菁,长路,蜡笔小新"
+     */
+    public Map<String, String> selectpartUsersRealNameMap(String[] partUserStrArr);
+
+    /**
+     * 统计团队所有人数
+     * @return 人数
+     */
+    public int countTeamUser();
 }

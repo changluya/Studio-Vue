@@ -16,16 +16,23 @@
       :file-list="fileList"
       :on-preview="handlePictureCardPreview"
       :class="{hide: this.fileList.length >= this.limit}"
+      :disabled="disabled"
+      :tipInfo="tipInfo"
     >
       <i class="el-icon-plus"></i>
     </el-upload>
 
     <!-- 上传提示 -->
     <div class="el-upload__tip" slot="tip" v-if="showTip">
-      请上传
-      <template v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b> </template>
-      <template v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </template>
-      的文件
+      <div v-if="tipInfo === ''">
+        请上传
+        <template v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b> </template>
+        <template v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </template>
+        的文件
+      </div>
+      <div v-else>
+        {{tipInfo}}
+      </div>
     </div>
 
     <el-dialog
@@ -46,6 +53,7 @@
 import { getToken } from "@/utils/auth";
 import commonConfig from "@/api/common.js";
 import { removeFile } from "@/api/login";
+import { limitTimeRange } from 'element-ui'
 
 export default {
   props: {
@@ -53,11 +61,11 @@ export default {
     // 图片数量限制
     limit: {
       type: Number,
-      default: 5,
+      default: 5,String
     },
     // 大小限制(MB)
     fileSize: {
-       type: Number,
+      type: Number,
       default: 5,
     },
     // 文件类型, 例如['png', 'jpg', 'jpeg']
@@ -69,6 +77,16 @@ export default {
     isShowTip: {
       type: Boolean,
       default: true
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    // 提示信息
+    tipInfo: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -83,7 +101,7 @@ export default {
       headers: {
         Authorization: "Bearer " + getToken(),
       },
-      fileList: []
+      fileList: [],
     };
   },
   watch: {
@@ -106,6 +124,8 @@ export default {
             }
             return item;
           });
+          // console.log("this.filelist=>", this.fileList.length)
+          // console.log("this.limit", this.limit)
         } else {
           this.fileList = [];
           return [];
@@ -118,8 +138,12 @@ export default {
   computed: {
     // 是否显示提示
     showTip() {
-      return this.isShowTip && (this.fileType || this.fileSize);
-    },
+      //this.fileList.length < this.limit：图片若是没有上传全继续显示提示，上传全了不显示
+      return this.isShowTip && (this.fileType || this.fileSize) && this.fileList.length < this.limit;
+    }
+  },
+  created() {
+    // console.log("组件加载...")
   },
   methods: {
     // 删除图片
@@ -213,16 +237,17 @@ export default {
 </script>
 <style scoped lang="scss">
 // .el-upload--picture-card 控制加号部分
-::v-deep.hide .el-upload--picture-card {
+.hide >>> .el-upload--picture-card {
     display: none;
 }
+
 // 去掉动画效果
-::v-deep .el-list-enter-active,
-::v-deep .el-list-leave-active {
+>>> .el-list-enter-active,
+>>> .el-list-leave-active {
     transition: all 0s;
 }
 
-::v-deep .el-list-enter, .el-list-leave-active {
+>>> .el-list-enter, .el-list-leave-active {
     opacity: 0;
     transform: translateY(0);
 }

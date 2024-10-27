@@ -109,9 +109,9 @@ public class SaveDataTask {
             //抄送人
             helper.setCc(fromUser);
             //邮件主题
-            helper.setSubject("长路工作室数据备份，时间：" + new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date()));
+            helper.setSubject("仿生实验室数据备份，时间：" + new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date()));
             //邮件内容
-            helper.setText("长路工作室数据备份：sql、网站数据，请注意及时备份噢。");
+            helper.setText("仿生实验室数据备份：sql、网站数据，请注意及时备份噢。");
             helper.addAttachment("zhifeng.sql", new File(backUpSqlPath));
             //由于qq最大只能有55MB，所以暂时不通过发送邮件
 //            helper.addAttachment("static.zip", new File(backupZipPath));

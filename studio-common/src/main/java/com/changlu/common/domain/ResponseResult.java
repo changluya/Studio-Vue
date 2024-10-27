@@ -34,6 +34,10 @@ public class ResponseResult<T> {
         return new ResponseResult<T>(200,msg,data);
     }
 
+    public static <T> ResponseResult<T> success(){
+        return new ResponseResult(200, null);
+    }
+
     public static <T> ResponseResult<T> success(T data){
         return new ResponseResult<T>(200,data);
     }

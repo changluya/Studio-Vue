@@ -15,6 +15,8 @@ const whiteList = ['/login']
 // 路由执行前（所有请求前） //若是没有任何能够匹配的路由这里就会变为/404
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  // 获取网站基础配置信息
+  store.dispatch('getSiteBasicConfig')
   // next()
   if (getToken()) {
     // 若是当前有token

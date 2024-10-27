@@ -2,6 +2,10 @@ server:
   port: 8999
 
 spring:
+  # 开启热更新
+  devtools:
+    restart:
+      enabled: true
   # 服务模块
   profiles:
     active: localdev
@@ -14,6 +18,19 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+  redis:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
 
 #控制台打印sql(默认不会有打印sql语句)
 mybatis-plus:
@@ -30,7 +47,7 @@ pagehelper:
 
 
 # 长路自定义配置项
-zf:
+studio:
   resetPassword: 123456   # 重置密码
   register:
     invitationCode: EMb*Sy6  # 工作室注册邀请码

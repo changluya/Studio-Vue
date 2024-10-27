@@ -30,7 +30,7 @@
 - 感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
 - 感谢项目logo：[来源网站地址](https://www.flaticon.com/search?word=deer)、作者[Hery Mery](https://www.flaticon.com/authors/hery-mery)
 
-**Studio-Vue演示地址**：https://www.codercl.cn/
+**Studio-Vue演示地址**：https://www.codercl.cn/ （域名已过期，使用右侧）、http://150.158.142.63/
 
 + 用户名：admin  密码：123
 
@@ -138,6 +138,8 @@
 
 ### 开发进度
 
+
+
 ![image-20220610224906634](document/images/development-pogress.png)    
 
 # 内置功能
@@ -215,7 +217,7 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 数据库：MySQL 5.7、Redis
 
-前端环境：Node.js、Npm
+前端环境：Node.js（v22.5.1）、Npm
 
 > 本地环境构建运行
 
@@ -235,7 +237,7 @@ git clone https://gitee.com/changluJava/studio-vue.git
 
 修改`studio-admin/application-dev`文件中的数据库地址以及连接数据库名称与密码、redis的密码。
 
-②、导入sql/studio.sql
+②、导入sql/studio-init.sql
 
 操作方式：直接导入即可，在sql中已经添加了创建数据库的sql语句了，不用你自己先创建数据库，默认是studio。
 
@@ -379,10 +381,10 @@ grant all privileges on *.* to 'root' @'%' identified by '123456';
 
 ![image-20220925161843160](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925161843160.png)    
 
-+ `studio.sql`：仅仅只有一个用户账号。
++ `studio-init.sql`：仅仅只有一个用户账号。
 + `studio-simple1.sql`：与演示网站的数据一致。
 
-导入`studio.sql`后的效果如下：
+导入`studio-init.sql`后的效果如下：
 
 ![image-20220925151401835](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151401835.png)  
 
@@ -614,6 +616,17 @@ admin  123
 ---
 
 # 日志
+
+2024.8.11：完成首页动态接口前后端交互处理、首页锚点定位处理
+
+2024.8.9-8.10：studio-front 原生html重构vite+vue2完成
+
+2024.8.1-8.4：开发完成上传配置前后端接口交互，新增补充连通性测试。
+前端：网站配置管理界面前端接口定义，
+后端：①连通性测试接口。②编辑保存匹配文件配置数据源连通性测试。
+优化：老师、学生、管理员表单
+
+2024.7.20-7.31：网站配置管理模块开发完毕，包含：ui、前端基础界面、后端接口开发
 
 2023.12.28：解决了https部署的443映射问题，docker-compose文件的映射443端口nginx未设置
 

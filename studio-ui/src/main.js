@@ -28,6 +28,8 @@ import plugins from './plugins' // plugins
 
 import { download } from '@/utils/request'
 
+import { MY_CONSTANT } from '@/utils/constants'; // 引入常量
+
 // 头部标签组件
 import VueMeta from 'vue-meta'
 import './assets/icons' // 图标
@@ -62,6 +64,8 @@ Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
 // 全局方法挂载
 Vue.prototype.download = download
+//自定义常量
+Vue.prototype.$MY_CONSTANT = MY_CONSTANT
 
 // 用于设置页面字体大小
 Vue.use(Element, {
@@ -71,7 +75,7 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 Vue.use(directive)  //使用指令插件
 
-//挂在加载效果   使用方式：const rLoading = this.openLoading()   rLoading = false
+// 挂在加载效果   使用方式：const rLoading = this.openLoading()   rLoading = false
 Vue.prototype.openLoading = function () {
   const loading = this.$loading({
     lock: true,

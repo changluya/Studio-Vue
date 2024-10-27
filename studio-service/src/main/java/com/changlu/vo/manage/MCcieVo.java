@@ -1,8 +1,10 @@
 package com.changlu.vo.manage;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.changlu.common.annoation.Excel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,7 +49,7 @@ public class MCcieVo implements Serializable {
      */
     @Excel(name = "获奖时间", dateFormat = "yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date ccciGetTime;
+    private Date ccieGetTime;
 
     /**
      * 用户id
@@ -82,9 +84,22 @@ public class MCcieVo implements Serializable {
     @Excel(name = "专业")
     private String majorName;
 
+    @ApiModelProperty(value = "类别code")
+    @TableField("类型")
+    private Integer type;
+
+    @ApiModelProperty(value = "类型名称")
+    @TableField("type_name")
+    private String typeName;
+
+
     /** 请求参数 */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  //只允许序列化（json=>对象），在对象转json时忽略
     private Map<String, Object> params;
+
+    @ApiModelProperty(value = "类型名称")
+    @TableField("inclusion_flag")
+    private Integer inclusionFlag;
 
     public Map<String, Object> getParams() {
         if (params == null)

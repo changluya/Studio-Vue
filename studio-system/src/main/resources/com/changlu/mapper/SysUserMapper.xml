@@ -30,10 +30,12 @@
         <result property="majorName"    column="major_name"    />
         <result property="gradeId"    column="grade_id"    />
         <result property="gradeNum"    column="grade_num"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="academyName"    column="academy_name"    />
         <collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
     </resultMap>
 
-    <resultMap id="RoleResult" type="SysRole">
+    <resultMap id="RoleResult" type="com.changlu.system.pojo.SysRole">
         <id     property="roleId"       column="role_id"        />
         <result property="roleName"     column="role_name"      />
         <result property="roleKey"      column="role_key"       />
@@ -55,18 +57,35 @@
                t.real_name, t.description, t.per_img,
                t1.role_id, t2.role_name, t2.role_key, t2.role_sort, t2.data_scope, t2.status as role_status,
                t3.grade_id, t3.grade_num,
-               t4.major_id, t4.major_name
+               t4.major_id, t4.major_name,
+               t.academy_id, t5.academy_name
         from sys_user t
                  left join sys_user_role t1 on t.user_id = t1.user_id
                  left join sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表
-                 left join zf_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
-                 left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+                 left join school_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
+                 left join school_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+                 left join school_academy t5 on t5.id = t.academy_id  -- 左联专业表取得学院
         where user_name = #{username} and t.status = 0
     </select>
 
     <select id="selectUserById" resultType="SysUser">
         SELECT * from sys_user where user_id = #{userId}
     </select>
+
+    <select id="selectUserByIds" resultMap="SysUserResult">
+        SELECT user_id, real_name
+        FROM sys_user
+        <where>
+            <if test="userIds != null and userIds.length > 0">
+                user_id IN
+                <foreach item="userId" index="index" collection="userIds"
+                         open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
 
     <select id="selectRolesByUserId" resultType="java.lang.String">
         SELECT DISTINCT
@@ -78,7 +97,7 @@
             ur.user_id = #{userId}
     </select>
 
-    <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="insertUser" parameterType="com.changlu.system.pojo.SysUser" useGeneratedKeys="true" keyProperty="userId">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name,</if>
@@ -103,6 +122,7 @@
             <if test="perImg != null">per_img,</if>
             <if test="majorId != null">major_id,</if>
             <if test="gradeId != null">grade_id,</if>
+            <if test="academyId != null">academy_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">#{userName},</if>
@@ -127,6 +147,7 @@
             <if test="perImg != null">#{perImg},</if>
             <if test="majorId != null">#{majorId},</if>
             <if test="gradeId != null">#{gradeId},</if>
+            <if test="academyId != null">#{academyId},</if>
         </trim>
     </insert>
 
@@ -134,7 +155,7 @@
         SELECT LAST_INSERT_ID();
     </select>
 
-    <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
+    <select id="selectAllocatedList" parameterType="com.changlu.system.pojo.SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.user_name, u.real_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -148,7 +169,7 @@
         </if>
     </select>
 
-    <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
+    <select id="selectUnallocatedList" parameterType="com.changlu.system.pojo.SysUser" resultMap="SysUserResult">
         select distinct u.user_id, u.user_name,u.real_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -164,7 +185,17 @@
         and (r.role_id != 1 or r.role_id is null) -- 排除掉管理员情况
     </select>
 
-    <update id="updateSysUser" parameterType="SysUser">
+    <select id="countUser" resultType="java.lang.Integer">
+        select count(*)
+        from sys_user
+        <where>
+            <if test="delFlag != null">
+                AND del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateSysUser" parameterType="com.changlu.system.pojo.SysUser">
         update sys_user
         <trim prefix="SET" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
@@ -187,8 +218,12 @@
             <if test="realName != null">real_name = #{realName},</if>
             <if test="description != null">description = #{description},</if>
             <if test="perImg != null">per_img = #{perImg},</if>
+            <if test="academyId != null">academy_id = #{academyId},</if>
             <if test="majorId != null">major_id = #{majorId},</if>
             <if test="gradeId != null">grade_id = #{gradeId},</if>
+            <if test="academyId != null">academy_id = #{academyId},</if>
+            <if test="extra != null">extra = #{extra},</if>
+            <if test="showSort != null">show_sort = #{showSort},</if>
         </trim>
         where user_id = #{userId}
     </update>

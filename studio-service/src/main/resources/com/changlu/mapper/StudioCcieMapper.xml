@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.StudioCcieMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="StudioCcieResult" type="com.changlu.system.pojo.StudioCcieModel">
+        <result property="ccieId"    column="ccie_id"    />
+        <result property="ccieName"    column="ccie_name"    />
+        <result property="ccieImg"    column="ccie_img"    />
+        <result property="ccieGetTime"    column="ccie_get_time"    />
+        <result property="ccieThink"    column="ccie_think"    />
+        <result property="userId"    column="user_id"    />
+        <result property="inclusionFlag"    column="inclusion_flag"    />
+        <result property="type"    column="type"    />
+        <result property="typeName"    column="type_name"    />
+    </resultMap>
+
+    <!-- 查询的vo对象   -->
+    <sql id="selectZfCcieVo">
+        select ccie_id, ccie_name, ccie_img, ccie_get_time, user_id, inclusion_flag, type, type_name from studio_ccie
+    </sql>
+
+    <!-- 查询的show对象，不包含ccie_think，长文本   -->
+    <sql id="selectShowCcieVo">
+        select ccie_id, ccie_name, ccie_img, ccie_get_time, ccie_think, user_id, inclusion_flag, type, type_name from studio_ccie
+    </sql>
+
+    <!--  列表查询  -->
+    <select id="selectCcieList" parameterType="com.changlu.system.pojo.StudioCcieModel" resultMap="StudioCcieResult">
+        <include refid="selectZfCcieVo"/>
+        <where>
+            <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
+            <if test="type != null"> and type = #{type}</if>
+            <if test="params.beginCcieGetTime != null and params.beginCcieGetTime != '' and params.endCcieGetTime != null and params.endCcieGetTime != ''"> and ccie_get_time between #{params.beginCcieGetTime} and #{params.endCcieGetTime}</if>
+        </where>
+    </select>
+
+    <!--  展示列表查询，条件为已收录的  -->
+    <select id="selectShowCcieList" resultMap="StudioCcieResult">
+        <include refid="selectShowCcieVo"/>
+        <where>
+            inclusion_flag = 3
+            <if test="type != null"> and type = #{type}</if>
+            <if test="searchYear != null and searchYear != ''"> and YEAR(ccie_get_time) = #{searchYear}</if>
+        </where>
+        order by ccie_get_time desc
+    </select>
+
+    <!--  根据用户id进行列表查询  -->
+    <select id="selectZfCcieListByUserId" parameterType="com.changlu.system.pojo.StudioCcieModel" resultMap="StudioCcieResult">
+        <include refid="selectZfCcieVo"/>
+        <where>
+            user_id = #{userId}
+            <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
+            <if test="params.beginCcieGetTime != null and params.beginCcieGetTime != '' and params.endCcieGetTime != null and params.endCcieGetTime != ''"> and ccie_get_time between #{params.beginCcieGetTime} and #{params.endCcieGetTime}</if>
+        </where>
+    </select>
+
+    <!--  详细查询  -->
+    <select id="selectZfCcieByCcieId" parameterType="Long" resultMap="StudioCcieResult">
+        <include refid="selectZfCcieVo"/>
+        where ccie_id = #{ccieId}
+    </select>
+
+    <!--  新增证书  -->
+    <insert id="insertZfCcie" parameterType="com.changlu.system.pojo.StudioCcieModel">
+        insert into studio_ccie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ccieId != null">ccie_id,</if>
+            <if test="ccieName != null and ccieName != ''">ccie_name,</if>
+            <if test="ccieImg != null">ccie_img,</if>
+            <if test="ccieGetTime != null">ccie_get_time,</if>
+            <if test="ccieThink != null">ccie_think,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="inclusionFlag != null">inclusion_flag,</if>
+            <if test="type != null">`type`,</if>
+            <if test="typeName != null">type_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ccieId != null">#{ccieId},</if>
+            <if test="ccieName != null and ccieName != ''">#{ccieName},</if>
+            <if test="ccieImg != null">#{ccieImg},</if>
+            <if test="ccieGetTime != null">#{ccieGetTime},</if>
+            <if test="ccieThink != null">#{ccieThink},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="inclusionFlag != null">#{inclusionFlag},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeName != null">#{typeName},</if>
+        </trim>
+    </insert>
+
+    <!--  修改证书  -->
+    <update id="updateZfCcie" parameterType="com.changlu.system.pojo.StudioCcieModel">
+        update studio_ccie
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ccieName != null and ccieName != ''">ccie_name = #{ccieName},</if>
+            <if test="ccieImg != null">ccie_img = #{ccieImg},</if>
+            <if test="ccieGetTime != null">ccie_get_time = #{ccieGetTime},</if>
+            <if test="ccieThink != null">ccie_think = #{ccieThink},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="inclusionFlag != null">inclusion_flag = #{inclusionFlag},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
+        </trim>
+        where ccie_id = #{ccieId}
+    </update>
+
+    <delete id="deleteZfCcieByCcieId" parameterType="Long">
+        delete from studio_ccie where ccie_id = #{ccieId}
+    </delete>
+
+    <delete id="deleteZfCcieByCcieIds" parameterType="String">
+        delete from studio_ccie where ccie_id in
+        <foreach item="ccieId" collection="array" open="(" separator="," close=")">
+            #{ccieId}
+        </foreach>
+        <where>
+            <if test="createUserId != null">and user_id = #{createUserId},</if>
+        </where>
+    </delete>
+
+    <delete id="deleteZfCcieByUserId" parameterType="Long">
+        delete from studio_ccie where user_id = #{userId}
+    </delete>
+
+</mapper>

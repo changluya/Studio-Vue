@@ -2,11 +2,11 @@ package com.changlu.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.changlu.system.pojo.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface SysUserMapper extends BaseMapper<SysUser> {
-
     /**
      * 根据用户名查询用户
      * @param username
@@ -20,6 +20,13 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     SysUser selectUserById(Long userId);
+
+    /**
+     * 根据多个用户id查询用户
+     * @param userIds 用户id
+     * @return
+     */
+    List<SysUser> selectUserByIds(@Param("userIds") Long[] userIds);
 
     /**
      * 根据用户id查询角色
@@ -74,5 +81,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return 用户信息集合信息
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
+
+    /**
+     * 统计用户数量
+     * @param queryUser 查询用户对象
+     * @return 统计数量
+     */
+    public int countUser(SysUser queryUser);
 
 }

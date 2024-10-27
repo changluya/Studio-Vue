@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>cl-manage</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="date" content="Wed, 27 Apr 2022 21:09:28 +0800">
+	<meta name="generator" content="MySQL-Front 6.0  (Build 2.20)">
+	<style type="text/css"><!--
+		body {font-family: Arial,Helvetica,sans-serif; font-size: 18px;}
+		h1 {font-size: 24px; text-decoration: bold;}
+		h2 {font-size: 22px; text-decoration: bold;}
+		h3 {font-size: 20px; text-decoration: bold;}
+		th,
+		td {font-size: 18px; border-color: #000000; border-style: solid; border-width: 1px; padding: 1px; font-weight: normal;}
+		code {font-size: 18px;}
+		.TableObject {border-collapse: collapse; border-color: #000000; font-family: Microsoft Sans Serif}
+		.TableData {border-collapse: collapse; border-color: #000000; font-family: Microsoft Sans Serif}
+		.TableHeader {border-color: #000000; text-decoration: bold; background-color: #e0e0e0;}
+		.StructureHeader {padding-left: 5px; text-align: left; border-color: #000000; text-decoration: bold;}
+		.Structure {text-align: left; border-color: #aaaaaa;}
+		.DataHeader {padding-left: 5px; text-align: left; border-color: #000000; background-color: #e0e0e0;}
+		.Null {color: #999999;}
+		.PrimaryKey {font-weight: bold;}
+		.RightAlign {text-align: right;}
+	--></style>
+</head>
+<body>
+<h1 class="DatabaseTitle">数据库: cl-manage</h1>
+<h2>表格: sys_menu</h2>
+<p>备注: 菜单权限表</p>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="sys_menu" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>menu_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="sys_menu" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">menu_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>菜单ID</td>	</tr>
+	<tr class="Structure"><td>menu_name</td><td>varchar(50)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>菜单名称</td>	</tr>
+	<tr class="Structure"><td>parent_id</td><td>bigint(20)</td><td>是</td><td>0</td><td>&nbsp;</td><td>父菜单ID</td>	</tr>
+	<tr class="Structure"><td>order_num</td><td>int(4)</td><td>是</td><td>0</td><td>&nbsp;</td><td>显示顺序</td>	</tr>
+	<tr class="Structure"><td>path</td><td>varchar(200)</td><td>是</td><td></td><td>&nbsp;</td><td>路由地址</td>	</tr>
+	<tr class="Structure"><td>component</td><td>varchar(255)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>组件路径</td>	</tr>
+	<tr class="Structure"><td>query</td><td>varchar(255)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>路由参数</td>	</tr>
+	<tr class="Structure"><td>is_frame</td><td>int(1)</td><td>是</td><td>1</td><td>&nbsp;</td><td>是否为外链（0是 1否）</td>	</tr>
+	<tr class="Structure"><td>is_cache</td><td>int(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>是否缓存（0缓存 1不缓存）</td>	</tr>
+	<tr class="Structure"><td>menu_type</td><td>char(1)</td><td>是</td><td></td><td>&nbsp;</td><td>菜单类型（M目录 C菜单 F按钮）</td>	</tr>
+	<tr class="Structure"><td>visible</td><td>char(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>菜单状态（0显示 1隐藏）</td>	</tr>
+	<tr class="Structure"><td>status</td><td>char(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>菜单状态（0正常 1停用）</td>	</tr>
+	<tr class="Structure"><td>perms</td><td>varchar(100)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>权限标识</td>	</tr>
+	<tr class="Structure"><td>icon</td><td>varchar(100)</td><td>是</td><td>#</td><td>&nbsp;</td><td>菜单图标</td>	</tr>
+	<tr class="Structure"><td>create_by</td><td>varchar(64)</td><td>是</td><td></td><td>&nbsp;</td><td>创建者</td>	</tr>
+	<tr class="Structure"><td>create_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>创建时间</td>	</tr>
+	<tr class="Structure"><td>update_by</td><td>varchar(64)</td><td>是</td><td></td><td>&nbsp;</td><td>更新者</td>	</tr>
+	<tr class="Structure"><td>update_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>更新时间</td>	</tr>
+	<tr class="Structure"><td>remark</td><td>varchar(500)</td><td>是</td><td></td><td>&nbsp;</td><td>备注</td>	</tr>
+</table><br>
+<h2>表格: sys_role</h2>
+<p>备注: 角色信息表</p>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="sys_role" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>role_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="sys_role" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">role_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>角色ID</td>	</tr>
+	<tr class="Structure"><td>role_name</td><td>varchar(30)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>角色名称</td>	</tr>
+	<tr class="Structure"><td>role_key</td><td>varchar(100)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>角色权限字符串</td>	</tr>
+	<tr class="Structure"><td>role_sort</td><td>int(4)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>显示顺序</td>	</tr>
+	<tr class="Structure"><td>data_scope</td><td>char(1)</td><td>是</td><td>1</td><td>&nbsp;</td><td>数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）</td>	</tr>
+	<tr class="Structure"><td>menu_check_strictly</td><td>tinyint(1)</td><td>是</td><td>1</td><td>&nbsp;</td><td>菜单树选择项是否关联显示</td>	</tr>
+	<tr class="Structure"><td>status</td><td>char(1)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>角色状态（0正常 1停用）</td>	</tr>
+	<tr class="Structure"><td>del_flag</td><td>char(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>删除标志（0代表存在 2代表删除）</td>	</tr>
+	<tr class="Structure"><td>create_by</td><td>varchar(64)</td><td>是</td><td></td><td>&nbsp;</td><td>创建者</td>	</tr>
+	<tr class="Structure"><td>create_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>创建时间</td>	</tr>
+	<tr class="Structure"><td>update_by</td><td>varchar(64)</td><td>是</td><td></td><td>&nbsp;</td><td>更新者</td>	</tr>
+	<tr class="Structure"><td>update_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>更新时间</td>	</tr>
+	<tr class="Structure"><td>remark</td><td>varchar(500)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>备注</td>	</tr>
+</table><br>
+<h2>表格: sys_role_menu</h2>
+<p>备注: 角色和菜单关联表</p>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="sys_role_menu" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>role_id, menu_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="sys_role_menu" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">role_id</td><td>bigint(20)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>角色ID</td>	</tr>
+	<tr class="Structure"><td class="PrimaryKey">menu_id</td><td>bigint(20)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>菜单ID</td>	</tr>
+</table><br>
+<h2>表格: sys_user</h2>
+<p>备注: 用户信息表</p>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="sys_user" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>user_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="sys_user" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">user_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>用户ID</td>	</tr>
+	<tr class="Structure"><td>user_name</td><td>varchar(30)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>用户账号</td>	</tr>
+	<tr class="Structure"><td>nick_name</td><td>varchar(30)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>用户昵称</td>	</tr>
+	<tr class="Structure"><td>user_type</td><td>varchar(2)</td><td>是</td><td>00</td><td>&nbsp;</td><td>用户类型（00系统用户）</td>	</tr>
+	<tr class="Structure"><td>email</td><td>varchar(50)</td><td>是</td><td></td><td>&nbsp;</td><td>用户邮箱</td>	</tr>
+	<tr class="Structure"><td>phonenumber</td><td>varchar(11)</td><td>是</td><td></td><td>&nbsp;</td><td>手机号码</td>	</tr>
+	<tr class="Structure"><td>sex</td><td>char(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>用户性别（0男 1女 2未知）</td>	</tr>
+	<tr class="Structure"><td>avatar</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>头像地址</td>	</tr>
+	<tr class="Structure"><td>password</td><td>varchar(100)</td><td>是</td><td></td><td>&nbsp;</td><td>密码</td>	</tr>
+	<tr class="Structure"><td>status</td><td>char(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>帐号状态（0正常 1停用）</td>	</tr>
+	<tr class="Structure"><td>del_flag</td><td>char(1)</td><td>是</td><td>0</td><td>&nbsp;</td><td>删除标志（0代表存在 2代表删除）</td>	</tr>
+	<tr class="Structure"><td>login_ip</td><td>varchar(128)</td><td>是</td><td></td><td>&nbsp;</td><td>最后登录IP</td>	</tr>
+	<tr class="Structure"><td>login_date</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>最后登录时间</td>	</tr>
+	<tr class="Structure"><td>create_by</td><td>varchar(64)</td><td>是</td><td></td><td>&nbsp;</td><td>创建者</td>	</tr>
+	<tr class="Structure"><td>create_time</td><td>datetime</td><td>是</td><td>&lt;INSERT-TimeStamp&gt;</td><td>&nbsp;</td><td>创建时间</td>	</tr>
+	<tr class="Structure"><td>update_by</td><td>varchar(64)</td><td>是</td><td></td><td>&nbsp;</td><td>更新者</td>	</tr>
+	<tr class="Structure"><td>update_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>更新时间</td>	</tr>
+	<tr class="Structure"><td>remark</td><td>varchar(500)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>备注</td>	</tr>
+	<tr class="Structure"><td>real_name</td><td>varchar(30)</td><td>是</td><td></td><td>&nbsp;</td><td>真实姓名</td>	</tr>
+	<tr class="Structure"><td>description</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>个人描述(用于官网展示)</td>	</tr>
+	<tr class="Structure"><td>per_img</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>个人照片</td>	</tr>
+	<tr class="Structure"><td>major_id</td><td>bigint(20)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>专业id</td>	</tr>
+	<tr class="Structure"><td>grade_id</td><td>bigint(20)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>年级id</td>	</tr>
+</table><br>
+<h2>表格: sys_user_role</h2>
+<p>备注: 用户和角色关联表</p>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="sys_user_role" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>user_id, role_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="sys_user_role" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">user_id</td><td>bigint(20)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>用户ID</td>	</tr>
+	<tr class="Structure"><td class="PrimaryKey">role_id</td><td>bigint(20)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>角色ID</td>	</tr>
+</table><br>
+<h2>表格: zf_ccie</h2>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="zf_ccie" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>ccie_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="zf_ccie" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">ccie_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>获奖证书主键id</td>	</tr>
+	<tr class="Structure"><td>ccie_name</td><td>varchar(100)</td><td>否</td><td></td><td>&nbsp;</td><td>证书名称</td>	</tr>
+	<tr class="Structure"><td>ccie_img</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>获奖证书图片</td>	</tr>
+	<tr class="Structure"><td>ccie_get_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>获奖时间</td>	</tr>
+	<tr class="Structure"><td>ccie_think</td><td>text</td><td>是</td><td>&nbsp;</td><td>&nbsp;</td><td>经验总结</td>	</tr>
+	<tr class="Structure"><td>user_id</td><td>bigint(20)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>用户id</td>	</tr>
+</table><br>
+<h2>表格: zf_grade</h2>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="zf_grade" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>grade_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="zf_grade" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">grade_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>年级主键id</td>	</tr>
+	<tr class="Structure"><td>grade_num</td><td>int(20)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>年级</td>	</tr>
+</table><br>
+<h2>表格: zf_major</h2>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="zf_major" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>major_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="zf_major" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">major_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>专业主键id</td>	</tr>
+	<tr class="Structure"><td>major_name</td><td>varchar(30)</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>专业名称</td>	</tr>
+</table><br>
+<h2>表格: zf_race</h2>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="zf_race" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>race_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="zf_race" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">race_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>竞赛主键id</td>	</tr>
+	<tr class="Structure"><td>race_name</td><td>varchar(255)</td><td>否</td><td></td><td>&nbsp;</td><td>竞赛名称</td>	</tr>
+	<tr class="Structure"><td>race_members</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>竞赛成员（个人就填写一个id，存储参与成员的id，使用,分割）</td>	</tr>
+	<tr class="Structure"><td>race_begin_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>竞赛开始时间</td>	</tr>
+	<tr class="Structure"><td>race_end_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>竞赛结束时间</td>	</tr>
+	<tr class="Structure"><td>race_ccie</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>获奖证书图片</td>	</tr>
+	<tr class="Structure"><td>race_flag</td><td>tinyint(1)</td><td>是</td><td>1</td><td>&nbsp;</td><td>标识个人还是团队(1是个人,2是团队)</td>	</tr>
+	<tr class="Structure"><td>race_summarize</td><td>text</td><td>是</td><td>&nbsp;</td><td>&nbsp;</td><td>经验总结</td>	</tr>
+	<tr class="Structure"><td>create_time</td><td>datetime</td><td>是</td><td>&lt;INSERT-TimeStamp&gt;</td><td>&nbsp;</td><td>创建时间</td>	</tr>
+	<tr class="Structure"><td>update_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>修改时间</td>	</tr>
+</table><br>
+<h2>表格: zf_resource</h2>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="zf_resource" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>res_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="zf_resource" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">res_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>资源主键id</td>	</tr>
+	<tr class="Structure"><td>res_url</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>资源url地址</td>	</tr>
+	<tr class="Structure"><td>res_flag</td><td>tinyint(1)</td><td>是</td><td>1</td><td>&nbsp;</td><td>资源标识(1表示竞赛团队)</td>	</tr>
+	<tr class="Structure"><td>res_name</td><td>varchar(255)</td><td>是</td><td></td><td>&nbsp;</td><td>图片上传名称</td>	</tr>
+	<tr class="Structure"><td>create_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>上传时间</td>	</tr>
+	<tr class="Structure"><td>table_id</td><td>bigint(20)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>关联表id(其他表主键id)</td>	</tr>
+</table><br>
+<h2>表格: zf_think</h2>
+<h3>索引:</h3>
+<table border="0" cellspacing="0" summary="zf_think" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td  class="PrimaryKey">主索引</td><td>think_id</td><td>unique</td><td></td></tr>
+</table><br>
+<h3>字段:</h3>
+<table border="0" cellspacing="0" summary="zf_think" class="TableObject">
+	<tr class="TableHeader StructureHeader"><th>名称</th><th>类型</th><th>空</th><th>默认值</th><th>其他</th><th>备注</th></tr>
+	<tr class="Structure"><td class="PrimaryKey">think_id</td><td>bigint(20)</td><td>否</td><td>&lt;auto_increment&gt;</td><td>&nbsp;</td><td>个人心得主键id</td>	</tr>
+	<tr class="Structure"><td>think_title</td><td>varchar(255)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>思考标题</td>	</tr>
+	<tr class="Structure"><td>content</td><td>text</td><td>否</td><td>&nbsp;</td><td>&nbsp;</td><td>感悟思考</td>	</tr>
+	<tr class="Structure"><td>create_time</td><td>datetime</td><td>是</td><td>&lt;INSERT-TimeStamp&gt;</td><td>&nbsp;</td><td>创建时间</td>	</tr>
+	<tr class="Structure"><td>update_time</td><td>datetime</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>修改时间</td>	</tr>
+	<tr class="Structure"><td>user_id</td><td>bigint(20)</td><td>是</td><td>&lt;空&gt;</td><td>&nbsp;</td><td>用户主键id</td>	</tr>
+</table><br>
+</body>
+</html>

@@ -1,16 +1,18 @@
 package com.changlu.web.controller.team;
 
+import com.changlu.common.domain.ResponseResult;
+import com.changlu.common.exception.ServiceException;
 import com.changlu.common.utils.ExcelUtil;
-import com.changlu.service.ZfManageCcieService;
+import com.changlu.service.StudioCcieService;
+import com.changlu.service.StudioManageCcieService;
+import com.changlu.system.pojo.StudioAchievementModel;
+import com.changlu.system.pojo.StudioCcieModel;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.manage.MCcieVo;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -26,7 +28,10 @@ import java.util.List;
 public class ManageCciesController extends BaseController {
 
     @Autowired
-    private ZfManageCcieService zfManageCcieService;
+    private StudioManageCcieService studioManageCcieService;
+
+    @Autowired
+    private StudioCcieService ccieService;
 
     /**
      * 查询证书列表
@@ -36,17 +41,48 @@ public class ManageCciesController extends BaseController {
     public TableDataInfo list(MCcieVo mCcieVo)
     {
         startPage();
-        List<MCcieVo> list = zfManageCcieService.selectZfCcieList(mCcieVo);
+        List<MCcieVo> list = studioManageCcieService.selectZfCcieList(mCcieVo);
         return getDataTable(list);
     }
 
     @PostMapping("/export")
     @PreAuthorize("@ss.hasPerm('team:ccie:export')")
     public void export(MCcieVo mCcieVo, HttpServletResponse response) {
-        List<MCcieVo> list = zfManageCcieService.selectZfCcieList(mCcieVo);
+        List<MCcieVo> list = studioManageCcieService.selectZfCcieList(mCcieVo);
         ExcelUtil<MCcieVo> util = new ExcelUtil<>(MCcieVo.class);
         util.exportExcel(response, list, "证书列表");
     }
 
+    /**
+     * 审核通过收录
+     */
+//    @PreAuthorize("@ss.hasPerm('own:achievement:apply')")
+    @PutMapping("/approved")
+    public ResponseResult approvedInclusion(@RequestBody StudioCcieModel ccieModel)
+    {
+        // 校验参数
+        Long id = ccieModel.getCcieId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        ccieService.updateInclusion(id, 3);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 取消收录
+     */
+//    @PreAuthorize("@ss.hasPerm('team:achievement:cancel')")
+    @PutMapping("/cancel")
+    public ResponseResult cancelInclusion(@RequestBody StudioCcieModel ccieModel)
+    {
+        // 校验参数
+        Long id = ccieModel.getCcieId();
+        if (id == null) {
+            throw new ServiceException("成果id为空，请传递正确参数！");
+        }
+        ccieService.updateInclusion(id, 2);
+        return ResponseResult.success();
+    }
 
 }

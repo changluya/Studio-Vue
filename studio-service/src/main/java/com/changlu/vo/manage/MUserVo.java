@@ -41,6 +41,12 @@ public class MUserVo extends BaseEntity {
     @Excel(name = "姓名", sort = 1)
     private String realName;
 
+    /**
+     * 用户性别
+     */
+    @Excel(name = "性别", readConverterExp = "0=男,1=女,2=未知", sort = 2)
+    private String sex;
+
     /** 用户账号名 */
     private String userName;
 
@@ -52,7 +58,7 @@ public class MUserVo extends BaseEntity {
     /**
      * 年级名称：连表
      */
-    @Excel(name = "年级", sort = 2)
+    @Excel(name = "年级", sort = 3)
     private String gradeNum;
 
     /**
@@ -63,31 +69,36 @@ public class MUserVo extends BaseEntity {
     /**
      * 专业名称：连表
      */
-    @Excel(name = "专业名称", sort = 3)
+    @Excel(name = "专业名称", sort = 4)
     private String majorName;
+
+    /**
+     * 学院id
+     */
+    private Long academyId;
+
+    /**
+     * 专业名称：学院名称
+     */
+    @Excel(name = "学院名称", sort = 5)
+    private String academyName;
 
     /**
      * 手机号码
      */
-    @Excel(name = "手机号码", sort = 5)
+    @Excel(name = "手机号码", sort = 6)
     private String phonenumber;
-
-    /**
-     * 用户性别
-     */
-    @Excel(name = "性别", readConverterExp = "0=男,1=女,2=未知", sort = 4)
-    private String sex;
 
     /**
      * 邮箱
      */
-    @Excel(name = "邮箱", sort = 6)
+    @Excel(name = "邮箱", sort = 7)
     private String email;
 
     /**
      * 帐号状态（0正常 1停用）
      */
-    @Excel(name = "账号状态", readConverterExp = "0=正常,1=停用", sort = 7)
+    @Excel(name = "账号状态", readConverterExp = "0=正常,1=停用", sort = 8)
     private String status;
 
 
@@ -96,5 +107,10 @@ public class MUserVo extends BaseEntity {
 
     /** 个人描述 */
     private String description;
+
+    /**
+     * 团队展示排名
+     */
+    private Integer showSort;
 
 }

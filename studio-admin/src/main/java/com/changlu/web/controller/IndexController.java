@@ -2,9 +2,9 @@ package com.changlu.web.controller;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.RedisCache;
-import com.changlu.service.IndexService;
+import com.changlu.service.SiteService;
+import com.changlu.web.env.EnvironmentContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +26,15 @@ public class IndexController {
     private RedisCache redisCache;
 
     @Autowired
-    private IndexService indexService;
+    private SiteService siteService;
+
+    @Autowired
+    private EnvironmentContext env;
 
     @GetMapping("/counts")
 //    @PreAuthorize("@ss.hasRole('member')")
     public ResponseResult getCounts(){
-        List<Integer> counts = indexService.getCounts();
+        List<Integer> counts = siteService.getCounts();
         return ResponseResult.success(counts);
     }
 
@@ -39,8 +42,13 @@ public class IndexController {
     @GetMapping("/options")
 //    @PreAuthorize("@ss.hasRole('member')")
     public ResponseResult getOptions(){
-        Map<String, Object> options = indexService.getOptions();
+        Map<String, Object> options = siteService.getOptions();
         return ResponseResult.success(options);
+    }
+
+    @GetMapping("/getSM2PublicKey")
+    public ResponseResult getSM2PublicKey(){
+        return ResponseResult.success(env.getSM2PublicKey());
     }
 
 }

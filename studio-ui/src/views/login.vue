@@ -11,9 +11,9 @@
                   <div class="card-front">
                     <div class="center-wrap">
                       <div class="section text-center" v-on:keyup.enter="login">
-                        <h4 class="mb-4 pb-3">长路工作室 登录</h4>
+                        <h4 class="mb-4 pb-3"><span v-html="teamTitle"/> 登录</h4>
                         <div class="form-group">
-                          <input type="email"  name="username" class="form-style" v-model="loginForm.username" placeholder="请输入用户名" id="username" autocomplete="off">
+                          <input type="text"  name="username" class="form-style" v-model="loginForm.username" placeholder="请输入用户名" id="username" autocomplete="off">
                           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                         </div>
                         <div class="form-group mt-2">
@@ -116,6 +116,9 @@ export default {
   },
   // 计算属性，会监听依赖属性值随之变化
   computed: {
+    teamTitle() {
+      return this.$store.state.site.teamTitle
+    }
   },
   // 监控data中的数据变化
   watch: {
@@ -270,6 +273,13 @@ export default {
 /*@import url("https://s2.pstatp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css");*/
 /*@import "../assets/css/font-awesome.min.css";*/
 @import "../assets/css/bootstrap.min.css";
+
+  /*解决浏览器输入框在记住密码后改变颜色问题*/
+  input:-webkit-autofill {
+    /* 自动填充文字颜色 */
+    -webkit-text-fill-color: #24515d !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 
    .login-code-img{
      position: relative;
@@ -449,7 +459,7 @@ export default {
     letter-spacing: 0.5px;
     outline: none;
     color: #c4c3ca;
-    background-color: #1f2029;
+    background-color: #1f2029 !important;
     border: none;
     -webkit-transition: all 200ms linear;
     transition: all 200ms linear;

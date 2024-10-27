@@ -64,7 +64,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item style="margin-left: 20px">
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['team:member:list']">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -78,7 +78,6 @@
             icon="el-icon-plus"
             size="mini"
             @click="handleAdd"
-            v-hasPermi="['team:member:add']"
           >创建账号</el-button>
         </el-tooltip>
       </el-col>
@@ -90,7 +89,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['team:member:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -101,7 +99,6 @@
           size="mini"
           :disabled="single"
           @click="handleTransfer"
-          v-hasRole="['manage', 'teacher']"
         >转让负责人</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -113,7 +110,6 @@
             size="mini"
             :disabled="multiple"
             @click="handleResetPwd"
-            v-hasPermi="['team:member:resetpwd']"
           >重置密码</el-button>
         </el-tooltip>
       </el-col>
@@ -134,7 +130,6 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['team:member:export']"
         >导出</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -204,28 +199,24 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['team:member:edit']"
           >修改</el-button>
           <el-button v-show="scope.row.status == 1"
                      size="mini"
                      type="text" style="color: #F56C6C"
                      icon="el-icon-magic-stick"
                      @click="handleActive(scope.row)"
-                     v-hasPermi="['team:member:active']"
           >激活账号</el-button>
           <el-button v-if="scope.row.status == 0"
             size="mini"
             type="text" style="color: #F56C6C"
             icon="el-icon-delete"
             @click="handleCancelled(scope.row)"
-                     v-hasPermi="['team:member:cancelled']"
           >注销账号</el-button>
           <el-button v-else
             size="mini"
             type="text" style="color: #F56C6C"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-                     v-hasPermi="['team:member:remove']"
           >删除账号</el-button>
         </template>
       </el-table-column>
@@ -251,7 +242,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!--    确定提交按钮及取消选框  -->
-        <el-button type="primary" @click="submitForm" v-hasPermi="['team:member:add']">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancelAdd">取 消</el-button>
       </div>
     </el-dialog>
@@ -287,7 +278,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" v-hasPermi="['team:member:edit']">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>

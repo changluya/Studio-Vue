@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.SchoolMajorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="StudioMajorModelResult" type="com.changlu.system.pojo.SchoolMajorModel">
+        <id column="major_id" property="majorId" />
+        <result column="major_name" property="majorName" />
+    </resultMap>
+
+    <sql id="selectZfMajorModelVo">
+        select major_id, major_name from school_major
+    </sql>
+
+    <select id="selectZfMajorModelList" parameterType="com.changlu.system.pojo.SchoolMajorModel" resultMap="StudioMajorModelResult">
+        <include refid="selectZfMajorModelVo"/>
+        <where>
+            <if test="majorName != null  and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectZfMajorModelByMajorId" parameterType="Long" resultMap="StudioMajorModelResult">
+        <include refid="selectZfMajorModelVo"/>
+        where major_id = #{majorId}
+    </select>
+
+    <insert id="insertZfMajorModel" parameterType="com.changlu.system.pojo.SchoolMajorModel" useGeneratedKeys="true" keyProperty="majorId">
+        insert into school_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorName != null and majorName != ''">major_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorName != null and majorName != ''">#{majorName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateZfMajorModel" parameterType="com.changlu.system.pojo.SchoolMajorModel">
+        update school_major
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="majorName != null and majorName != ''">major_name = #{majorName},</if>
+        </trim>
+        where major_id = #{majorId}
+    </update>
+
+    <delete id="deleteZfMajorModelByMajorIds" parameterType="String">
+        delete from school_major where major_id in
+        <foreach item="majorId" collection="array" open="(" separator="," close=")">
+            #{majorId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -7,6 +7,7 @@ import com.changlu.common.exception.ServiceException;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.IProfileService;
 import com.changlu.service.ISysUserService;
+import com.changlu.service.UploadService;
 import com.changlu.system.mapper.SysUserMapper;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.utils.file.FileUpload;
@@ -35,9 +36,8 @@ public class ProfileServiceImpl implements IProfileService {
     @Autowired
     private ISysUserService sysUserService;
 
-    @Qualifier("fileUpload")
     @Autowired
-    private FileUpload fileUploadUtil;
+    private UploadService uploadService;
 
     @Resource(name = "taskExecutor")
     private Executor executor;
@@ -80,10 +80,11 @@ public class ProfileServiceImpl implements IProfileService {
 
     @Override
     public ResponseResult updateAvatar(MultipartFile file) {
+        FileUpload fileUpload = uploadService.getDefaultFileUpload();
         Map<String, String> fileMap = null;
         try {
             //1、获取到上传文件访问路径以及原文件名
-            fileMap = fileUploadUtil.uploadFile(file);
+            fileMap = fileUpload.uploadFile(file);
         }catch (ServiceCallException e){
             throw new ServiceException("上传失败！",e);
         }
@@ -95,7 +96,7 @@ public class ProfileServiceImpl implements IProfileService {
         String originAvatar = sysUserMapper.selectOne(queryWrapper).getAvatar();
         if (!ObjectUtils.isEmpty(originAvatar) && !originAvatar.equals(visitUrl)){
             //删除图片
-            executor.execute(()->fileUploadUtil.deleteFile(originAvatar));
+            executor.execute(()->fileUpload.deleteFile(originAvatar));
         }
         //2、更新用户
         SysUser sysUser = new SysUser();

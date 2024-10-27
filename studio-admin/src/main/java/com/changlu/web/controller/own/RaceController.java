@@ -1,11 +1,11 @@
 package com.changlu.web.controller.own;
 
 import com.changlu.common.domain.ResponseResult;
-import com.changlu.mapper.ZfMUserMapper;
-import com.changlu.service.ZfRaceService;
+import com.changlu.mapper.StudioMUserMapper;
+import com.changlu.service.StudioRaceService;
 import com.changlu.web.controller.BaseController;
 import com.changlu.vo.race.RaceVo;
-import com.changlu.system.pojo.ZfRaceModel;
+import com.changlu.system.pojo.StudioRaceModel;
 import com.changlu.common.utils.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,20 +25,20 @@ import java.util.List;
 public class RaceController extends BaseController {
 
     @Autowired
-    private ZfRaceService raceService;
+    private StudioRaceService raceService;
 
     @Resource
-    private ZfMUserMapper zfMUserMapper;
+    private StudioMUserMapper studioMUserMapper;
 
     /**
      * 查询个人竞赛列表
      */
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('own:race:list')")
-    public TableDataInfo list(ZfRaceModel zfRaceModel)
+    public TableDataInfo list(StudioRaceModel studioRaceModel)
     {
         startPage();
-        List<RaceVo> list = raceService.selectZfRaceModelListByUserId(zfRaceModel);
+        List<RaceVo> list = raceService.selectZfRaceModelListByUserId(studioRaceModel);
         return getDataTable(list);
     }
 
@@ -58,7 +58,7 @@ public class RaceController extends BaseController {
     @GetMapping("/members/{raceId}")
     @PreAuthorize("@ss.hasPerm('own:race:members')")
     public ResponseResult getRaceMembers(@PathVariable("raceId") Long raceId){
-        return ResponseResult.success(zfMUserMapper.selectRaceUsersByRaceId(raceId));
+        return ResponseResult.success(studioMUserMapper.selectRaceUsersByRaceId(raceId));
     }
 
     /**

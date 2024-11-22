@@ -552,7 +552,8 @@ export default {
       this.$modal.confirm('是否将负责人角色转让给' + this.transferTarget.gradeNum + "的"  + '"' + this.transferTarget.realName + '"？').then(function() {
         return transfer(userId);
       }).then(() => {
-        location.href = '/index';
+        // 刷新页面
+        location.reload();
       }).catch(() => {});
     },
     /** 注销账号操作 */

@@ -144,7 +144,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="memberList" @selection-change="handleSelectionChange" style="width: 100%">
+    <el-table v-loading="loading" :data="memberList" @selection-change="handleSelectionChange" style="width: 100%;" :row-style="getRowStyle">
       <el-table-column fixed type="selection" width="55" align="center" />
       <el-table-column fixed
         label="序号"
@@ -603,6 +603,14 @@ export default {
     handleBackup() {
       this.download('team/member/backup', {
       }, `数据备份_${new Date().getTime()}.zip`)
+    },
+    // 获取到行格式
+    getRowStyle({row, rowIndex}) {
+      if (row.status == "0") {
+        return { height: '50px' };
+      }else {// 注销账号状态：额外多了一个删除账号栏目，此时增大高度
+        return { height: '80px' };
+      }
     }
   }
 };

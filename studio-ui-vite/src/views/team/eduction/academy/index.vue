@@ -23,7 +23,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['team:academy:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -34,7 +33,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['team:academy:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,19 +43,8 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['team:academy:remove']"
         >删除</el-button>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['team:academy:export']"-->
-<!--        >导出</el-button>-->
-<!--      </el-col>-->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -68,7 +55,6 @@
         type="index"
         width="50">
       </el-table-column>
-<!--      <el-table-column label="学院主键id" align="center" prop="id" />-->
       <el-table-column label="学院名称" align="center" prop="academyName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -77,14 +63,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['team:academy:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['team:academy:remove']"
           >删除</el-button>
         </template>
       </el-table-column>

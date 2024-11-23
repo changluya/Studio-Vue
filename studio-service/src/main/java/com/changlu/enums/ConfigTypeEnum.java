@@ -9,9 +9,8 @@ package com.changlu.enums;
 import com.changlu.common.config.Constants;
 import com.changlu.common.config.file.AliyunOssConfig;
 import com.changlu.common.config.file.LocalUploadConfig;
+import com.changlu.common.exception.ServiceException;
 import com.changlu.vo.config.*;
-import lombok.Data;
-import org.apache.poi.ss.formula.functions.T;
 
 /**
  * @description  配置类别枚举类
@@ -27,13 +26,21 @@ public enum ConfigTypeEnum {
     SITE_PAGE_SKILL_CONFIG("技术栈配置", "site.page.skillConfig", Constants.N, SkillConfig.class),
     SITE_UPLOAD_OPTION("文件上传配置选项", "site.upload.option", Constants.Y, String.class),
     SITE_UPLOAD_FILE("本地文件上传配置", "site.upload.file", Constants.Y, LocalUploadConfig.class),
-    SITE_UPLOAD_OSS("OSS资源上传配置", "site.upload.oss", Constants.Y, AliyunOssConfig.class);
+    SITE_UPLOAD_OSS("OSS资源上传配置", "site.upload.oss", Constants.Y, AliyunOssConfig.class),
+    SITE_PARAMS_INVITE_CODE("网站常量参数-邀请码", "site.params.invitecode", Constants.Y, String.class);
 
     private final String configName;
     private final String configKey;
     private final String configType;
     private final Class pojoClazz;
 
+    /**
+     *
+     * @param configName 配置名称
+     * @param configKey key
+     * @param configType 配置类型，是否是系统配置，Y为是，N为非
+     * @param pojoClazz 转换类
+     */
     ConfigTypeEnum(String configName, String configKey, String configType, Class pojoClazz) {
         this.configName = configName;
         this.configKey = configKey;
@@ -52,7 +59,7 @@ public enum ConfigTypeEnum {
                 return configTypeEnum;
             }
         }
-        return null;
+        throw new ServiceException(String.format("当前系统无该配置key：%s", configKey));
     }
 
     public String getConfigName() {

@@ -9,13 +9,13 @@ import com.changlu.common.utils.RedisCache;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.common.utils.uuid.IdUtils;
 import com.changlu.service.LoginService;
+import com.changlu.service.impl.SiteConfigServiceImpl;
 import com.changlu.system.pojo.SysMenu;
 import com.changlu.system.pojo.SysUser;
 import com.changlu.system.service.ISysMenuService;
 import com.changlu.system.service.impl.SysPermissionService;
 import com.changlu.common.utils.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +41,8 @@ public class LoginController {
     @Autowired
     private EasyCaptchaService easyCaptchaService;
 
-    //注册邀请码
-    @Value("${studio.register.invitationCode}")
-    public String invitationCode;
+    @Autowired
+    private SiteConfigServiceImpl siteConfigService;
 
     @Autowired
     private RedisCache redisCache;
@@ -56,6 +55,9 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseResult register(@RequestBody LoginBody loginBody){
+        // 动态获取到注册码
+        String invitationCode = siteConfigService.getSiteParamsInviteCode();
+        // 注册码验证
         if (!ObjectUtils.isEmpty(loginBody) && !ObjectUtils.isEmpty(loginBody.getInvitationCode())
             && !invitationCode.equalsIgnoreCase(loginBody.getInvitationCode())){
             return ResponseResult.error("邀请码有误，请重新输入！");

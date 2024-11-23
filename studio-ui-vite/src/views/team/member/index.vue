@@ -71,7 +71,7 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-tooltip class="item" effect="dark" content="邀请码：EMb*Sy6" placement="top">
+        <el-tooltip class="item" effect="dark" content="可创建成员、指导老师角色账号" placement="top">
           <el-button
             type="primary"
             plain
@@ -79,6 +79,17 @@
             size="mini"
             @click="handleAdd"
           >创建账号</el-button>
+        </el-tooltip>
+      </el-col>
+      <el-col :span="1.5">
+        <el-tooltip class="item" effect="dark" :content="showInviteContent" placement="top">
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="queryInviteCode(true)"
+          >重置邀请码</el-button>
         </el-tooltip>
       </el-col>
       <el-col :span="1.5">
@@ -230,6 +241,20 @@
       @pagination="getList"
     />
 
+    <!--  重置邀请码对话框  -->
+    <el-dialog title="重置邀请码" :visible.sync="inviteOpen" width="500px" :close-on-click-modal="false" append-to-body>
+      <el-form ref="form" :model="inviteFormData"  label-width="80px">
+        <el-form-item label="邀请码" prop="inviteCode">
+          <el-input v-model="inviteFormData.configValue" placeholder="请输入重置的邀请码" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <!--    确定提交按钮及取消选框  -->
+        <el-button type="primary" @click="editInviteCode">确 定</el-button>
+        <el-button @click="cancelInviteCodeDiagol">取 消</el-button>
+      </div>
+    </el-dialog>
+
     <!--  添加用户对话框  -->
     <el-dialog title="创建账号" :visible.sync="addopen" width="500px" :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -299,6 +324,9 @@
 import { listMember, getMember, delMember, updateMember, cancelledMember, activeMember, transfer, resetPwd, addMember } from "@/api/team/member";
 import infoApi from "@/api/own/info";
 import { loginPasswordEncrypt } from '@/utils/jsencrypt'
+import { MY_CONSTANT } from '@/utils/constants'
+import siteApi from '@/api/team/site'
+
 
 export default {
   name: "Member",
@@ -379,12 +407,22 @@ export default {
           roleName: this.$MY_CONSTANT.Roles.ROLE_TEACHER.name
         },
       ],
+      // 邀请码
+      showInviteContent: '邀请码为：',
+      inviteOpen: false,
+      inviteFormData: {
+        configId: "",
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PARAMS_INVITE_CODE.configKey,
+        configValue: ""
+      }
     };
   },
   created() {
     this.getList();
-    //获取菜单数据
+    // 获取菜单数据
     this.getMenu()
+    // 查询邀请码
+    this.queryInviteCode(false)
   },
   methods: {
     /** 查询User列表 */
@@ -611,6 +649,52 @@ export default {
       }else {// 注销账号状态：额外多了一个删除账号栏目，此时增大高度
         return { height: '80px' };
       }
+    },
+    // 邀请码
+    // 查询邀请码code（配合打开编辑窗口）
+    queryInviteCode(open = false) {
+      // 查询参数
+      let queryParams = {
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PARAMS_INVITE_CODE.configKey
+      }
+      // 查询邀请码
+      siteApi.selectConfigValueByConfigKey(queryParams).then(data => {
+        // console.log('query data:', data)
+        if (data.code === 200) {
+          // 邀请码表单
+          this.inviteFormData = data.data
+          // 展示内容
+          this.showInviteContent = '邀请码为：' + this.inviteFormData.configValue
+          // 编辑栏目打开情况
+          if (open) {
+            // 可根据传参来判断是否打开编辑窗口
+            this.inviteOpen = true
+          }
+          // console.log("this.inviteFormData=>", this.inviteFormData)
+        }
+      }).catch(err => console.log(err))
+    },
+    // 取消添加窗口按钮
+    cancelInviteCodeDiagol(){
+      this.inviteOpen = false;
+      // 初始化配置
+      this.inviteFormData = {
+        configId: "",
+        configKey: MY_CONSTANT.siteConfigKeys.SITE_PARAMS_INVITE_CODE.configKey,
+        configValue: ""
+      }
+    },
+    // 编辑邀请码
+    editInviteCode() {
+      let that = this
+      siteApi.addOrUpdateSiteConfig(this.inviteFormData).then(data => {
+        if (data.code === 200) {
+          this.$modal.msgSuccess('更新成功！')
+          this.inviteOpen = false
+          // 重新查询邀请码
+          that.queryInviteCode(false)
+        }
+      }).catch(err => console.log(err))
     }
   }
 };

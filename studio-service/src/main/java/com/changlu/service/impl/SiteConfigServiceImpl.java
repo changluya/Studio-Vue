@@ -151,5 +151,12 @@ public class SiteConfigServiceImpl implements SiteConfigService{
         return selectConfigValueByConfigKey(configKey);
     }
 
+    // 内部获取配置接口定义
+    // SITE_PARAMS_INVITE_CODE
+    public String getSiteParamsInviteCode() {
+        ConfigVo inviteConfigVo = selectConfigValueByConfigKey(ConfigTypeEnum.SITE_PARAMS_INVITE_CODE.getConfigKey());
+        return (String) inviteConfigVo.getConfigValue();
+    }
+
 
 }

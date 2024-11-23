@@ -49,7 +49,5 @@ pagehelper:
 # 长路自定义配置项
 studio:
   resetPassword: 123456   # 重置密码
-  register:
-    invitationCode: EMb*Sy6  # 工作室注册邀请码
 
 

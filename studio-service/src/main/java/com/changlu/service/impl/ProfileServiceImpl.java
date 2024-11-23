@@ -15,7 +15,6 @@ import com.changlu.vo.PasswordVo;
 import com.changlu.vo.ProfileVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,12 +62,12 @@ public class ProfileServiceImpl implements IProfileService {
         if (ObjectUtils.isEmpty(oldPassword) || ObjectUtils.isEmpty(newPassword)){
             return ResponseResult.error("您的密码为空，重新输入！");
         }
-        String userPassword = SecurityUtils.getUser().getPassword().substring(8);
         //2、校验不通过
-        if (!SecurityUtils.bCryptPasswordEncoder.matches(oldPassword, userPassword)) {
+        // DelegatingPasswordEncoder：自适应匹配加密方式来完成验证解密
+        if (!SecurityUtils.delegatingPasswordEncoder.matches(oldPassword, SecurityUtils.getUser().getPassword())) {
             return ResponseResult.error("您的旧密码有误，请重新输入！");
         }
-        //3、校验通过，重新设置密码
+        //3、校验通过，重新采用BCrypt加密方式来设置密码
         passwordVo.setPassword("{bcrypt}" + SecurityUtils.bCryptPasswordEncoder.encode(newPassword));
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(passwordVo, sysUser);

@@ -5,6 +5,8 @@ import com.changlu.system.pojo.SysUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @ClassName SecurityUtils
@@ -18,6 +20,11 @@ public class SecurityUtils {
      * BCrypt编码器
      */
     public static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    /**
+     * 动态自适应密码加密器
+     */
+    public static PasswordEncoder delegatingPasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     /**
      * 获取登录用户对象

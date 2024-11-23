@@ -8,9 +8,11 @@ package com.changlu.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.changlu.enums.ConfigTypeEnum;
+import com.changlu.service.impl.SiteConfigServiceImpl;
 import com.changlu.vo.config.BasicConfig;
 import com.changlu.vo.config.ConfigVo;
 import com.changlu.vo.config.MainConfig;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class SiteConfigServiceTest {
 
     @Autowired
-    private SiteConfigService siteConfigService;
+    private SiteConfigServiceImpl siteConfigService;
 
     @Test
     public void testJSONToPojo() {
@@ -121,7 +123,6 @@ public class SiteConfigServiceTest {
     }
 
 
-
     public void addOrUpdateSiteConfigTest(Object creatConfigValue, Object updateConfigValue, String configKey) {
         System.out.println("===========1、新增配置===============");
         //新增配置
@@ -149,6 +150,16 @@ public class SiteConfigServiceTest {
         queryConfigVo = siteConfigService.selectConfigValueByConfigKey(configKey);
         System.out.println(queryConfigVo);
         System.out.println("===========查询配置===============");
+    }
+
+    /**
+     * 获取网站配置常量-注册码
+     */
+    @Test
+    public void testGetSiteParamsInviteCode() {
+        String siteParamsInviteCode = siteConfigService.getSiteParamsInviteCode();
+        System.out.println(siteParamsInviteCode);
+        Assert.assertNotNull(siteParamsInviteCode);
     }
 
 

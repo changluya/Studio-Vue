@@ -4,6 +4,10 @@ use studio;
 delete from `sys_config` where config_id = 1;
 INSERT INTO `studio`.`sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1, '网站基础配置', 'site.basicConfig', 'eyJzaXRlVGl0bGUiOiLku7/nlJ/lrp7pqozlrqQiLCJ0ZWFtVGl0bGUiOiLku7/nlJ/lrp7pqozlrqQiLCJ0ZWFtTG9nbyI6Imh0dHA6Ly9waWN0dXJlZC1iZWR0ZXN0Lm9zcy1jbi1iZWlqaW5nLmFsaXl1bmNzLmNvbS90ZXN0L3N0dWRpby81MjYzYmVlNS1kOGNjLTQzYTctYTE5Yy05NGEyMGFlMmNiMTIucG5nIiwiSVNQTiI6IuS6rOWFrOe9keWuieWkhzExMDEyMzIxMjAwMDAwMeWPtyIsInNpdGVDcmVhdGVUaW1lIjoiMjAxNi0xMC0xNCIsInVuaXRMb2dvIjoiaHR0cDovL3BpY3R1cmVkLWJlZHRlc3Qub3NzLWNuLWJlaWppbmcuYWxpeXVuY3MuY29tL3Rlc3Qvc3R1ZGlvLzlmOGI1MzEyLTIzMTgtNGY3MC04OTJmLTRiZTM4YzliNzg1Mi5wbmciLCJ1bml0TmFtZSI6IuWNl+S6rOW3peeoi+WtpumZoiJ9', 'N', 'admin', '2024-07-28 20:01:49', 'admin', '2024-10-01 01:49:53', NULL);
 
+-- 网站参数配置 'site.params'
+delete from `sys_config` where config_id = 9;
+INSERT INTO `studio`.`sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (9, '网站参数-邀请码', 'site.params.invitecode', 'IkVNYipTeTYi', 'Y', 'admin', '2024-11-23 12:09:30', '', NULL, NULL);
+
 -- 网站页面级初始化配置
 -- 网站主页配置 'site.page.mainConfig'
 delete from `sys_config` where config_id = 2;

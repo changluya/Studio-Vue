@@ -61,6 +61,11 @@ const siteConfigKeys = {
   SITE_UPLOAD_OSS: {
     configName: 'OSS资源上传配置',
     configKey: 'site.upload.oss'
+  },
+  // 参数常量配置
+  SITE_PARAMS_INVITE_CODE: {
+    configName: '网站常量参数-邀请码',
+    configKey: 'site.params.invitecode'
   }
 }
 

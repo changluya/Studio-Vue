@@ -32,6 +32,8 @@
 
 **Studio-Vue演示地址**：https://www.codercl.cn/ （域名已过期，使用右侧）、http://150.158.142.63/
 
+在线文档：http://150.158.142.63:3000/
+
 + 用户名：admin  密码：123
 
 项目部署上线完整教程：[Studio-Vue校园实验室系统(SpringBoot+Vue)部署上线保姆级教程](https://www.bilibili.com/video/BV1R64y1J7gW/?spm_id_from=333.999.0.0&vd_source=b19269a4ae00481d5ff13d1897127b8b)

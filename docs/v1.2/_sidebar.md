@@ -1,0 +1,12 @@
+* [Home](/)
+- [项目介绍](README.md)
+- [项目功能使用](common/functions.md)
+- 本地环境搭建
+  - [本地环境部署文档](part1/本地环境部署文档.md)
+- 线上部署
+  - [线上环境部署文档](part2/线上环境部署详细文档)
+- 视频教程
+  - [视频教程](common/course.md)
+- 其他
+  - [常见问题&联系我们](common/problems.md)
+  - [捐赠支持](common/sponsor.md)

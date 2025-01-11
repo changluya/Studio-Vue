@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <!-- 风格主题 -->
+<!--   <link rel="stylesheet" href="/plugins/vue/vue.css">-->
+<!--  <link rel="stylesheet" href="//unpkg.com/docsify/themes/vue.css">-->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/buble.css">
+  <!-- toc -->
+  <!-- <link rel="stylesheet" href="/plugins/toc/toc.css"> -->
+  <link rel="stylesheet" href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css">
+  <!-- 黑夜白天切换 -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
+  <!-- 版本控制 -->
+   <link rel="stylesheet" href="./plugins/docsify-versioned-plugin/style.css">
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-versioned-plugin@0.0.1/styles.css">-->
+  <style>
+    /* 黑夜白天图标样式 */
+    #docsify-darklight-theme{
+      top: -1px;
+    }
+    /* 版本控制栏目 */
+    .version-selector {
+      margin-left: 16%;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      // logo图标
+      // logo: 'https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206151314105.png',
+      // 主题颜色
+      themeColor: '#3F51B5',
+      // 文档名
+      name: 'StudioVue开源文档',
+      // 开启右上角 Github 章鱼猫挂件，指定跳转链接
+      repo: 'https://gitee.com/changluJava/studio-vue',
+      // 加载导航
+      loadNavbar: true,
+      // 加载侧边栏
+      loadSidebar: true,
+      // 加载封面
+      coverpage: true,
+      // 支持搜索
+      // search: {
+      //   paths: 'auto',
+      //   maxAge: 86400000,//过期时间,单位毫秒,默认一天           
+      //   placeholder: '请输入搜索关键字',
+      //   noData: '没有搜到呦!',
+      //   depth: 5
+      // },
+      // 支持toc
+      toc: {
+        scope: '.markdown-section',
+        headings: 'h1, h2, h3, h4, h5, h6',
+        title: '目录',
+      },
+      // 字数统计
+      count: {
+        countable:true,
+        fontsize:'0.9em',
+        color:'rgb(90,90,90)',
+        language:'chinese'
+      },
+      // 分页信息
+      pagination: {
+        previousText: '上一篇',
+        nextText: '下一篇',
+        crossChapter: true,
+        crossChapterText: true,
+      },
+      // 白天黑夜配置
+      darklightTheme: {
+        defaultTheme: 'light', // 默认主题
+        siteFont: 'Source Sans Pro,Helvetica Neue,Arial,sans-serif', // 全局字体
+        codeFontFamily: 'Roboto Mono, Monaco, courier, monospace', // 代码块字体
+        bodyFontSize: '15px', // 正文字体大小
+        dark: {
+          background: 'rgb(28,32,34)', // 暗黑模式背景色
+          highlightColor: '#e96900', // 暗黑模式高亮颜色
+          codeBackgroundColor: 'rgb(34,39,46)', // 暗黑模式代码背景色
+          codeTextColor: '#b4b4b4', // 暗黑模式代码文本色
+        },
+        light: {
+          highlightColor: '#e96900', // 明亮模式高亮颜色
+        }
+      },
+      // 版本控制
+      versions: [
+        // 说明：多路径下后有问题，无法切换以及无切换标识符
+        // { folder: 'versions/v2/2.1.x', label: 'release_2.1.x', default: false },
+        { folder: 'v1.2', label: 'release_1.2.x', default: true },
+        { folder: 'v1.1', label: 'release_1.1.x', default: false }
+      ],
+      versionSelectorLabel: 'Version',
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- 搜索插件 -->
+  <!-- <script src="/plugins/search/search.js"></script> -->
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+  <!-- 支持复制插件 -->
+  <script src="//unpkg.com/docsify-copy-code"></script>
+  <!-- 目录栏 -->
+  <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
+  <!-- <script src="/plugins/toc/toc.js"></script> -->
+  <!-- 字数统计 -->
+  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
+  <!-- 侧边栏折叠 -->
+  <!-- <script src="/plugins/docsify-sidebar-collapse/docsify-sidebar-collapse.min.js"></script> -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <!-- 侧边栏样式 -->
+  <!-- 样式1:文件夹样式 -->
+<!--   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar-folder.min.css" />-->
+  <!-- 样式2:箭头样式 -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
+  <!-- 支持图片缩放 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <!-- 支持分页 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <!-- 黑夜白天切换 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+  <!-- 版本控制 -->
+<!--  <script src="https://cdn.jsdelivr.net/npm/docsify-versioned-plugin@0.0.1/index.js"></script>-->
+   <script src="./plugins/docsify-versioned-plugin/index.js"></script>
+  <!-- 版本控制-搜索 -->
+  <script>
+    (function() {
+      // Get the current version from the URL
+      const versionFolder = window.location.pathname.split('/')[1];
+  
+      // Set the search configuration based on the current version
+      window.$docsify.search = {
+        maxAge: 86400000,
+        paths: 'auto',
+        placeholder: 'Search',
+        noData: 'No Results!',
+        depth: 2,
+        hideOtherSidebarContent: false,
+        namespace: 'docs-' + versionFolder // Set a unique namespace for each version
+      };
+    })();
+  </script>
+</body>
+</html>
+

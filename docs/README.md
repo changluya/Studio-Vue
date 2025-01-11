@@ -45,19 +45,19 @@
 
 <table>
     <tr>
-        <td><img src="../document/images/offical-1.png"/></td>
-        <td><img src="../document/images/offical-2.png"/></td>
+        <td><img src="./document/images/offical-1.png"/></td>
+        <td><img src="./document/images/offical-2.png"/></td>
     </tr>
     <tr>
-        <td><img src="../document/images/offical-3.png"/></td>
-        <td><img src="../document/images/offical-4.png"/></td>
+        <td><img src="./document/images/offical-3.png"/></td>
+        <td><img src="./document/images/offical-4.png"/></td>
     </tr>
     <tr>
-        <td><img src="../document/images/offical-5.png"/></td>
-        <td><img src="../document/images/offical-6.png"/></td>
+        <td><img src="./document/images/offical-5.png"/></td>
+        <td><img src="./document/images/offical-6.png"/></td>
     </tr>
     <tr>
-        <td><img src="../document/images/offical-7.png"/></td>
+        <td><img src="./document/images/offical-7.png"/></td>
     </tr>	 
 </table>
 
@@ -67,35 +67,35 @@
 
 <table>
     <tr>
-        <td><img src="../document/images/bg-1.png"/></td>
-        <td><img src="../document/images/bg-2.png"/></td>
+        <td><img src="./document/images/bg-1.png"/></td>
+        <td><img src="./document/images/bg-2.png"/></td>
     </tr>
     <tr>
-        <td><img src="../document/images/bg-3.png"/></td>
-        <td><img src="../document/images/bg-4.png"/></td>
+        <td><img src="./document/images/bg-3.png"/></td>
+        <td><img src="./document/images/bg-4.png"/></td>
     </tr>
     <tr>
-        <td><img src="../document/images/bg-5.png"/></td>
-        <td><img src="../document/images/bg-6.png"/></td>
+        <td><img src="./document/images/bg-5.png"/></td>
+        <td><img src="./document/images/bg-6.png"/></td>
     </tr>
     <tr>
-        <td><img src="../document/images/bg-7.png"/></td>
-    <td><img src="../document/images/bg-8.png"/></td>
+        <td><img src="./document/images/bg-7.png"/></td>
+    <td><img src="./document/images/bg-8.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="../document/images/bg-9.png"/></td>
-    <td><img src="../document/images/bg-10.png"/></td>
+        <td><img src="./document/images/bg-9.png"/></td>
+    <td><img src="./document/images/bg-10.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="../document/images/bg-11.png"/></td>
-    <td><img src="../document/images/bg-12.png"/></td>
+        <td><img src="./document/images/bg-11.png"/></td>
+    <td><img src="./document/images/bg-12.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="../document/images/bg-13.png"/></td>
-    <td><img src="../document/images/bg-14.png"/></td>
+        <td><img src="./document/images/bg-13.png"/></td>
+    <td><img src="./document/images/bg-14.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="../document/images/bg-15.png"/></td>
+        <td><img src="./document/images/bg-15.png"/></td>
     </tr>	 
 </table>
 
@@ -138,7 +138,7 @@
 
 ### 开发进度
 
-![image-20220610224906634](../document/images/development-pogress.png)    
+![image-20220610224906634](./document/images/development-pogress.png)    
 
 # 内置功能
 
@@ -187,8 +187,8 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 数据库表关系设计：
 
-![image-20220612200752632](../document/images/table-rel.png)  
+![image-20220612200752632](./document/images/table-rel.png)  
 
 数据库表字段设计：
 
-![image-20220612200813685](../document/images/table-filed.png)  
+![image-20220612200813685](./document/images/table-filed.png)  

@@ -6,7 +6,7 @@
 
     <groupId>com.changlu</groupId>
     <artifactId>studio-vue</artifactId>
-    <version>1.2.0</version>
+    <version>${revision}</version>
     <modules>
         <module>studio-common</module>
         <module>studio-system</module>
@@ -23,7 +23,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <studio.version>1.2.0</studio.version>
+        <revision>1.3.0</revision>
         <springboot.dependences>2.7.0</springboot.dependences>
         <springboot.web>2.5.0</springboot.web>
         <springboot.log4j2>2.5.3</springboot.log4j2>
@@ -51,6 +51,8 @@
         <aliyun.sdk.version>3.14.0</aliyun.sdk.version>
         <hutool.version>5.8.20</hutool.version>
         <bcpkix-jdk18on.version>1.78.1</bcpkix-jdk18on.version>
+        <!-- 定义 flatten-maven-plugin 的版本号 -->
+        <maven.flatten.version>1.2.5</maven.flatten.version>
     </properties>
 
     <dependencyManagement>
@@ -248,24 +250,71 @@
             <dependency>
                 <artifactId>studio-common</artifactId>
                 <groupId>com.changlu</groupId>
-                <version>${studio.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <artifactId>studio-service</artifactId>
                 <groupId>com.changlu</groupId>
-                <version>${studio.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <artifactId>studio-system</artifactId>
                 <groupId>com.changlu</groupId>
-                <version>${studio.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <artifactId>studio-admin</artifactId>
                 <groupId>com.changlu</groupId>
-                <version>${studio.version}</version>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- 插件的 GroupId，标识插件所属的组织 -->
+                <groupId>org.codehaus.mojo</groupId>
+                <!-- 插件的 ArtifactId，标识插件的名称 -->
+                <artifactId>flatten-maven-plugin</artifactId>
+                <!-- 插件的版本号，这里通过变量引用上面定义的版本号 -->
+                <version>${maven.flatten.version}</version>
+                <configuration>
+                    <!-- 配置扁平化后的 POM 文件的名称 -->
+                    <flattenedPomFilename>pom-xml-flattened</flattenedPomFilename>
+                    <!-- 是否更新原始 POM 文件 -->
+                    <updatePomFile>true</updatePomFile>
+                    <!-- 指定扁平化模式，resolveCiFriendliesOnly 表示仅解析 CI 友好的占位符 -->
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <!-- 定义插件的执行配置 -->
+                    <execution>
+                        <!-- 执行的唯一标识 -->
+                        <id>flatten</id>
+                        <!-- 指定插件绑定的生命周期阶段 -->
+                        <phase>process-resources</phase>
+                        <!-- 定义执行的目标 -->
+                        <goals>
+                            <!-- 执行扁平化操作 -->
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- 定义清理阶段的执行配置 -->
+                    <execution>
+                        <!-- 清理阶段的唯一标识 -->
+                        <id>flatten.clean</id>
+                        <!-- 指定清理阶段绑定的生命周期阶段 -->
+                        <phase>clean</phase>
+                        <!-- 定义清理阶段执行的目标 -->
+                        <goals>
+                            <!-- 执行清理操作 -->
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

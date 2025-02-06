@@ -5,7 +5,7 @@
     <parent>
         <artifactId>studio-vue</artifactId>
         <groupId>com.changlu</groupId>
-        <version>1.2.0</version>
+        <version>${revision}</version>
     </parent>
     <!--  默认groupId、version都是继承的父模块  -->
     <artifactId>studio-admin</artifactId>
@@ -153,8 +153,10 @@
                 <configuration>
                     <!--远程Docker的地址
                         本地centos测试：192.168.1.109
+                        长路测试服务器：150.158.142.63
+                        仿生实验室：101.43.92.236
                     -->
-                    <dockerHost>http://101.43.92.236:2375</dockerHost>
+                    <dockerHost>http://150.158.142.63:2375</dockerHost>
                     <!--镜像名称，前缀/项目名-->
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <!-- 我们自己配置编写的docker目录，也就是dockerfile：指定位置在src/main/docker中    -->

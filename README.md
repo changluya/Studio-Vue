@@ -15,6 +15,9 @@
 <img src="https://img.shields.io/badge/redis-2.5.0-green"/>
 </p>
 
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/changluya/Studio-Vue.svg?variant=adaptive)](https://starchart.cc/changluya/Studio-Vue)
+
 去年在工作室偶然听到其他工作室要做一个官网，接着趁着一时兴起然后也找了个模板来做了一个自己的官网以及一个后台管理系统，当时的后台系统只有一个登录、注册还有一个提交个人信息的页面，主要为了方便展示动态汇总团队成员。
 
 想要将这个工作室管理系统继续做下去我自己总结了几个原因：①再此之前我也在gitee、github上搜索了相关学校工作室、实验室管理系统，没有发现比较完善的，较好的。②为了在简历上有些亮点。③将自己所学到的一个技术能够有一个应用场景，助推自己的技术学习与进步。

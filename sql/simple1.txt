@@ -1,0 +1,13 @@
+# 账号
+
+系统管理员：admin 123
+
+负责人账号：
+    22级-负责人-白龙  bailong 123456
+    21级-负责人-柯南  2021tongxue2 123456
+    19级-负责人-迪迦  dijia 123456
+
+团队成员账号：
+    22级-鸣人、千寻、蜡笔小新、哪吒  mingren、qianxun、labixiaoxin、2022tongxue1 123456
+    21级-哆唻爱梦 duolaameng、sunwukong、yingmuhuadao 123456
+    20级-铁甲小宝等     tiejiaxiaobao、2020tongxue2、2020tongxue1 123456

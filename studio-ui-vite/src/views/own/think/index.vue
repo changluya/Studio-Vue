@@ -139,14 +139,6 @@
 </template>
 
 <script>
-<<<<<<<< HEAD:studio-ui/src/views/own/think/index.vue
-import Cherry from '@/components/cherry/index.vue'
-import { listThink, getThink, delThink, addThink, updateThink } from "@/api/own/think";
-
-export default {
-  name: "Think",
-  components: { Cherry },
-========
 import { listThink, getThink, delThink, addThink, updateThink } from "@/api/own/think"
 import CherryMarkdown from '@/components/CherryMarkdown'
 
@@ -155,7 +147,6 @@ export default {
   components: {
     CherryMarkdown
   },
->>>>>>>> refs/remotes/origin/release_1.3.x:studio-ui-vite/src/views/own/think/index.vue
   data() {
     return {
       // 遮罩层

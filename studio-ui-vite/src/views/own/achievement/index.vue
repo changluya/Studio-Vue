@@ -401,8 +401,11 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
+      const ids = row.id || this.ids;
       const title = row.title
+      // console.log("handleDelete=>", ids)
       this.$modal.confirm('是否确认删除成果名称为"' + title + '"的数据项？').then(function () {
+        // console.log("ids=>", ids)
         return delAchievement(ids)
       }).then(() => {
         this.getList()

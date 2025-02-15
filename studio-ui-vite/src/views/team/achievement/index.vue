@@ -416,6 +416,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
+      const ids = row.id || this.ids;
       const title = row.title
       this.$modal.confirm('是否确认删除成果名称为"' + title + '"的数据项？').then(function () {
         return delAchievement(ids)

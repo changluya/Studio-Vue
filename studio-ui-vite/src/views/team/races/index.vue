@@ -557,18 +557,22 @@ export default {
     },
     //对要提交的表单进行处理
     processForm(){
+      // console.log("this.form.raceMembers=>", this.form.raceMembers)
       //1、处理参赛成员：将数组[1,2] => "1,2"来传递到后台保存
       this.form.raceMembers = this.form.raceMembers.join(",")
       //2、处理图片资源：将多个图片合成的字符串来转为对象存储 "xxx.jpg,xxx.png" => [{resUrl:"xxx.jpg",resName:"xxx.jpg"},{...}]
       let formPics = []
       let pics = this.form.pics
-      const picArr = pics.split(",")  //现将多个图片url使用,相隔的转为数组，接着封装为对象
-      picArr.forEach((pic)=>{
-        formPics.push({
-          "resUrl": pic,
-          "resName": pic.substring(pic.lastIndexOf('/') + 1)
+      // console.log("pics=>", pics)
+      if (pics !== undefined) {
+        const picArr = pics.split(",")  //现将多个图片url使用,相隔的转为数组，接着封装为对象
+        picArr.forEach((pic)=>{
+          formPics.push({
+            "resUrl": pic,
+            "resName": pic.substring(pic.lastIndexOf('/') + 1)
+          })
         })
-      })
+      }
       this.form.pics = formPics
       // 3、处理是否申请
       this.form.inclusionFlag = this.chooseInclusion ? 3 : 0

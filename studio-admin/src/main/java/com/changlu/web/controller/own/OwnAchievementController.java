@@ -115,7 +115,7 @@ public class OwnAchievementController extends BaseController
      */
     @PreAuthorize("@ss.hasPerm('own:achievement:remove')")
 	@DeleteMapping("/{ids}")
-    public ResponseResult remove(@PathVariable Long[] ids)
+    public ResponseResult remove(@PathVariable(name = "ids") Long[] ids)
     {
         studioAchievementService.deleteOwnStudioAchievementByIds(ids);
         return ResponseResult.success();

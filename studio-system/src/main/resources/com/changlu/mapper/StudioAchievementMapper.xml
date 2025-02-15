@@ -117,12 +117,13 @@
     </delete>
 
     <delete id="deleteStudioAchievementByIds" parameterType="String">
-        delete from studio_achievement where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        delete from studio_achievement
         <where>
-            <if test="createUserId != null">and create_user_id = #{createUserId},</if>
+            id in
+            <foreach item="id" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+            <if test="createUserId != null">AND create_user_id = #{createUserId}</if>
         </where>
     </delete>
 </mapper>

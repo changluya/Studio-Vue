@@ -3,9 +3,13 @@ package com.changlu.web.controller.common.file;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
 import com.changlu.common.exception.ServiceCallException;
+import com.changlu.common.utils.JsonObjectUtil;
+import com.changlu.common.utils.sm2.SM2AnnoationUtil;
+import com.changlu.enums.ConfigTypeEnum;
 import com.changlu.service.UploadService;
 import com.changlu.utils.file.FileUpload;
 import com.changlu.vo.config.ConfigVo;
+import com.changlu.web.env.EnvironmentContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -30,6 +34,9 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
+    @Autowired
+    private EnvironmentContext env;
+
     /**
      * 测试指定上传模式的连通性
      * @param configVo
@@ -37,6 +44,14 @@ public class UploadController {
      */
     @PostMapping("/testConn")
     public ResponseResult testConn(@RequestBody ConfigVo configVo) {
+        if (configVo != null) {
+            // 将json串转为指定的配置类
+            String json = JsonObjectUtil.transferObjectToJson(configVo.getConfigValue());
+            Class clazz = ConfigTypeEnum.getConfigTypeEnum(configVo.getConfigKey()).getPojoClazz();
+            configVo.setConfigValue(JsonObjectUtil.transferJsonToObject(json, clazz));
+            // 统一对配置类包含有sm2注解属性字段解密（其中的对象应当是指定的包含有枚举类的配置类类型）
+            SM2AnnoationUtil.deserializerSM2(configVo.getConfigValue(), env.getSM2PrivateKey(), env.getSM2PublicKey());
+        }
         boolean res = uploadService.testConn(false, configVo);
         if (res) {
             return ResponseResult.success("测试连通成功！");

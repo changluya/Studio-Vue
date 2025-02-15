@@ -110,13 +110,12 @@
     </delete>
 
     <delete id="deleteZfCcieByCcieIds" parameterType="String">
-        delete from studio_ccie where ccie_id in
-        <foreach item="ccieId" collection="array" open="(" separator="," close=")">
+        delete from studio_ccie
+        where ccie_id in
+        <foreach item="ccieId" collection="ccieIds" open="(" separator="," close=")">
             #{ccieId}
         </foreach>
-        <where>
-            <if test="createUserId != null">and user_id = #{createUserId},</if>
-        </where>
+        <if test="createUserId != null">and user_id = #{createUserId},</if>
     </delete>
 
     <delete id="deleteZfCcieByUserId" parameterType="Long">

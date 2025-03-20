@@ -79,6 +79,9 @@
         created() {
             // console.log('当前路径：', this.$route.path);
             this.curRoutePath = this.$route.path
+            console.log(this.studioAdminUIHref)
+            console.log(import.meta.env.VITE_API_URL)
+            console.log(import.meta.env.VITE_API_URL)
         },
         methods: {
         },
